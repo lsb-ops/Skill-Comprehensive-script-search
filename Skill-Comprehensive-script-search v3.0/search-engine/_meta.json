@@ -1,0 +1,52 @@
+{
+  "ownerId": "kn79j8kk7fb9w10jh83803j7f180a44m",
+  "slug": "multi-search-engine",
+  "version": "2.2.0",
+  "publishedAt": 1778600000000,
+  "schema": "1.0",
+  "display": {
+    "name": "Multi Search Engine",
+    "name_zh": "多搜索引擎集成",
+    "description": "16 search-engine URL template config (7 CN + 9 Global), official submodule of find-script v1.2.0+",
+    "icon": "🔍",
+    "color": "#1E90FF"
+  },
+  "capabilities": [
+    "url-template-provider",
+    "search-strategy-docs",
+    "advanced-operators-reference",
+    "time-filter-reference",
+    "privacy-engines-reference",
+    "duckduckgo-bangs-reference",
+    "wolframalpha-queries-reference"
+  ],
+  "engines_count": 16,
+  "engines_breakdown": {
+    "domestic_cn": 7,
+    "global": 9
+  },
+  "parent_skill": {
+    "name": "find-script",
+    "slug": "find-play-script",
+    "version_min": "1.2.0",
+    "path": "../",
+    "integration": "submodule (3-level fallback)"
+  },
+  "scripts": {
+    "note": "This submodule is a config + docs type skill; it contains no executable scripts of its own",
+    "consumers": [
+      "../scripts/search.sh (resolve_engine_config / inject_type_keyword / build_engines)"
+    ]
+  },
+  "tests": {
+    "smoke": "tests/test_smoke.sh",
+    "test_count": 18,
+    "parent_skill_tests": [
+      "../tests/test_engines.sh (22 tests, including submodule integration)",
+      "../tests/test_smoke.sh (30 tests)"
+    ]
+  },
+  "input_format": "config_json_or_url_template",
+  "output_format": "url_list",
+  "language_support": ["zh-CN", "en"]
+}

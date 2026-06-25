@@ -1,0 +1,88 @@
+MIT License
+
+Copyright (c) 2026 找剧本团队 (Script Finder Team)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+附加条款 / Additional Terms (Non-binding):
+
+本 skill 仅供学习研究使用。使用者应：
+1. 仅下载公开版权（public domain）或用户自行上传真有授权的剧本
+2. 不绕过任何付费墙或访问控制
+3. 遵守各搜索引擎的服务条款（建议 1-2 秒延迟）
+4. 尊重著作权法
+
+This skill is for educational and research purposes only. Users should:
+1. Only download public-domain or user-uploaded scripts with proper authorization
+2. Not bypass any paywalls or access controls
+3. Comply with each search engine's Terms of Service (recommend 1-2s delay)
+4. Respect copyright law
+
+---
+
+## 剧种与版权指南 (v2.0 新增 / Genre & Copyright Guidance)
+
+> **重要**：v2.0 起每个搜索结果都带 `copyright` 标签（pd / user_uploaded / copyrighted / unknown）。
+> 工具**不阻止**搜索任何剧种，仅按以下默认建议展示。
+
+### 按剧种的版权默认建议
+
+| 剧种 (type) | 古典（默认可找） | 现代（需用户授权） | 默认 copyright 推断 |
+|------------|---------------|------------------|-------------------|
+| `play` (话剧) | 莎士比亚、契诃夫、易卜生、曹禺、老舍（早期） | 当代剧作家 | pd (古典) / unknown (现代) |
+| `opera` (戏曲/歌剧/音乐剧) | 京剧传统戏、昆曲、西方 PD 歌剧总谱 (Mozart/Verdi pre-1928) | 新编京剧、现代音乐剧 | pd (古典) / copyrighted (现代) |
+| `film` (电影) | 1929 年前默片（卓别林、基顿） | 现代电影 | pd (1929前) / copyrighted (现代) |
+| `tv` (电视剧) | 1950s 早期电视剧（《I Love Lucy》） | 现代剧集 | pd (1950s) / copyrighted (现代) |
+
+### 标签含义
+
+| 标签 | 含义 | 工具默认行为 |
+|------|------|-------------|
+| `pd` | 公开版权（Public Domain） | 默认展示，提示可下载 |
+| `user_uploaded` | 用户上传（doc88.com / taodocs.com 等） | 展示，**需用户自行核实上传者授权** |
+| `copyrighted` | 仍在版权保护期内 | 展示，**警告用户仅供学习引用** |
+| `unknown` | 无法自动判断 | 展示，提示人工核实 |
+
+### 工具不做什么
+
+- ❌ 不阻止搜索任何剧种（包括现代电影、电视剧）
+- ❌ 不绕过任何付费墙、登录、验证码
+- ❌ 不下载受 DRM 保护的内容
+- ❌ 不对脚本版权状态做最终法律判定
+
+### 工具做什么
+
+- ✅ 按域 + 关键词推断每条结果的 copyright 标签
+- ✅ 在输出中明确标注 6 列：engine / url / format / reliability / title / **copyright**
+- ✅ 顶部 banner 根据剧种显示版权警告（戏曲/电影/电视剧 显示警示，话剧 默认无警告）
+- ✅ 统计本次结果的版权分布：`pd=N unknown=N copyrighted=N`
+- ✅ 让用户**显式选择**是否下载（通过 `--filter-copyright` 参数）
+
+### 用户责任
+
+下载任何 `copyright=copyrighted` 或 `copyright=unknown` 的资源前：
+
+1. 自行核实版权状态
+2. 确认使用范围（学习/教学/评论/合理使用）
+3. 不进行商业分发
+4. 保留原作者署名
+
+**工具作者不为用户的版权使用承担法律责任。**

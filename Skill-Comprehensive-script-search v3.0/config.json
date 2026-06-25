@@ -1,0 +1,165 @@
+{
+  "name": "find-script",
+  "slug": "find-script",
+  "version": "3.0.0",
+  "types": ["play", "opera", "film", "tv"],
+  "engines": {
+    "domestic_cn": [
+      {
+        "name": "Baidu",
+        "url_template": "https://www.baidu.com/s?wd={keyword}",
+        "region": "cn",
+        "language": "zh",
+        "priority": 1
+      },
+      {
+        "name": "Bing CN",
+        "url_template": "https://cn.bing.com/search?q={keyword}&ensearch=0",
+        "region": "cn",
+        "language": "zh",
+        "priority": 2
+      },
+      {
+        "name": "Bing INT",
+        "url_template": "https://cn.bing.com/search?q={keyword}&ensearch=1",
+        "region": "cn",
+        "language": "en",
+        "priority": 3
+      },
+      {
+        "name": "360",
+        "url_template": "https://www.so.com/s?q={keyword}",
+        "region": "cn",
+        "language": "zh",
+        "priority": 4
+      },
+      {
+        "name": "Sogou",
+        "url_template": "https://sogou.com/web?query={keyword}",
+        "region": "cn",
+        "language": "zh",
+        "priority": 5
+      },
+      {
+        "name": "WeChat",
+        "url_template": "https://wx.sogou.com/weixin?type=2&query={keyword}",
+        "region": "cn",
+        "language": "zh",
+        "priority": 6
+      },
+      {
+        "name": "Shenma",
+        "url_template": "https://m.sm.cn/s?q={keyword}",
+        "region": "cn",
+        "language": "zh",
+        "priority": 7
+      }
+    ],
+    "global": [
+      {
+        "name": "Google",
+        "url_template": "https://www.google.com/search?q={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 1
+      },
+      {
+        "name": "Google HK",
+        "url_template": "https://www.google.com.hk/search?q={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 2
+      },
+      {
+        "name": "DuckDuckGo",
+        "url_template": "https://duckduckgo.com/html/?q={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 3
+      },
+      {
+        "name": "Yahoo",
+        "url_template": "https://search.yahoo.com/search?p={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 4
+      },
+      {
+        "name": "Startpage",
+        "url_template": "https://www.startpage.com/sp/search?query={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 5
+      },
+      {
+        "name": "Brave",
+        "url_template": "https://search.brave.com/search?q={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 6
+      },
+      {
+        "name": "Ecosia",
+        "url_template": "https://www.ecosia.org/search?q={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 7
+      },
+      {
+        "name": "Qwant",
+        "url_template": "https://www.qwant.com/?q={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 8
+      },
+      {
+        "name": "WolframAlpha",
+        "url_template": "https://www.wolframalpha.com/input?i={keyword}",
+        "region": "global",
+        "language": "any",
+        "priority": 9
+      }
+    ]
+  },
+  "search_templates": {
+    "zh": {
+      "pdf": "\"{play}\" 剧本 下载 filetype:pdf",
+      "doc": "\"{play}\" 剧本 全文 filetype:doc",
+      "general": "\"{play}\" 剧本",
+      "with_author": "\"{play}\" {author} 完整版 剧本"
+    },
+    "en": {
+      "pdf": "\"{play}\" full text filetype:pdf",
+      "doc": "\"{play}\" script filetype:doc",
+      "general": "\"{play}\" play script",
+      "with_author": "\"{play}\" {author} complete text",
+      "archive": "\"{play}\" site:archive.org",
+      "gutenberg": "\"{play}\" site:gutenberg.org"
+    }
+  },
+  "download": {
+    "max_size_mb": 50,
+    "timeout_seconds": 60,
+    "user_authorization_required": true,
+    "formats_priority": ["pdf", "docx", "doc", "txt", "html"]
+  },
+  "analysis": {
+    "framework": "5-dimensional-per-type",
+    "frameworks": {
+      "play":  ["theme", "characters", "acts_scenes", "conflict", "style"],
+      "opera": ["theme", "characters", "scenes",    "conflict", "vocal_styles"],
+      "film":  ["theme", "characters", "scenes",    "conflict", "audiovisual"],
+      "tv":    ["theme", "characters", "episodes",  "conflict", "series_structure"]
+    },
+    "max_report_length": 3000
+  },
+  "copyright": {
+    "tags": ["pd", "user_uploaded", "copyrighted", "unknown"],
+    "default_per_type": {
+      "play":  "pd",
+      "opera": "pd (classical) / unknown (modern)",
+      "film":  "pd (pre-1929) / copyrighted (modern)",
+      "tv":    "pd (1950s) / copyrighted (modern)"
+    }
+  }
+}

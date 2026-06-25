@@ -1,0 +1,110 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor / IDE
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+.classpath
+.factorypath
+
+# Logs and runtime
+*.log
+logs/
+tmp/
+temp/
+.tmp/
+
+# Download / output (user-generated)
+downloads/
+output/
+out/
+build/
+dist/
+*.pdf
+!references/**/*.pdf
+!examples/**/*.pdf
+
+# Test artifacts
+test-output/
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+*.pyc
+*.pyo
+
+# Python
+*.egg-info/
+.eggs/
+build/
+develop-eggs/
+downloads/
+eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg
+MANIFEST
+
+# Virtual envs
+venv/
+.venv/
+env/
+.env
+.env.local
+.env.*.local
+
+# OS
+.fseventsd
+.DocumentRevisions-V100
+.com.apple.timemachine.donotpresent
+.volumes/
+.network Trash Folder
+.TemporaryItems
+
+# Temporary script files
+*.bak
+*.orig
+*.rej
+*.tmp
+*~
+\#*\#
+.\#*
+
+# Test / lint cache
+.tsbuildinfo
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+
+# Coverage / docs build
+.coverage
+.coverage.*
+coverage.xml
+lcov.info
+junit.xml
+site/
+docs/_build/
+
+# Workflow / CI
+.github/*.local

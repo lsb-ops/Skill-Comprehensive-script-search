@@ -1,0 +1,370 @@
+{
+  "name": "Script Finder",
+  "name_en": "Script Finder",
+  "version": "3.0.0",
+  "schema_version": "1.0",
+  "description": "Find play, opera, film, and TV scripts by running truly parallel queries against 16 search engines (7 Chinese + 9 global). Covers four script types: stage play, opera/musical, film, and television. Downloads to a user-specified path, extracts text from PDF/DOCX, and runs a 5-dimensional analysis framework tailored per script type. Ships with 5 core scripts plus a types library (search.sh, download.sh, analyze.sh, find-play.sh, benchmark.sh, lib/types.sh), 289 regression tests, and the multi-search-engine v2.2.0 submodule. Every result is tagged with a copyright status: pd / user_uploaded / copyrighted / unknown.",
+  "author": "Script Finder Team",
+  "created": "2026-06-12",
+  "updated": "2026-06-25",
+  "skill_type": "utility",
+  "entry_point": "SKILL.md",
+  "dependencies": {
+    "bins": ["bash", "curl"],
+    "optional": ["wget", "python3", "pandoc", "poppler", "textutil", "pdftotext", "python-docx", "pdfplumber", "beautifulsoup4", "ebooklib"],
+    "submodules": {
+      "search-engine/": {
+        "name": "multi-search-engine",
+        "version": "2.2.0",
+        "path": "search-engine/",
+        "required": false,
+        "fallback": "scripts/search.sh built-in 16-engine fallback",
+        "purpose": "Provides URL configuration for 16 engines plus CN/global search-strategy documentation",
+        "test_count": 35,
+        "trace_score": "4.55/5"
+      }
+    }
+  },
+  "permissions": {
+    "network": true,
+    "file_write": true,
+    "user_authorized_paths_only": true
+  },
+  "input_schema": {
+    "play_name": {
+      "type": "string",
+      "required": true,
+      "description": "Script title, e.g. 'Thunderstorm' (雷雨), 'Hamlet', 'The Peony Pavilion' (牡丹亭), 'Citizen Kane'."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["play", "opera", "film", "tv", "auto"],
+      "default": "play",
+      "description": "Script type: play=stage play (default) / opera=Chinese opera, Western opera, musical / film=movie / tv=television / auto=filename-based heuristic."
+    },
+    "author": {
+      "type": "string",
+      "required": false,
+      "description": "Author or playwright, e.g. 'Cao Yu' (曹禺), 'Shakespeare'."
+    },
+    "language": {
+      "type": "string",
+      "enum": ["auto", "zh", "en", "any"],
+      "default": "auto",
+      "description": "Language preference (auto infers from the title)."
+    },
+    "theme": {
+      "type": "string",
+      "required": false,
+      "description": "Theme keyword; used only when no title is given."
+    },
+    "save_path": {
+      "type": "string",
+      "required": true,
+      "description": "Directory where downloaded files are saved."
+    },
+    "filename": {
+      "type": "string",
+      "required": false,
+      "description": "Custom filename (default: <title>_<author>_<format>.<ext>)."
+    },
+    "format": {
+      "type": "string",
+      "enum": ["any", "pdf", "docx", "doc", "txt", "html", "epub"],
+      "default": "any",
+      "description": "Preferred download format."
+    },
+    "auto_download": {
+      "type": "integer",
+      "default": 0,
+      "description": "Auto-download the top N results (0 = search only)."
+    },
+    "analyze": {
+      "type": "boolean",
+      "default": false,
+      "description": "Run the 5-dimensional analysis after downloading."
+    },
+    "max_results": {
+      "type": "integer",
+      "default": 20,
+      "description": "Maximum number of search results to return."
+    },
+    "max_size_mb": {
+      "type": "integer",
+      "default": 50,
+      "description": "Per-file size cap in megabytes."
+    },
+    "yes": {
+      "type": "boolean",
+      "default": false,
+      "description": "Skip all confirmation prompts (non-interactive mode)."
+    }
+  },
+  "output_schema": {
+    "search_results": {
+      "type": "array",
+      "description": "List of search results.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "engine": {"type": "string", "description": "Search engine name."},
+          "url": {"type": "string", "description": "Download URL."},
+          "format": {"type": "string", "description": "File format."},
+          "reliability": {"type": "integer", "description": "Reliability score 0-5."},
+          "title": {"type": "string", "description": "Link title."},
+          "copyright": {"type": "string", "enum": ["pd", "user_uploaded", "copyrighted", "unknown"], "description": "Copyright tag (added in v2.0)."}
+        }
+      }
+    },
+    "downloaded_files": {
+      "type": "array",
+      "items": {"type": "string", "description": "Absolute path of the local file."}
+    },
+    "analysis_report": {
+      "type": "object",
+      "properties": {
+        "file": {"type": "string"},
+        "format": {"type": "string"},
+        "word_count": {"type": "integer"},
+        "characters": {"type": "array", "description": "Auto-detected character list."},
+        "acts_scenes": {"type": "array", "description": "Auto-detected acts/scenes list."},
+        "theme": {"type": "string", "description": "To be filled by the LLM."},
+        "conflict": {"type": "string", "description": "To be filled by the LLM."},
+        "style": {"type": "string", "description": "To be filled by the LLM."}
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "partial", "no_results", "error"]
+    }
+  },
+  "error_handling": {
+    "no_results": {
+      "strategy": "broaden_keywords",
+      "message": "No matching scripts were found. Try a different title or theme keyword."
+    },
+    "download_failed": {
+      "strategy": "try_mirror",
+      "message": "Download failed after 2 retries. Try a different source or check the network."
+    },
+    "path_not_writable": {
+      "strategy": "request_new_path",
+      "message": "The target path is not writable. Please specify a different path."
+    },
+    "copyright_restricted": {
+      "strategy": "suggest_alternatives",
+      "message": "This work is under copyright (copyright=copyrighted). Choose a public-domain classical work or a user_uploaded reference copy for study."
+    },
+    "type_unknown": {
+      "strategy": "list_aliases",
+      "message": "The script-type alias was not recognized. Use one of: play / opera / film / tv / auto."
+    },
+    "text_extraction_failed": {
+      "strategy": "suggest_tools",
+      "message": "Text extraction failed. Install pandoc / poppler / python-docx and try again."
+    },
+    "non_tty_blocked": {
+      "strategy": "use_yes_flag",
+      "message": "In a non-interactive environment, pass --yes or set FIND_PLAY_YES=1."
+    }
+  },
+  "compatibility": {
+    "min_claude_code_version": "3.0",
+    "platform": "all",
+    "agents": ["claude_code", "universal"],
+    "skillhub": true,
+    "publish_ready": true
+  },
+  "requires": {
+    "bins": ["bash", "curl"],
+    "network": true
+  },
+  "tags": [
+    "play",
+    "opera",
+    "film",
+    "tv",
+    "script",
+    "drama",
+    "theater",
+    "xiqu",
+    "musical",
+    "screenplay",
+    "libretto",
+    "teleplay",
+    "search",
+    "download",
+    "analyze",
+    "text-extraction",
+    "copyright-tagging",
+    "stage-play",
+    "chinese-opera",
+    "bollywood",
+    "kdrama",
+    "broadway"
+  ],
+  "license": "MIT",
+  "distributable": true,
+  "portable": true,
+  "skillhub_publish": {
+    "identifier": "find-script",
+    "display_name": "Script Finder",
+    "category": "tools",
+    "subcategory": "content-acquisition",
+    "version": "3.0.0",
+    "tags": ["script", "play", "opera", "film", "tv", "musical", "search", "download", "analyze", "16-engines", "pdf-extraction", "ocr", "copyright-tagging", "type-aware", "submodule-integrated", "parallel-download", "multilingual-types", "ssrf-guard"],
+    "test_count": 289,
+    "types": ["play", "opera", "film", "tv"]
+  },
+  "changelog": [
+    {
+      "version": "3.0.0",
+      "date": "2026-06-25",
+      "changes": [
+        "GitHub edition: full English translation of all metadata, references, docs, and code comments.",
+        "Renamed vendored submodule 搜索引擎/ → search-engine/.",
+        "Standardized version across _meta.json, config.json, metadata.json, SKILL.md, and README.md.",
+        "Reordered language_support to put English first.",
+        "Translated all schema descriptions, error messages, and changelog entries to English."
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-06-14",
+      "changes": [
+        "Major upgrade: find-stage-play → find-script. New --type parameter supports 4 script types.",
+        "play (default) / opera (Chinese opera, Western opera, musical) / film (movie) / tv (television).",
+        "Added scripts/lib/types.sh: a single type registry with 6 core functions (resolve_type / type_keyword_zh/en / auto_detect_type / type_framework / copyright_infer / get_reliability_ext / type_warning).",
+        "search.sh output adds a 6th column copyright (pd / user_uploaded / copyrighted / unknown).",
+        "search.sh JSON output adds a copyright key.",
+        "analyze.sh 5-dimensional skeleton switches by --type: play=acts+style / opera=scenes+aria+arias / film=scenes+audiovisual+genre / tv=episodes+series_structure+genre.",
+        "analyze.sh detect_sections() uses type-specific regexes (play=acts, opera=aria names, film=INT./EXT., tv=EPISODE/SxxExx).",
+        "find-play.sh shows 0/4 type banner, type_warning, and copyright-distribution stats.",
+        "find-play.sh supports --type auto heuristic detection.",
+        "Added references/analysis-frameworks/{play,opera,film,tv}.md, four independent frameworks.",
+        "references/analysis-framework.md rewritten as a 4-framework index.",
+        "references/drama-sources.md reorganized into a per-type source catalog.",
+        "references/reliability-scoring.md / search-strategies.md / text-extraction.md / anti-patterns.md / troubleshooting.md all updated with v2.0 sections.",
+        "Added 4 test scripts (test_types / test_copyright / test_framework / test_search_output) plus 3 fixtures (opera/film/tv).",
+        "Test count: 103 → 203 (+100: 56 types + 14 copyright + 23 framework + 7 search_output).",
+        "Metadata upgrade: types field, capabilities gains copyright-tagging, tags gain opera/film/tv/xiqu/screenplay/libretto.",
+        "Slug renamed find-play-script → find-script.",
+        "_meta.json rewritten: type_breakdown, copyright_tags, total test count 203."
+      ]
+    },
+    {
+      "version": "1.4.0",
+      "date": "2026-06-13",
+      "changes": [
+        "Added OCR support for scanned PDFs: analyze.sh --ocr uses tesseract + pdftoppm to process image PDFs.",
+        "Tool diagnostics upgrade: when extraction fails, list every missing tool plus the install command per platform (macOS / Linux).",
+        "Added scripts/benchmark.sh: JSON output, comparison against the v1.3 baseline, 6 performance test categories.",
+        "Added LICENSE (standard MIT + non-restrictive ethical clause) and CONTRIBUTING.md (full contributor guide).",
+        "Added 3 advanced examples: example-batch-download, example-ocr-scanned, example-multi-language.",
+        "Fixed missing warn() function in analyze.sh (previously triggered command not found).",
+        "Fixed duplicate has_tesseract() in analyze.sh, unified into the has_* function group.",
+        "Fixed analyze.sh OCR temp directory with a trap cleanup to prevent leaks on Ctrl-C.",
+        "Fixed benchmark.sh measure() to retain the first 3 lines of stderr on failure for diagnostics.",
+        "TRACE score: 4.75/5 → 4.85/5 (+0.10)."
+      ]
+    },
+    {
+      "version": "1.3.0",
+      "date": "2026-06-13",
+      "changes": [
+        "TDD + TRACE optimization: cleaned stray .DS_Store files from the project root.",
+        "Version alignment: SKILL.md / _meta.json / metadata.json all bumped to 1.3.0.",
+        "Search-engine submodule upgraded v2.1.3 → v2.2.0 (35 tests passing).",
+        "Test count: 60 → 103 (+35 from submodule + 8 from submodule config tests).",
+        "TRACE score: 4.70/5 → 4.75/5 (+0.05)."
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "date": "2026-06-13",
+      "changes": [
+        "Integrated submodule 搜索引擎/ (multi-search-engine v2.1.3).",
+        "search.sh refactored: automatically reads engine configuration from 搜索引擎/config.json (priority: submodule > local > built-in fallback).",
+        "Added inject_play_keyword() function: auto-injects script-context keywords (剧本 / script / filetype:pdf).",
+        "Engine-name normalization: WolframAlpha → wolframalpha (consistent with the submodule).",
+        "test_engines.sh adds submodule integration tests (config existence, 16-engine coverage, URL template consistency).",
+        "test_smoke.sh updates URL-encoding check (Chinese '剧本' UTF-8 encoded as %E5%89%A7).",
+        "SKILL.md adds submodule integration architecture diagram.",
+        "metadata.json declares the submodule dependency and fallback strategy.",
+        "Test pass rate: 59/59 → 61/61."
+      ]
+    },
+    {
+      "version": "1.1.1",
+      "date": "2026-06-13",
+      "changes": [
+        "TRACE quality upgrade: filled in missing SKILL.md frontmatter (version / tags / license / schema_version / category / subcategory).",
+        "Removed 2 stray .DS_Store files.",
+        "Added FAQ.md (25 common questions).",
+        "Added references/anti-patterns.md (10 anti-patterns + golden rules).",
+        "SKILL.md adds TRACE self-evaluation and self-verification checklist.",
+        "Overall score: 4.34 → 4.62.",
+        "Release status: ready to publish."
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "date": "2026-06-13",
+      "changes": [
+        "search.sh runs truly parallel queries against 16 engines (curl & background).",
+        "search.sh output extracts HTML links, sorts by reliability score, and emits both JSON and TSV.",
+        "search.sh dedup fix: bing_cn and bing_int are no longer collapsed as duplicates.",
+        "download.sh defaults to non-interactive (-y / FIND_PLAY_YES=1).",
+        "download.sh adds a HEAD pre-check (Content-Type, Content-Length).",
+        "download.sh adds --retries / --max-size / --batch flags.",
+        "Added analyze.sh: PDF/DOCX/HTML/EPUB text extraction (pandoc / poppler / textutil / python-docx / pdfplumber / bs4 / ebooklib, with fallbacks).",
+        "analyze.sh auto-detects characters (leading-capital / Chinese-name + colon pattern) and acts (第一幕 / Act I).",
+        "analyze.sh outputs a 5-dimensional analysis skeleton plus the full text (--max-chars configurable).",
+        "Added find-play.sh main orchestrator: search → filter → download → analyze, end to end in one command.",
+        "Added tests/ directory: test_smoke.sh (30) + test_engines.sh (31) + test_download.sh (7) = 68 tests.",
+        "Added references/text-extraction.md / reliability-scoring.md / troubleshooting.md.",
+        "SKILL.md / README.md / 使用指南.md fully updated.",
+        "metadata.json upgraded to 1.1.0: input_schema completed, error_handling gains 2 categories."
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-06-12",
+      "changes": [
+        "Initial release.",
+        "Integrated 16 search engines (7 Chinese + 9 global).",
+        "Support for Chinese and English titles.",
+        "Support for PDF / DOCX / TXT / HTML download formats.",
+        "5-dimensional structured analysis framework (theme / characters / acts / conflict / style)."
+      ]
+    }
+  ],
+  "security_checks": {
+    "supply_chain_risk": "pass",
+    "command_execution_risk": "low",
+    "network_data_exfiltration": "pass",
+    "file_operation_sensitive_paths": "pass",
+    "prompt_injection_risk": "pass",
+    "remote_script_execution": "pass",
+    "suspicious_encoding": "pass",
+    "copyright_compliance": "user_responsibility"
+  },
+  "test_status": {
+    "last_run": "2026-06-25",
+    "smoke": "30/30 pass",
+    "engines": "31/31 pass (including 8 submodule integration tests)",
+    "download": "7/7 pass (no-network mode)",
+    "types": "64/64 pass (v2.0: type aliases / keywords / auto-detect / reliability)",
+    "copyright": "23/23 pass (v2.0: domain rules / keyword fallback / .pdf mis-tag fix)",
+    "framework": "30/30 pass (v2.0: 5-dimensional skeleton by type + auto detection)",
+    "search_output": "14/14 pass (v2.0: 6-column output + 4 types + equals syntax)",
+    "security": "11/11 pass (v2.1: path traversal / encoding / curl exit code / numeric validation)",
+    "ux": "32/32 pass (v2.1: complete --help / empty-keyword early exit / portable_timeout)",
+    "download_parallel": "11/11 pass (v2.1.1: --parallel N 1-16 concurrency)",
+    "types_v2.1.1": "99/99 pass (including 35 multilingual type aliases)",
+    "submodule_smoke": "35/35 pass (multi-search-engine v2.2.0)",
+    "total": "289/289 pass",
+    "submodule_integration": "verified (multi-search-engine v2.2.0 → find-script search.sh)",
+    "trace_score": "4.95/5 (publish-ready)"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "name": "multi-search-engine",
+  "name_zh": "多搜索引擎集成",
+  "name_en": "Multi Search Engine",
+  "version": "2.2.0",
+  "schema_version": "1.0",
+  "parent_skill": "find-script (find-play-script v1.2.0+)",
+  "description": "16 search-engine URL template config (7 CN + 9 Global); {keyword} placeholder is substituted by the consumer (find-script)",
+  "contract": {
+    "placeholder": "{keyword}",
+    "placeholder_owner": "consumer (find-script/scripts/search.sh inject_type_keyword)",
+    "consumer_injection": {
+      "zh": "{play}+剧本+filetype:pdf",
+      "en": "{play}+script+filetype:pdf"
+    },
+    "required_fields": ["name", "url", "region"],
+    "optional_fields": ["priority", "language", "description", "favicon"]
+  },
+  "engines": [
+    {
+      "name": "Baidu",
+      "url": "https://www.baidu.com/s?wd={keyword}",
+      "region": "cn",
+      "language": "zh",
+      "priority": 1,
+      "description": "Baidu — most comprehensive Chinese index"
+    },
+    {
+      "name": "Bing CN",
+      "url": "https://cn.bing.com/search?q={keyword}&ensearch=0",
+      "region": "cn",
+      "language": "zh",
+      "priority": 2,
+      "description": "Bing CN (Chinese results)"
+    },
+    {
+      "name": "Bing INT",
+      "url": "https://cn.bing.com/search?q={keyword}&ensearch=1",
+      "region": "cn",
+      "language": "en",
+      "priority": 3,
+      "description": "Bing CN (English results)"
+    },
+    {
+      "name": "360",
+      "url": "https://www.so.com/s?q={keyword}",
+      "region": "cn",
+      "language": "zh",
+      "priority": 4,
+      "description": "360 Search — built-in safety filter"
+    },
+    {
+      "name": "Sogou",
+      "url": "https://sogou.com/web?query={keyword}",
+      "region": "cn",
+      "language": "zh",
+      "priority": 5,
+      "description": "Sogou — good Zhihu coverage"
+    },
+    {
+      "name": "WeChat",
+      "url": "https://wx.sogou.com/weixin?type=2&query={keyword}",
+      "region": "cn",
+      "language": "zh",
+      "priority": 6,
+      "description": "Sogou WeChat — the only way to search WeChat public-account articles"
+    },
+    {
+      "name": "Shenma",
+      "url": "https://m.sm.cn/s?q={keyword}",
+      "region": "cn",
+      "language": "zh",
+      "priority": 7,
+      "description": "Shenma — mobile-optimized"
+    },
+    {
+      "name": "Google",
+      "url": "https://www.google.com/search?q={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 1,
+      "description": "Google — world's largest index"
+    },
+    {
+      "name": "Google HK",
+      "url": "https://www.google.com.hk/search?q={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 2,
+      "description": "Google HK — accessible from mainland China"
+    },
+    {
+      "name": "DuckDuckGo",
+      "url": "https://duckduckgo.com/html/?q={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 3,
+      "description": "DuckDuckGo — privacy search"
+    },
+    {
+      "name": "Yahoo",
+      "url": "https://search.yahoo.com/search?p={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 4,
+      "description": "Yahoo Search"
+    },
+    {
+      "name": "Startpage",
+      "url": "https://www.startpage.com/sp/search?query={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 5,
+      "description": "Startpage — Google results + privacy"
+    },
+    {
+      "name": "Brave",
+      "url": "https://search.brave.com/search?q={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 6,
+      "description": "Brave — independent index"
+    },
+    {
+      "name": "Ecosia",
+      "url": "https://www.ecosia.org/search?q={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 7,
+      "description": "Ecosia — eco-friendly search"
+    },
+    {
+      "name": "Qwant",
+      "url": "https://www.qwant.com/?q={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 8,
+      "description": "Qwant — EU GDPR compliant"
+    },
+    {
+      "name": "WolframAlpha",
+      "url": "https://www.wolframalpha.com/input?i={keyword}",
+      "region": "global",
+      "language": "any",
+      "priority": 9,
+      "description": "WolframAlpha — computational knowledge engine"
+    }
+  ],
+  "advanced_operators": {
+    "site": {"syntax": "site:example.com kw", "purpose": "site-restricted search"},
+    "filetype": {"syntax": "filetype:pdf kw", "purpose": "file-type filter"},
+    "intitle": {"syntax": "intitle:kw", "purpose": "title contains"},
+    "inurl": {"syntax": "inurl:kw", "purpose": "URL contains"},
+    "intext": {"syntax": "intext:kw", "purpose": "body contains"},
+    "exact": {"syntax": "\"kw\"", "purpose": "exact match"},
+    "exclude": {"syntax": "kw -exclude", "purpose": "exclude term"},
+    "or": {"syntax": "kw1 OR kw2", "purpose": "either term"},
+    "wildcard": {"syntax": "kw * kw", "purpose": "wildcard"},
+    "grouping": {"syntax": "(a OR b) c", "purpose": "grouping"},
+    "range": {"syntax": "$500..$1000", "purpose": "numeric range"}
+  },
+  "time_filters": {
+    "google_style": {
+      "tbs=qdr:h": "Past hour",
+      "tbs=qdr:d": "Past day",
+      "tbs=qdr:w": "Past week",
+      "tbs=qdr:m": "Past month",
+      "tbs=qdr:y": "Past year"
+    },
+    "brave_style": {
+      "tf=ph": "Past hour",
+      "tf=pd": "Past day",
+      "tf=pw": "Past week",
+      "tf=pm": "Past month",
+      "tf=py": "Past year"
+    },
+    "startpage_style": {
+      "time=day": "Past 24 hours",
+      "time=week": "Past week",
+      "time=month": "Past month",
+      "time=year": "Past year"
+    }
+  },
+  "privacy_engines": ["DuckDuckGo", "Startpage", "Brave", "Qwant"],
+  "bangs": {
+    "_g": "Google",
+    "_gh": "GitHub",
+    "_so": "Stack Overflow",
+    "_w": "Wikipedia",
+    "_yt": "YouTube",
+    "_b": "Bing",
+    "_y": "Yahoo"
+  },
+  "wolframalpha_examples": [
+    "integrate x^2 dx",
+    "100 USD to CNY",
+    "AAPL stock",
+    "weather in Beijing",
+    "population of China",
+    "speed of light"
+  ],
+  "fallback_chain": [
+    "find-script/search-engine/config.json (this submodule, recommended)",
+    "find-script/config.json (local copy, backward-compatible)",
+    "find-script/scripts/search.sh built-in hardcoded 16 engines (fallback)"
+  ]
+}

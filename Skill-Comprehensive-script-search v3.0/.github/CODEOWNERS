@@ -1,0 +1,37 @@
+# CODEOWNERS
+# This file controls who is automatically requested for review when a pull
+# request modifies the matched paths.
+#
+# Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything (replace with your GitHub handle)
+* @yourname
+
+# Skill definition
+/SKILL.md @yourname
+/metadata.json @yourname
+/_meta.json @yourname
+
+# Core scripts (highest scrutiny)
+/scripts/ @yourname
+/scripts/lib/ @yourname
+
+# Search-engine submodule (vendored)
+/search-engine/ @yourname
+
+# Tests (any contributor may review)
+/tests/ @yourname
+/search-engine/tests/ @yourname
+
+# Documentation
+/README.md @yourname
+/USER_GUIDE.md @yourname
+/FAQ.md @yourname
+/CHANGELOG.md @yourname
+/CONTRIBUTING.md @yourname
+/references/ @yourname
+/examples/ @yourname
+
+# Security
+/SECURITY.md @yourname
+/.github/ @yourname

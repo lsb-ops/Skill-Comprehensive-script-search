@@ -1,0 +1,65 @@
+# Auto-detect text files and normalize line endings to LF
+*               text=auto eol=lf
+
+# Shell scripts must keep LF (CRLF breaks them on Linux)
+*.sh            text eol=lf
+*.bash          text eol=lf
+*.zsh           text eol=lf
+
+# Documentation
+*.md            text eol=lf
+*.txt           text eol=lf
+*.adoc          text eol=lf
+LICENSE         text eol=lf
+
+# Configuration
+*.json          text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf
+*.toml          text eol=lf
+*.ini           text eol=lf
+*.cfg           text eol=lf
+*.conf          text eol=lf
+.editorconfig   text eol=lf
+
+# GitHub templates / metadata
+.github/**      text eol=lf
+.gitignore      text eol=lf
+.gitattributes  text eol=lf
+
+# Web
+*.html          text eol=lf
+*.css           text eol=lf
+*.js            text eol=lf
+*.ts            text eol=lf
+*.py            text eol=lf
+
+# Treat as binary (do not diff)
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.ico           binary
+*.webp          binary
+*.pdf           binary
+*.zip           binary
+*.tar           binary
+*.gz            binary
+*.tgz           binary
+*.bz2           binary
+*.7z            binary
+*.woff          binary
+*.woff2         binary
+*.ttf           binary
+*.eot           binary
+
+# Linguist overrides — keep these out of language stats
+search-engine/vendor/** linguist-vendored
+tests/fixtures/**   linguist-generated
+*.min.js          linguist-generated
+*.min.css         linguist-generated
+
+# Diff attributes
+*.md              diff=markdown
+*.sh              diff=bash
+CHANGELOG.md      merge=union

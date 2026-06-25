@@ -1,0 +1,213 @@
+{
+  "ownerId": "local-user",
+  "slug": "find-script",
+  "version": "3.0.0",
+  "publishedAt": 1781280000000,
+  "schema": "1.0",
+  "display": {
+    "name": "Script Finder",
+    "name_en": "Script Finder",
+    "description": "Find play/opera/film/TV scripts across 16 search engines (7 Chinese + 9 global). Download, PDF text extraction, and a 5-dimensional analysis framework tailored per script type. Every result is tagged with a copyright status (pd / user_uploaded / copyrighted / unknown).",
+    "icon": "🎭",
+    "color": "#8B4513"
+  },
+  "types": [
+    "play",
+    "opera",
+    "film",
+    "tv"
+  ],
+  "type_aliases": {
+    "play": [
+      "play",
+      "drama",
+      "theater",
+      "theatre",
+      "stage-play",
+      "screenplay-stage",
+      "radio-drama",
+      "audio-drama"
+    ],
+    "opera": [
+      "opera",
+      "xiqu",
+      "chinese-opera",
+      "musical",
+      "broadway",
+      "west-end",
+      "kabuki",
+      "noh",
+      "kyogen",
+      "kathakali",
+      "bharatanatyam",
+      "bollywood-musical"
+    ],
+    "film": [
+      "film",
+      "movie",
+      "cinema",
+      "screenplay",
+      "storyboard",
+      "shooting-script",
+      "shooting-script-cn",
+      "bollywood",
+      "tollywood"
+    ],
+    "tv": [
+      "tv",
+      "television",
+      "series",
+      "episode",
+      "miniseries",
+      "kdrama",
+      "k-drama",
+      "korean-historical-drama",
+      "dizi",
+      "turkish-dizi"
+    ]
+  },
+  "capabilities": [
+    "search",
+    "download",
+    "analyze",
+    "text-extraction",
+    "copyright-tagging",
+    "parallel-download",
+    "ssrf-guard",
+    "multilingual-types"
+  ],
+  "type_breakdown": {
+    "play": {
+      "name_en": "Stage Play",
+      "name_zh": "话剧",
+      "framework": "references/analysis-frameworks/play.md",
+      "default_copyright": "pd",
+      "preferred_sources": [
+        "archive.org",
+        "gutenberg.org",
+        "doc88.com"
+      ]
+    },
+    "opera": {
+      "name_en": "Opera / Musical",
+      "name_zh": "戏曲/歌剧/音乐剧",
+      "framework": "references/analysis-frameworks/opera.md",
+      "default_copyright": "pd (classical) / unknown (modern)",
+      "preferred_sources": [
+        "ctext.org",
+        "imslp.org",
+        "doc88.com"
+      ]
+    },
+    "film": {
+      "name_en": "Film",
+      "name_zh": "电影",
+      "framework": "references/analysis-frameworks/film.md",
+      "default_copyright": "pd (pre-1929) / copyrighted (modern)",
+      "preferred_sources": [
+        "archive.org",
+        "imsdb.com",
+        "script-o-rama.com"
+      ]
+    },
+    "tv": {
+      "name_en": "Television",
+      "name_zh": "电视剧",
+      "framework": "references/analysis-frameworks/tv.md",
+      "default_copyright": "pd (1950s) / copyrighted (modern)",
+      "preferred_sources": [
+        "archive.org",
+        "doc88.com"
+      ]
+    }
+  },
+  "engines_count": 16,
+  "engines_breakdown": {
+    "domestic_cn": 7,
+    "global": 9
+  },
+  "total_count": 303,
+  "tests_breakdown": {
+    "smoke": 30,
+    "engines": 31,
+    "download": 8,
+    "types": 99,
+    "copyright": 23,
+    "framework": 30,
+    "search_output": 14,
+    "security": 11,
+    "ux": 32,
+    "download_parallel": 11,
+    "submodule_smoke": 35,
+    "download_robustness": 14
+  },
+  "scripts": {
+    "search": "scripts/search.sh",
+    "download": "scripts/download.sh",
+    "analyze": "scripts/analyze.sh",
+    "orchestrator": "scripts/find-play.sh",
+    "benchmark": "scripts/benchmark.sh",
+    "types_lib": "scripts/lib/types.sh",
+    "ssrf_guard_lib": "scripts/lib/ssrf_guard.sh"
+  },
+  "submodules": {
+    "search-engine/": "multi-search-engine v2.2.0"
+  },
+  "tests": {
+    "smoke": "tests/test_smoke.sh",
+    "engines": "tests/test_engines.sh",
+    "download": "tests/test_download.sh",
+    "types": "tests/test_types.sh",
+    "copyright": "tests/test_copyright.sh",
+    "framework": "tests/test_framework.sh",
+    "search_output": "tests/test_search_output.sh",
+    "security": "tests/test_security.sh",
+    "ux": "tests/test_ux.sh",
+    "download_parallel": "tests/test_download_parallel.sh",
+    "submodule_smoke": "search-engine/tests/test_smoke.sh",
+    "total_count": 289
+  },
+  "input_format": "natural_language_or_cli",
+  "output_format": "structured_report",
+  "language_support": [
+    "en",
+    "zh-CN",
+    "ja",
+    "ko"
+  ],
+  "copyright_compliance": "user_responsibility",
+  "copyright_tags": [
+    "pd",
+    "user_uploaded",
+    "copyrighted",
+    "unknown"
+  ],
+  "skillhub_publish": {
+    "identifier": "find-script",
+    "display_name": "Script Finder",
+    "category": "tools",
+    "subcategory": "content-acquisition",
+    "icon": "🎭",
+    "color": "#8B4513",
+    "screenshots": [
+      "docs/screenshots/search.png",
+      "docs/screenshots/analyze.png"
+    ],
+    "install_command": "clawhub install find-script",
+    "min_claude_code_version": "3.0",
+    "platforms": [
+      "macos",
+      "linux",
+      "wsl"
+    ],
+    "tags": [
+      "script",
+      "theater",
+      "search",
+      "16-engines",
+      "multilingual",
+      "ssrf-safe"
+    ],
+    "version": "3.0.0"
+  }
+}

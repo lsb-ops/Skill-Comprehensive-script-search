@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "find-script"
+version: "3.0.0"
+date-released: 2026-06-25
+license: MIT
+url: "https://github.com/yourname/find-script"
+repository-code: "https://github.com/yourname/find-script"
+type: software
+keywords:
+  - skill
+  - script
+  - playwright
+  - search
+  - analysis
+  - bash
+  - playwright-text
+  - opera
+  - film-script
+  - tv-script
+  - copyright
+  - multi-engine
+authors:
+  - family-names: Lin
+    given-names: Mr.
+    email: lin@find-script.local
+    orcid: https://orcid.org/0000-0000-0000-0000
+contact:
+  - family-names: Lin
+    given-names: Mr.
+    email: lin@find-script.local
+abstract: >-
+  find-script is a bash-based skill for finding public-domain or
+  user-authorized scripts (stage plays, opera, film, TV) across 16
+  search engines, with built-in copyright tagging, parallel
+  downloads, 5-dimensional analysis, and a 3-level fallback chain.
+  The skill emphasises correctness over speed: it never auto-downloads
+  copyrighted material without explicit --allow-copyrighted, applies
+  SSRF guards, and degrades gracefully when its multi-search-engine
+  submodule is missing. find-script is licensed MIT and is designed
+  to run unattended for long-running tasks.
+notes: |
+  Submodule: search-engine/ (16 search-engine URL templates, MIT)
+  License: MIT
+  Project home: https://github.com/yourname/find-script
+preferred-citation:
+  type: software
+  title: "find-script v3.0.0"
+  authors:
+    - family-names: Lin
+      given-names: Mr.
+  year: 2026
+  url: "https://github.com/yourname/find-script"
+  version: "3.0.0"

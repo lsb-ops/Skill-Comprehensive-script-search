@@ -1,0 +1,55 @@
+labels: ["question"]
+title: "[Question] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for asking a question! Please provide as much context as possible
+        so the community can help.
+  - type: input
+    id: version
+    attributes:
+      label: find-script version
+      description: Which version of find-script are you running? (e.g. 3.0.0)
+      placeholder: "3.0.0"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: OS and version
+      placeholder: "macOS 14.5 / Ubuntu 24.04 / Windows 11 WSL2"
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: What are you searching for?
+      description: |
+        Choose the script type you are searching for.
+      options:
+        - Play (话剧)
+        - Opera (戏曲 / 京剧 / 越剧 / 黄梅戏)
+        - Film (电影)
+        - TV series (电视剧)
+        - Other / not sure
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: Please describe your question in detail.
+      placeholder: |
+        What command did you run? What did you expect to happen? What
+        actually happened?
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What I have tried
+      description: |
+        Have you read the FAQ, searched issues, etc.?
+      placeholder: "Read FAQ.md, searched existing issues, ..."

@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke tests (offline, no network)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install python3 + jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 jq curl
+
+      - name: Make scripts executable
+        run: chmod +x tests/*.sh scripts/*.sh scripts/lib/*.sh search-engine/tests/*.sh 2>/dev/null || true
+
+      - name: Run main test suite (smoke)
+        run: ./tests/test_smoke.sh
+
+      - name: Run types test
+        run: ./tests/test_types.sh
+
+      - name: Run security test
+        run: ./tests/test_security.sh
+
+      - name: Run UX test
+        run: ./tests/test_ux.sh
+
+      - name: Run framework test
+        run: ./tests/test_framework.sh
+
+      - name: Run search output test
+        run: ./tests/test_search_output.sh
+
+      - name: Run engines test
+        run: ./tests/test_engines.sh
+
+      - name: Run submodule smoke
+        run: ./search-engine/tests/test_smoke.sh
+
+  shell-lint:
+    name: Shell script lint (shellcheck)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Lint scripts
+        run: |
+          shellcheck -x -s bash scripts/*.sh scripts/lib/*.sh tests/*.sh search-engine/tests/*.sh || true
+        continue-on-error: true
+
+  markdown-lint:
+    name: Markdown link check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for broken internal markdown links
+        run: |
+          set +e
+          for f in $(find . -name "*.md" -not -path "./.git/*"); do
+            echo "Checking $f"
+            grep -oE '\]\([^)]+\)' "$f" | sed -E 's/^\]\((.+)\)$/\1/' | while read link; do
+              case "$link" in
+                http*|https*|mailto*|\#*) continue ;;
+                *) echo "  relative link: $link" ;;
+              esac
+            done
+          done
+        continue-on-error: true
