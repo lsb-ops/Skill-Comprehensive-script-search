@@ -1,0 +1,103 @@
+/* ============================================
+   WebPPT Maker v3.16 · Page Type: Documentation
+   ============================================
+   真实参考: Vercel.com/docs, Stripe.com/docs, MDN, React docs
+   特征:
+   - 三栏布局: nav | content | TOC
+   - 信息密度高
+   - 代码块为重
+   - 持久 sidebar (sticky)
+   - 阅读节奏平缓
+   ============================================ */
+
+[data-page-type="docs"] {
+  --docs-sidebar-width: 240px;
+  --docs-toc-width: 200px;
+  --docs-content-max: 720px;  /* 阅读最佳宽度 */
+  --docs-page-bg: oklch(99% 0.003 0);
+}
+
+[data-page-type="docs"] .page-nav {
+  /* Docs nav: 极简, 顶部 */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--docs-page-bg);
+  border-bottom: 1px solid oklch(92% 0.005 0);
+}
+
+[data-page-type="docs"] .page-main {
+  /* Docs 三栏 grid */
+  display: grid;
+  grid-template-columns: var(--docs-sidebar-width) minmax(0, 1fr) var(--docs-toc-width);
+  gap: var(--space-6, 32px);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-6, 32px) var(--space-5, 24px);
+  align-items: start;
+}
+
+[data-page-type="docs"] .page-sidebar-left {
+  /* 左侧导航: sticky */
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+[data-page-type="docs"] .page-content {
+  /* 内容区: 严格最大宽度 */
+  max-width: var(--docs-content-max);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+[data-page-type="docs"] .page-content h1 { font-size: 2.5rem; margin: 0 0 var(--space-6); }
+[data-page-type="docs"] .page-content h2 { font-size: 1.75rem; margin: var(--space-8) 0 var(--space-4); }
+[data-page-type="docs"] .page-content h3 { font-size: 1.25rem; margin: var(--space-6) 0 var(--space-3); }
+[data-page-type="docs"] .page-content p  { margin: 0 0 var(--space-4); }
+[data-page-type="docs"] .page-content pre {
+  /* 代码块: Docs 的核心元素 */
+  background: oklch(15% 0.01 250);
+  color: oklch(95% 0.005 250);
+  padding: var(--space-4, 16px);
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: var(--space-5) 0;
+}
+
+[data-page-type="docs"] .page-toc {
+  /* 右侧 TOC: sticky */
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  font-size: 13px;
+  border-left: 1px solid oklch(92% 0.005 0);
+  padding-left: var(--space-4, 16px);
+}
+
+[data-page-type="docs"] .page-toc a {
+  display: block;
+  padding: 4px 0;
+  color: oklch(50% 0.015 250);
+  text-decoration: none;
+}
+[data-page-type="docs"] .page-toc a:hover {
+  color: oklch(20% 0.015 250);
+}
+
+/* 移动端: 三栏变单栏 */
+@media (max-width: 1024px) {
+  [data-page-type="docs"] .page-main {
+    grid-template-columns: 1fr;
+  }
+  [data-page-type="docs"] .page-sidebar-left,
+  [data-page-type="docs"] .page-toc {
+    display: none;
+  }
+}

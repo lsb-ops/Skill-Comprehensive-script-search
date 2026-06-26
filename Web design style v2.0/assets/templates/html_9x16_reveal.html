@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-mode="portrait">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{{TOPIC}}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+  <style>
+    /* v3.3: 加载 9 个 layout CSS (保证外部 layout 改动真的生效) */
+    @import url("./assets/layouts/card.css");
+    @import url("./assets/layouts/poster.css");
+    @import url("./assets/layouts/timeline.css");
+    @import url("./assets/layouts/numbers.css");
+    @import url("./assets/layouts/compare.css");
+    @import url("./assets/layouts/icon.css");
+    @import url("./assets/layouts/storyline.css");
+    @import url("./assets/layouts/qa.css");
+    @import url("./assets/layouts/waterfall.css");
+    /* v3.4: 装饰元素库 (dots/line/glow/corner/circle) */
+    @import url("./assets/layouts/decorations.css");
+    /* v3.6: 设计 token 中心 (modular scale + 8px baseline + 5 lh) */
+    @import url("./assets/design/tokens.css");
+    /* v3.6: 8px 垂直节奏 */
+    @import url("./assets/design/rhythm.css");
+    /* v3.6: 行宽 + 中英混排 */
+    @import url("./assets/design/readability.css");
+    /* v3.6: 焦点标记 + 三分法 */
+    @import url("./assets/design/focal-point.css");
+    /* v3.6: 60-30-10 颜色规则 */
+    @import url("./assets/design/color-balance.css");
+    /* v3.6: 视觉对齐 (大字号偏移 + 中文标点) */
+    @import url("./assets/design/optical.css");
+    /* v3.6: 4 个 attention-driven layout (F/Z/Golden/Focal) */
+    @import url("./assets/layouts/attention.css");
+    /* v3.5: 动效原子库 (15+ keyframes) */
+    @import url("./assets/motion/keyframes.css");
+    /* v3.5: 9 layout 差异化入场编排 */
+    @import url("./assets/motion/choreography.css");
+    /* v3.5: hover/active 微交互 */
+    @import url("./assets/motion/interactions.css");
+    /* v3.5: 3D 与深度 */
+    @import url("./assets/motion/depth.css");
+    /* v3.5: 视口驱动样式 (配合 engine.js) */
+    @import url("./assets/motion/reveal-on-scroll.css");
+    /* v3.7: 滚动驱动 3D 视差层 (配合 3d-tilt.js) */
+    @import url("./assets/motion/3d-parallax.css");
+    /* v3.7: 13 layouts 专属 3D 处理 */
+    @import url("./assets/motion/3d-layouts.css");
+    /* v3.12: 配色美学 (OKLCH + 暗色 + 语义色 + 5 级色阶) */
+    @import url("./assets/design/color-tokens.css");
+    /* v3.12: 布局美学 (12-col grid + 比例 + z-index + 呼吸 + 重量) */
+    @import url("./assets/design/grid-system.css");
+    /* v3.12: 用户注意力引导系统 (F/Z pattern + attractor + 单一焦点 + CTA) */
+    @import url("./assets/design/attention-hierarchy.css");
+    /* v3.12: 组件一致性 (card/badge/input/alert/chip/tooltip/progress/skeleton) */
+    @import url("./assets/design/components.css");
+    /* v3.13: 动画物理规律 (MD3 easing + duration 6 token + 弹簧近似) */
+    @import url("./assets/motion/easing-tokens.css");
+    /* v3.13: Gestalt 视觉原则 (5 大原则 + 额外 Common Fate) */
+    @import url("./assets/design/gestalt.css");
+    /* v3.13: 色彩和谐 + CVD-safe (互补/三角/相邻 + 色盲友好) */
+    @import url("./assets/design/color-harmony.css");
+    /* v3.14 (legacy, 已废弃): 字体/主题/motion-language - 全部 DEPRECATED */
+    /* @import url("./assets/design/typography-v2.css"); DEPRECATED in v3.16 */
+    /* @import url("./assets/design/themes.css"); DEPRECATED in v3.16 */
+    /* @import url("./assets/motion/motion-language.css"); DEPRECATED in v3.16 */
+
+    /* v3.15 (legacy, 已废弃): 7 archetypes - 全部 DEPRECATED, 不是网页思维 */
+    /* archetypes/、composition/hierarchy、whitespace、narrative 全部废弃 */
+
+    /* ===== v3.16: Web-First Architecture (取代 PPT 思维) ===== */
+    /* 6 种 Page Type - 页面级类型 */
+    @import url("./assets/pages/landing.css");
+    @import url("./assets/pages/docs.css");
+    @import url("./assets/pages/blog.css");
+    @import url("./assets/pages/product.css");
+    @import url("./assets/pages/dashboard.css");
+    @import url("./assets/pages/portfolio.css");
+
+    /* 11 个 Section 组件 - 网页组件, 不是幻灯片原型 */
+    @import url("./assets/sections/nav.css");
+    @import url("./assets/sections/hero.css");
+    @import url("./assets/sections/features.css");
+    @import url("./assets/sections/big-number.css");
+    @import url("./assets/sections/comparison.css");
+    @import url("./assets/sections/testimonial.css");
+    @import url("./assets/sections/faq.css");
+    @import url("./assets/sections/pricing.css");
+    @import url("./assets/sections/gallery.css");
+    @import url("./assets/sections/cta.css");
+    @import url("./assets/sections/footer.css");
+
+    /* Scroll-Driven 动效 - 取代 slide transition */
+    @import url("./assets/scroll/scroll-reveal.css");
+    @import url("./assets/scroll/scroll-progress.css");
+    @import url("./assets/scroll/sticky.css");
+
+    /* 响应式系统 (4 断点 + 容器查询) */
+    @import url("./assets/responsive/breakpoints.css");
+    @import url("./assets/responsive/container-queries.css");
+
+    /* 交互状态系统 (hover/focus/active + touch) */
+    @import url("./assets/interaction/states.css");
+    @import url("./assets/interaction/touch.css");
+
+    /* ===== v3.17: Component Layer (6 核心组件) ===== */
+    @import url("./assets/components/modal.css");
+    @import url("./assets/components/tabs.css");
+    @import url("./assets/components/carousel.css");
+    @import url("./assets/components/toast.css");
+    @import url("./assets/components/breadcrumbs.css");
+    @import url("./assets/components/form.css");
+
+    /* ===== v3.18: Token v2 (基于开源研究综合) ===== */
+    /* shadcn HSL 拆段 + OKLCH 语义色 + CVD 安全 + WCAG 2.2 focus */
+    @import url("./assets/design/color-tokens-v2.css");
+    /* Open Props shadow-1..5 5 级 elevation */
+    @import url("./assets/design/elevation.css");
+
+    /* ===== v3.19.1: MD3 真实开源改进 ===== */
+    /* MD3 15 type styles (display/headline/title/body/label × 3) + Tailwind 13 sizes */
+    @import url("./assets/design/typography-tokens.css");
+    /* MD3 8 corner tokens + Tailwind 8 radii + shadcn 派生 */
+    @import url("./assets/design/radius-tokens.css");
+
+    /* ===== v3.19.2: MD3 Surface + Color Roles + Container + State ===== */
+    /* MD3 5 surface-container + 2 variant (lowest→highest) */
+    @import url("./assets/design/surface-tokens.css");
+    /* MD3 20+ color roles (primary-container, on-*, inverse-*, etc.) */
+    @import url("./assets/design/color-roles.css");
+    /* CSS @container 容器查询 (sidebar/card/main 命名 container) */
+    @import url("./assets/utilities/container-queries.css");
+    /* data-state / data-open / data-checked 自定义 variant (Radix + shadcn 真实) */
+    @import url("./assets/utilities/state-variants.css");
+
+    /* ============================================
+       WebPPT Maker v3.0 · 9:16 Portrait reveal.js
+       ============================================ */
+    :root {
+      --slide-width: 720px;
+      --slide-height: 1280px;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F5F5F5;
+      --text-primary: #1a1a1a;
+      --text-secondary: #666666;
+      --accent: #FF3B30;
+      --border: #E5E5E5;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+      --font-size-base: 24px;
+      --font-size-h1: 48px;
+      --font-size-h2: 36px;
+      --font-size-body: 24px;
+      --font-size-caption: 18px;
+      --space-xs: 12px;
+      --space-sm: 20px;
+      --space-md: 32px;
+      --space-lg: 48px;
+      --space-xl: 72px;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      margin: 0; padding: 0;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: #1a1a1a;
+      color: var(--text-primary);
+    }
+
+    .reveal { width: 100%; height: 100%; }
+    .reveal .slides { width: 100%; height: 100%; text-align: left; }
+
+    .reveal .slides > section {
+      width: var(--slide-width);
+      height: var(--slide-height);
+      padding: var(--space-lg) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      background: var(--bg-primary);
+      box-sizing: border-box;
+    }
+
+    body[data-density="low"] { --font-size-base: 32px; --font-size-h1: 64px; --font-size-h2: 48px; --font-size-body: 32px; }
+    body[data-density="default"] { --font-size-base: 24px; --font-size-h1: 48px; --font-size-h2: 36px; --font-size-body: 24px; }
+    body[data-density="high"] { --font-size-base: 18px; --font-size-h1: 36px; --font-size-h2: 28px; --font-size-body: 18px; }
+
+    /* === Layout: card (portrait: 卡片占 86%) === */
+    .layout-card .card {
+      width: 86%; max-width: 600px;
+      padding: var(--space-md) var(--space-lg);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+    .layout-card .number {
+      display: inline-block;
+      width: 64px; height: 64px; line-height: 64px;
+      border-radius: 50%;
+      background: var(--accent); color: white;
+      font-size: 32px; font-weight: bold;
+      margin-bottom: var(--space-sm);
+    }
+
+    /* === Layout: poster (portrait: 大字报) === */
+    .layout-poster { background: var(--accent); color: white; }
+    .layout-poster .big-text { font-size: 64px; font-weight: 900; line-height: 1.2; letter-spacing: -2px; max-width: 90%; }
+    .layout-poster .sub-text { font-size: 24px; opacity: 0.9; margin-top: var(--space-md); max-width: 80%; }
+
+    /* === Layout: timeline (portrait: 上下流) === */
+    .layout-timeline { align-items: flex-start; text-align: left; padding: var(--space-lg) var(--space-md); }
+    .layout-timeline .timeline-item { display: flex; gap: var(--space-sm); width: 100%; max-width: 90%; margin-bottom: var(--space-md); }
+    .layout-timeline .timeline-dot { flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); margin-top: 14px; box-shadow: 0 0 0 5px rgba(255, 59, 48, 0.2); }
+    .layout-timeline .timeline-content { flex: 1; }
+    .layout-timeline .timeline-content h2 { font-size: var(--font-size-h2); margin-bottom: var(--space-xs); }
+
+    /* === Layout: numbers (portrait: 大数字) === */
+    .layout-numbers .big-number { font-size: 140px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: var(--space-md); letter-spacing: -3px; text-shadow: 0 4px 20px rgba(255, 59, 48, 0.2); }
+    .layout-numbers .unit { font-size: 48px; font-weight: 700; color: var(--text-secondary); margin-left: 12px; }
+
+    /* === Layout: compare (portrait: 上下 + 箭头) === */
+    .layout-compare { gap: var(--space-sm); }
+    .layout-compare .compare-row { display: flex; flex-direction: column; gap: var(--space-sm); width: 100%; max-width: 90%; }
+    .layout-compare .compare-card { padding: var(--space-md) var(--space-lg); border-radius: var(--radius-md); text-align: left; }
+    .layout-compare .compare-card.before { background: #FFE5E5; color: #C92A2A; }
+    .layout-compare .compare-card.after { background: #E5F7E5; color: #2A9D2A; }
+    .layout-compare .compare-card .label { font-size: var(--font-size-caption); font-weight: 700; margin-bottom: var(--space-xs); opacity: 0.7; }
+    .layout-compare .compare-card .content { font-size: 22px; font-weight: 500; }
+    .layout-compare .compare-arrow { display: block; font-size: 28px; color: var(--text-secondary); }
+
+    /* === Layout: icon (portrait) === */
+    .layout-icon .big-emoji { font-size: 140px; margin-bottom: var(--space-sm); line-height: 1; filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.15)); }
+
+    /* === Layout: storyline (portrait) === */
+    .layout-storyline { align-items: flex-start; text-align: left; padding: var(--space-lg) var(--space-md); }
+    .layout-storyline .story-flow { width: 100%; max-width: 90%; }
+    .layout-storyline .story-step { display: inline-block; padding: 6px 16px; background: var(--accent); color: white; font-weight: 700; border-radius: var(--radius-sm); margin-bottom: var(--space-sm); }
+    .layout-storyline .title { font-size: var(--font-size-h1); margin-bottom: var(--space-sm); }
+    .layout-storyline .body { text-align: left; max-width: 100%; }
+
+    /* === Layout: qa (portrait) === */
+    .layout-qa { align-items: stretch; text-align: left; gap: var(--space-sm); }
+    .layout-qa .qa-question, .layout-qa .qa-answer { display: flex; gap: var(--space-sm); align-items: flex-start; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); width: 90%; }
+    .layout-qa .qa-question { background: var(--bg-secondary); }
+    .layout-qa .qa-answer { background: rgba(255, 59, 48, 0.08); }
+    .layout-qa .qa-tag { flex-shrink: 0; display: inline-block; width: 48px; height: 48px; line-height: 48px; text-align: center; border-radius: 50%; background: var(--accent); color: white; font-weight: 700; font-size: 24px; }
+    .layout-qa .qa-answer .qa-tag { background: var(--text-secondary); }
+    .layout-qa .qa-question .title { font-size: var(--font-size-h2); flex: 1; text-align: left; margin: 0; }
+    .layout-qa .qa-answer .body { flex: 1; margin: 0; text-align: left; }
+
+    /* === Layout: waterfall (portrait) === */
+    .layout-waterfall { align-items: stretch; text-align: left; gap: var(--space-sm); }
+    .layout-waterfall .title { font-size: var(--font-size-h1); margin-bottom: var(--space-sm); }
+    .layout-waterfall .body { text-align: left; max-width: 90%; }
+
+    /* === Universal === */
+    .title { font-size: var(--font-size-h1); font-weight: 800; line-height: 1.2; margin-bottom: var(--space-md); letter-spacing: -1px; }
+    .subtitle { font-size: var(--font-size-base); color: var(--text-secondary); font-weight: 500; }
+    .body { font-size: var(--font-size-body); color: var(--text-primary); line-height: 1.6; margin-top: var(--space-sm); white-space: pre-line; }
+    .emoji { font-size: 80px; margin-bottom: var(--space-md); display: inline-block; }
+
+    /* === v3.4 字体层次 + 中文优化 === */
+    /* 字体权重层级: 400 (body) / 500 (subtitle) / 700 (label) / 800 (title) / 900 (poster) */
+    /* 中文字符不应用负 letter-spacing, 用 0 或正 spacing 提升可读性 */
+    .title:lang(zh), .title[lang="zh"] { letter-spacing: 0; }
+    .layout-poster .big-text:lang(zh) { letter-spacing: 0; }
+    .layout-numbers .big-number:lang(zh) { letter-spacing: 0; }
+    .body:lang(zh), .body[lang="zh"] { line-height: 1.7; letter-spacing: 0.3px; }
+    /* 英文/数字保持负 spacing 紧凑感 */
+    .title:lang(en), .title[lang="en"] { letter-spacing: -1px; }
+
+    /* === Page cover (portrait) === */
+    .page-cover { background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%); background-size: 200% 200%; padding: var(--space-xl) var(--space-lg); animation: drift-bg 8s ease-in-out infinite; }
+    .page-cover .title { font-size: 64px; font-weight: 900; background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; max-width: 90%; }
+    .page-cover .subtitle { font-size: 28px; color: var(--text-secondary); margin-top: var(--space-md); }
+
+    /* === v3.5 噪点叠加 (质感提升) === */
+    .page::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.035;
+      z-index: 100;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    /* === Page CTA (portrait) === */
+    .page-cta { background: var(--accent); color: white; }
+    .page-cta .title { color: white; font-size: 64px; }
+    .page-cta .body { color: white; opacity: 0.9; font-size: 28px; }
+
+    /* === reveal.js controls === */
+    .reveal .controls { bottom: 20px; right: 20px; }
+    .reveal .progress { height: 5px; background: var(--accent); }
+    .reveal .slide-number { bottom: 20px; left: 20px; font-size: 14px; color: var(--text-secondary); background: rgba(255, 255, 255, 0.9); padding: 3px 10px; border-radius: var(--radius-sm); }
+
+    /* === Fragment animations === */
+    .reveal .slides section .fragment-fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal .slides section.visible .fragment-fade-up { opacity: 1; transform: translateY(0); }
+    .reveal .slides section .fragment-slide-left { opacity: 0; transform: translateX(-80px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal .slides section.visible .fragment-slide-left { opacity: 1; transform: translateX(0); }
+    .reveal .slides section .fragment-slide-right { opacity: 0; transform: translateX(80px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal .slides section.visible .fragment-slide-right { opacity: 1; transform: translateX(0); }
+    .reveal .slides section .fragment-zoom-in { opacity: 0; transform: scale(0.5); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal .slides section.visible .fragment-zoom-in { opacity: 1; transform: scale(1); }
+    .reveal .slides section .fragment-bounce { opacity: 0; transform: scale(0.3) translateY(-50px); transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+    .reveal .slides section.visible .fragment-bounce { opacity: 1; transform: scale(1) translateY(0); }
+
+    /* === Visual element position classes (v3.2) === */
+    .visual-top, .visual-above { width: 100%; text-align: center; margin-bottom: var(--space-md); }
+    .visual-top .big-emoji, .visual-above .big-emoji { font-size: 96px; line-height: 1; }
+    .visual-side { display: inline-block; margin-right: var(--space-sm); margin-bottom: var(--space-md); vertical-align: middle; }
+    .visual-side .big-emoji { font-size: 48px; line-height: 1; }
+    .visual-inline { display: inline-block; margin-right: var(--space-xs); vertical-align: middle; }
+    .visual-inline .big-emoji { font-size: 32px; line-height: 1; }
+
+    /* === Camera direction (shot_type) — v3.2 === */
+    .shot-特写 .title { font-size: calc(var(--font-size-h1) * 1.15); }
+    .shot-特写 .body { max-width: 75%; }
+    .shot-中景 .body { max-width: 90%; }
+    .shot-全景 .title { font-size: calc(var(--font-size-h1) * 0.85); max-width: 95%; }
+    .shot-全景 .body { max-width: 100%; }
+  </style>
+</head>
+<body data-density="default" data-mode="portrait">
+  <div class="reveal">
+    <div class="slides">
+      <section class="page-cover" data-page="1" data-mode="portrait">
+        <div class="emoji">📱</div>
+        <h1 class="title">{{TOPIC}}</h1>
+        <p class="subtitle">{{SUBTITLE}}</p>
+      </section>
+      {{PAGES_CONTENT}}
+      <section class="page-cta" data-page="{{TOTAL_PAGES}}" data-mode="portrait">
+        <div class="emoji">✨</div>
+        <h2 class="title">你学会了吗？</h2>
+        <p class="body">{{CTA_TEXT}}</p>
+      </section>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 720, height: 1280,
+      controls: true, controlsTutorial: true, controlsLayout: 'bottom-right',
+      progress: true, slideNumber: 'c/t',
+      transition: 'slide', transitionSpeed: 'default',
+      autoSlide: 0, mouseWheel: false, touch: true,
+      keyboard: true, overview: true, center: true,
+      loop: false, fragments: true, fragmentInURL: false, hash: true,
+    });
+  </script>
+  <script src="./assets/motion/_utils/loader.js"></script>
+  <script src="./assets/motion/engine.js"></script>
+  <script src="./assets/motion/3d-tilt.js"></script>
+  <script src="./assets/motion/magnetic-follower.js"></script>
+  <script src="./assets/motion/particles-3d.js"></script>
+  <script src="./assets/motion/shadow-tracker.js"></script>
+  <script src="./assets/motion/transition-3d.js"></script>
+  <script src="./assets/motion/depth-of-field.js"></script>
+  <script src="./assets/motion/card-flip-3d.js"></script>
+  <script src="./assets/motion/drag-rotate-3d.js"></script>
+  <script src="./assets/motion/parallax-3d.js"></script>
+  <script src="./assets/motion/_utils/spring.js"></script>
+  <script src="./assets/motion/_utils/attention.js"></script>
+  <script src="./assets/motion/_utils/harmony-check.js"></script>
+  <script src="./assets/motion/_utils/spring.js"></script>
+  <script src="./assets/motion/_utils/spring-preset.js"></script>
+  <!-- v3.14+v3.15 (legacy) DEPRECATED: theme/archetype 全部废弃, 是 PPT 思维 -->
+  <!-- <script src="./assets/motion/_utils/theme-detect.js"></script> -->
+  <!-- <script src="./assets/motion/_utils/theme-applier.js"></script> -->
+  <!-- <script src="./assets/composition/archetype-detect.js"></script> -->
+  <!-- <script src="./assets/composition/archetype-applier.js"></script> -->
+
+  <!-- ===== v3.16: Web-First Engine (取代 PPT 思维) ===== -->
+  <!-- page-detect.js: 检测页面类型 (URL/meta/DOM 综合判断) -->
+  <script src="./assets/composition/page-detect.js"></script>
+  <!-- section-detect.js: 检测 section 类型 (显式/类名/DOM/内容) -->
+  <script src="./assets/composition/section-detect.js"></script>
+  <!-- scroll-observer.js: Scroll-driven 动效 (取代 slide transition) -->
+  <script src="./assets/motion/_utils/scroll-observer.js"></script>
+  <!-- ===== v3.17: Component Engine (Modal/Tabs/Carousel/Toast/Breadcrumbs/Form) ===== -->
+  <script src="./assets/components/_utils/component-engine.js"></script>
+</body>
+</html>

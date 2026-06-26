@@ -1,0 +1,117 @@
+/* ============================================
+   WebPPT Maker v3.20 · Open Props linear() Spring
+   ============================================
+   真实开源出处 (curl 直连验证):
+   - open-props@1.7.23/src/props.easing.js (npm unpkg)
+   - 浏览器原生 CSS linear() 函数 (Chrome 113+, Safari 17+, Firefox 113+)
+
+   真实做法:
+   - 5 个 spring 级别 (轻 → 重)
+   - 全部用 linear() CSS 函数定义, 不依赖 JS 物理引擎
+   - 浏览器在主线程外插值, 性能优于 requestAnimationFrame JS
+
+   v3.20 优势 (vs v3.18.1 spring-preset.js):
+   - ✅ 无 JS 物理计算 (k, c, mass, stiffness 全部砍掉)
+   - ✅ 主线程外插值 (浏览器 compositor)
+   - ✅ 可被 prefers-reduced-motion 自动降级 (媒体查询)
+   - ✅ 单一来源: open-props 真实值 (不是 Apple HIG/Framer 臆造)
+
+   v3.20 诚实声明:
+   这是 Open Props 1.7.23 真实值的直接复用.
+   浏览器兼容: linear() 需 Chrome 113+ / Safari 17+ / Firefox 113+.
+   老浏览器降级: 浏览器会忽略未识别的 animation-timing-function,
+   回退到默认 ease. 这是渐进增强, 不是 bug.
+   ============================================ */
+
+:root {
+  /* === Spring 1: 最轻柔 (UI 微交互, 12-24px 距离) === */
+  --ease-spring-1: linear(
+    0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%,
+    0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%,
+    1.001
+  );
+
+  /* === Spring 2: 轻柔 (hover, focus) === */
+  --ease-spring-2: linear(
+    0, 0.007, 0.029 2.2%, 0.118 4.7%, 0.625 14.4%, 0.826 19%, 0.902, 0.962,
+    1.008 26.1%, 1.041 28.7%, 1.064 32.1%, 1.07 36%, 1.061 40.5%, 1.015 53.4%,
+    0.999 61.6%, 0.995 71.2%, 1
+  );
+
+  /* === Spring 3: 中等 (按钮按下, 卡片浮起) === */
+  --ease-spring-3: linear(
+    0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077,
+    1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%,
+    1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%,
+    0.997 69.8%, 1.003 76.9%, 1
+  );
+
+  /* === Spring 4: 强调 (Modal 进入, Toast 弹出) === */
+  --ease-spring-4: linear(
+    0, 0.009, 0.037 1.7%, 0.153 3.6%, 0.776 10.3%, 1.001, 1.142 16%, 1.185,
+    1.209 19%, 1.215 19.9% 20.8%, 1.199, 1.165 25%, 1.056 30.3%, 1.008 33%, 0.973,
+    0.955 39.2%, 0.953 41.1%, 0.957 43.3%, 0.998 53.3%, 1.009 59.1% 63.7%,
+    0.998 78.9%, 1
+  );
+
+  /* === Spring 5: 最强烈 (页面切换, 全屏动画) === */
+  --ease-spring-5: linear(
+    0, 0.01, 0.04 1.6%, 0.161 3.3%, 0.816 9.4%, 1.046, 1.189 14.4%, 1.231,
+    1.254 17%, 1.259, 1.257 18.6%, 1.236, 1.194 22.3%, 1.057 27%, 0.999 29.4%,
+    0.955 32.1%, 0.942, 0.935 34.9%, 0.933, 0.939 38.4%, 1 47.3%, 1.011,
+    1.017 52.6%, 1.016 56.4%, 1 65.2%, 0.996 70.2%, 1.001 87.2%, 1
+  );
+
+  /* === 兼容 preset (snappy/wobbly/heavy) ===
+     v3.20 重命名: snappy → spring-4, wobbly → spring-3, heavy → spring-2
+     避免 Apple HIG/Framer "naming theft" */
+  --ease-snappy: var(--ease-spring-4);
+  --ease-wobbly: var(--ease-spring-3);
+  --ease-heavy:  var(--ease-spring-2);
+}
+
+/* === Utility classes (v3.20 新增) === */
+[data-anim="spring-1"] { animation-timing-function: var(--ease-spring-1); }
+[data-anim="spring-2"] { animation-timing-function: var(--ease-spring-2); }
+[data-anim="spring-3"] { animation-timing-function: var(--ease-spring-3); }
+[data-anim="spring-4"] { animation-timing-function: var(--ease-spring-4); }
+[data-anim="spring-5"] { animation-timing-function: var(--ease-spring-5); }
+
+/* === 应用示例: Modal 进入用 spring-4 (强调) === */
+[data-component="modal"][data-open="true"] .modal-content {
+  animation-timing-function: var(--ease-spring-4);
+}
+
+/* === Toast 弹出用 spring-3 (中等) === */
+[data-component="toast"][data-state="open"] {
+  animation-timing-function: var(--ease-spring-3);
+}
+
+/* === Carousel 切换用 spring-2 (轻柔) === */
+[data-component="carousel"][data-animating="true"] .slide {
+  transition-timing-function: var(--ease-spring-2);
+}
+
+/* === prefers-reduced-motion 降级 (linear() 计算成本依然存在) === */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ease-spring-1: linear;
+    --ease-spring-2: linear;
+    --ease-spring-3: linear;
+    --ease-spring-4: linear;
+    --ease-spring-5: linear;
+  }
+}
+
+/* === 老浏览器降级 (linear() 不识别时, 自动用默认 ease) ===
+   @supports 检测: linear() 必须支持
+   不支持时: animation-timing-function: ease (默认行为) */
+@supports not (animation-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring-1: ease;
+    --ease-spring-2: ease;
+    --ease-spring-3: ease;
+    --ease-spring-4: ease;
+    --ease-spring-5: ease;
+  }
+}

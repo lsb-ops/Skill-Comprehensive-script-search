@@ -1,0 +1,463 @@
+/* ============================================
+   WebPPT Maker v3.12 · 组件一致性 (Component Consistency)
+   card / badge / input / alert / chip / tooltip / progress
+   统一 shadow + radius + hover + focus 状态
+   ============================================
+   设计原则:
+   1. 同一组件在不同 layout 中视觉一致
+   2. Shadow 仅 3 级: rest(1) / hover(2) / raised(3)
+   3. Hover: 微位移 + shadow 加深 (不依赖 transform scale)
+   4. Focus: 2px outline (info 色, 不是 accent)
+   5. Disabled: opacity 0.5 + cursor not-allowed
+   ============================================ */
+
+/* ============================================
+   §1. Card (3 级: flat / raised / elevated)
+   ============================================ */
+
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  position: relative;
+}
+
+.card-flat {
+  background: var(--bg-primary);
+  box-shadow: none;
+}
+
+.card-raised {
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-1);
+}
+
+.card-elevated {
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-2);
+}
+
+/* === Card hover (3 级统一规则) === */
+.card-raised:hover,
+.card-elevated:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-3);
+  border-color: oklch(60% 0.22 25 / 0.3);
+}
+
+/* === Card focus (键盘可达) === */
+.card:focus-visible {
+  outline: 2px solid var(--info);
+  outline-offset: 4px;
+}
+
+/* === Card variants (强调色边框) === */
+.card-accent {
+  border-left: 4px solid var(--accent);
+}
+
+/* ============================================
+   §2. Badge (4 种语义)
+   ============================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 4px var(--space-2);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.badge-neutral {
+  background: oklch(95% 0.008 250);
+  color: var(--text-primary);
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success-dark);
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: var(--warning-dark);
+}
+
+.badge-error {
+  background: var(--error-bg);
+  color: var(--error-dark);
+}
+
+.badge-info {
+  background: var(--info-bg);
+  color: var(--info-dark);
+}
+
+.badge-accent {
+  background: oklch(60% 0.22 25 / 0.12);
+  color: var(--accent);
+}
+
+/* === Badge dot (带前置圆点) === */
+.badge-dot::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ============================================
+   §3. Input (文本输入框)
+   ============================================ */
+
+.input {
+  display: block;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-base);
+  font-family: inherit;
+  line-height: var(--lh-snug);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:hover {
+  border-color: var(--text-secondary);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--info);
+  box-shadow: 0 0 0 3px oklch(60% 0.18 235 / 0.15);
+}
+
+.input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--bg-secondary);
+}
+
+/* === Input error 状态 === */
+.input-error {
+  border-color: var(--error);
+}
+.input-error:focus {
+  box-shadow: 0 0 0 3px oklch(60% 0.22 25 / 0.15);
+}
+
+/* === Input size variants === */
+.input-sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-sm);
+}
+.input-lg {
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--font-md);
+}
+
+/* ============================================
+   §4. Alert (4 种语义消息)
+   ============================================ */
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border-left: 4px solid;
+  font-size: var(--font-sm);
+  line-height: var(--lh-normal);
+}
+
+.alert-success {
+  background: var(--success-bg);
+  border-color: var(--success);
+  color: var(--success-dark);
+}
+
+.alert-warning {
+  background: var(--warning-bg);
+  border-color: var(--warning);
+  color: var(--warning-dark);
+}
+
+.alert-error {
+  background: var(--error-bg);
+  border-color: var(--error);
+  color: var(--error-dark);
+}
+
+.alert-info {
+  background: var(--info-bg);
+  border-color: var(--info);
+  color: var(--info-dark);
+}
+
+/* === Alert title (粗体) === */
+.alert-title {
+  font-weight: 700;
+  margin-bottom: var(--space-1);
+}
+
+/* === Alert icon (圆形背景图标) === */
+.alert-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+/* ============================================
+   §5. Chip (可关闭的小标签, 比 badge 更交互)
+   ============================================ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px var(--space-3);
+  font-size: var(--font-sm);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;       /* 药丸形 */
+  cursor: default;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  background: oklch(60% 0.22 25 / 0.05);
+}
+
+.chip-close {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.chip-close:hover {
+  background: var(--error);
+  color: white;
+}
+
+/* ============================================
+   §6. Tooltip (基于 :hover 与 [data-tooltip])
+   ============================================ */
+
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-xs);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: var(--z-tooltip);
+}
+
+[data-tooltip]:hover::after {
+  opacity: 0.95;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* ============================================
+   §7. Progress (进度条, 4 种语义色)
+   ============================================ */
+
+.progress {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  /* BUG-03 fix: 默认 width: 0 (否则 inset:auto 让 absolute 占满) */
+  width: 0;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.progress-success .progress-bar { background: var(--success); }
+.progress-warning .progress-bar { background: var(--warning); }
+.progress-error   .progress-bar { background: var(--error); }
+.progress-info    .progress-bar { background: var(--info); }
+
+/* === Progress stripe (动画条纹) === */
+.progress-bar-stripe {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 16px 16px;
+  animation: progress-stripe 1s linear infinite;
+}
+
+@keyframes progress-stripe {
+  0% { background-position: 0 0; }
+  100% { background-position: 16px 0; }
+}
+
+/* ============================================
+   §8. Skeleton (加载占位, 减少视觉跳变)
+   ============================================ */
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    oklch(95% 0.008 250) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+  min-height: 1em;
+}
+
+@keyframes skeleton-shimmer {
+  /* BUG-04 fix: 从 200% → -100% (移动 300%, 跳变 100% 因渐变对称, 不闪烁) */
+  0% { background-position: 200% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ============================================
+   §9. Divider (3 种风格)
+   ============================================ */
+
+.divider {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: var(--space-5) 0;
+  opacity: 0.5;
+}
+
+.divider-strong {
+  height: 2px;
+  opacity: 1;
+}
+
+.divider-dashed {
+  height: 0;
+  border-top: 1px dashed var(--border);
+  background: none;
+}
+
+/* ============================================
+   §10. Empty State (空状态 - 整体搭配重要一环)
+   ============================================ */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-5);
+  color: var(--text-secondary);
+}
+
+.empty-state-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  opacity: 0.6;
+  font-size: 24px;
+}
+
+.empty-state-title {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state-desc {
+  font-size: var(--font-sm);
+  max-width: 360px;
+  margin-bottom: var(--space-5);
+}
+
+/* ============================================
+   §11. 组件阴影一致 (统一 shadow level)
+   ============================================ */
+
+.card, .alert, .modal, .popover {
+  /* 默认 rest 状态: shadow-1 */
+  box-shadow: var(--shadow-1);
+}
+
+.card:hover, .modal:hover {
+  /* hover: shadow-2 (但 modal 通常不 hover, 此规则针对浮起) */
+  box-shadow: var(--shadow-2);
+}
+
+/* ============================================
+   §12. Reduced Motion 适配
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .btn, .input, .chip, .progress-bar {
+    transition: opacity 0.1s linear !important;
+  }
+  .skeleton { animation: none; }
+  .attractor-glow, .progress-stripe { animation: none; }
+}

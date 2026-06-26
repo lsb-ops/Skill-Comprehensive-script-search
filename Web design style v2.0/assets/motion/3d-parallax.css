@@ -1,0 +1,116 @@
+/* ============================================
+   WebPPT Maker v3.7 · 滚动驱动 3D 视差层
+   前景快 / 中景 / 背景慢 深度感
+   配合 engine/3d-tilt.js 使用
+   ============================================ */
+
+/* === 视差层通用 perspective === */
+.page {
+  perspective: 1500px;
+  perspective-origin: 50% 30%;
+}
+
+/* === 三层视差 (基于 --scroll-progress 由 JS 设置) === */
+.layer-fg,
+.layer-mid,
+.layer-bg {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 前景 (z=+40) — 最快,最大 */
+.layer-fg {
+  transform: translate3d(0, calc((1 - var(--scroll-progress, 0)) * -30px), 40px);
+  opacity: calc(0.4 + var(--scroll-progress, 0) * 0.6);
+}
+
+/* 中景 (z=0) — 默认 */
+.layer-mid {
+  transform: translate3d(0, calc((1 - var(--scroll-progress, 0)) * -15px), 0);
+  opacity: calc(0.6 + var(--scroll-progress, 0) * 0.4);
+}
+
+/* 背景 (z=-60) — 最慢,微缩 */
+.layer-bg {
+  transform: translate3d(0, calc((1 - var(--scroll-progress, 0)) * -8px), -60px) scale(1.08);
+  opacity: calc(0.3 + var(--scroll-progress, 0) * 0.3);
+}
+
+/* === 视差容器 helper === */
+.parallax-stage {
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1500px;
+}
+
+/* === 鼠标视差倾斜 (CSS 端) === */
+.tilt-3d {
+  transform-style: preserve-3d;
+  transform: perspective(1200px) rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg)) translateZ(0);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+.tilt-3d:hover {
+  /* hover 期间禁过渡 (JS 实时控制更跟手) */
+  transition: transform 0.05s linear;
+}
+
+/* === v3.8: 滚动速度 → 倾斜强度联动 ===
+   滚动越快, --scroll-velocity 越大 (px/ms), tilt-3d 自动叠加额外 rotateY
+   给"快速滚动 = 3D 加深"的运动感
+   ============================================= */
+.tilt-3d.velocity-tilt {
+  /* 默认 ±0.5 deg/px·ms,最高叠加 ±1.5 deg, 跟随滚动自然衰减 */
+  transform: perspective(1200px)
+             rotateY(calc(var(--tilt-y, 0deg) + var(--scroll-velocity, 0) * 8deg))
+             rotateX(calc(var(--tilt-x, 0deg) + var(--scroll-velocity, 0) * 3deg))
+             translateZ(0);
+}
+
+/* === 视差元素: 在视口外时降级为静态 === */
+.parallax-paused .layer-fg,
+.parallax-paused .layer-mid,
+.parallax-paused .layer-bg {
+  transform: none;
+}
+
+/* === GPU 加速标记 === */
+.gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* === 3D reveal 入场 (IntersectionObserver 触发) === */
+.reveal-3d {
+  opacity: 0;
+  transform: perspective(1200px) translateZ(-100px) rotateX(15deg) translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-3d.in-view {
+  opacity: 1;
+  transform: perspective(1200px) translateZ(0) rotateX(0) translateY(0);
+}
+
+/* === 数据驱动视差强度 (data-parallax-speed="0.5|1|2") === */
+[data-parallax-speed="0.5"] {
+  transform: translate3d(0, calc((1 - var(--scroll-progress, 0)) * -8px), 0);
+}
+[data-parallax-speed="1"] {
+  transform: translate3d(0, calc((1 - var(--scroll-progress, 0)) * -15px), 0);
+}
+[data-parallax-speed="2"] {
+  transform: translate3d(0, calc((1 - var(--scroll-progress, 0)) * -30px), 0);
+}
+
+/* === reduced-motion: 完全禁用 3D 视差 === */
+@media (prefers-reduced-motion: reduce) {
+  .layer-fg, .layer-mid, .layer-bg,
+  .tilt-3d, .reveal-3d,
+  [data-parallax-speed] {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}

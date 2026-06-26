@@ -1,0 +1,127 @@
+/* ============================================
+   WebPPT Maker v3.16 · Section: Footer (页脚)
+   ============================================
+   真实参考: 所有现代网站都有
+   关键能力:
+   - 多列链接 (产品/公司/资源/法律)
+   - 品牌信息
+   - 社交媒体
+   - 订阅 (可选)
+   - 版权
+   ============================================ */
+
+[data-section="footer"] {
+  padding: var(--space-9, 96px) var(--space-5, 24px) var(--space-7, 48px);
+  background: oklch(8% 0.005 0);
+  color: oklch(85% 0.005 0);
+  font-size: 0.875rem;
+}
+
+[data-section="footer"] .footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: var(--space-7, 48px);
+  max-width: 1200px;
+  margin: 0 auto var(--space-8, 64px);
+}
+
+[data-section="footer"] .footer-brand {
+  max-width: 280px;
+}
+
+[data-section="footer"] .footer-brand-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-4, 16px);
+  color: oklch(98% 0.005 0);
+}
+
+[data-section="footer"] .footer-brand-desc {
+  line-height: 1.6;
+  opacity: 0.7;
+  margin: 0 0 var(--space-5, 24px);
+}
+
+[data-section="footer"] .footer-social {
+  display: flex;
+  gap: var(--space-3, 12px);
+}
+
+[data-section="footer"] .footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: oklch(20% 0.005 0);
+  color: oklch(85% 0.005 0);
+  text-decoration: none;
+  transition: background 150ms;
+}
+
+[data-section="footer"] .footer-social a:hover {
+  background: oklch(30% 0.005 0);
+  color: oklch(98% 0.005 0);
+}
+
+[data-section="footer"] .footer-column-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: oklch(98% 0.005 0);
+  margin-bottom: var(--space-4, 16px);
+}
+
+[data-section="footer"] .footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+[data-section="footer"] .footer-links li {
+  margin-bottom: var(--space-3, 12px);
+}
+
+[data-section="footer"] .footer-links a {
+  color: oklch(85% 0.005 0);
+  opacity: 0.7;
+  text-decoration: none;
+  transition: opacity 150ms;
+}
+
+[data-section="footer"] .footer-links a:hover {
+  opacity: 1;
+}
+
+[data-section="footer"] .footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: var(--space-6, 32px);
+  border-top: 1px solid oklch(20% 0.005 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4, 16px);
+  font-size: 0.8125rem;
+  opacity: 0.6;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  [data-section="footer"] .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6, 32px);
+  }
+  [data-section="footer"] .footer-brand {
+    grid-column: 1 / -1;
+  }
+  [data-section="footer"] .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}

@@ -1,0 +1,26 @@
+/* ============================================
+   Fragment: bounce — 弹性出现
+   对应 taste-skill MOTION=10 (最高级)
+   ============================================ */
+
+.reveal .slides section .fragment-bounce {
+  opacity: 0;
+  transform: scale(0.3) translateY(-50px);
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.reveal .slides section.visible .fragment-bounce {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.reveal .slides section .fragment-pop {
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.reveal .slides section.visible .fragment-pop {
+  opacity: 1;
+  transform: scale(1);
+}

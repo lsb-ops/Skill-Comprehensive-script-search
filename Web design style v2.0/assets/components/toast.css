@@ -1,0 +1,159 @@
+/* ============================================
+   WebPPT Maker v3.17 · Toast / Notification
+   ============================================
+   真实参考: Sonner, React Hot Toast, Radix Toast
+   关键能力:
+   - 4 种状态 (info/success/warning/error)
+   - 自动消失 (可配置时长)
+   - 堆叠多个
+   - 键盘可关闭
+   - ARIA live region (a11y)
+   ============================================ */
+
+[data-component="toast-container"] {
+  position: fixed;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+  pointer-events: none;
+}
+
+[data-component="toast-container"][data-position="top-right"] {
+  top: var(--space-5, 24px);
+  right: var(--space-5, 24px);
+}
+
+[data-component="toast-container"][data-position="top-left"] {
+  top: var(--space-5, 24px);
+  left: var(--space-5, 24px);
+}
+
+[data-component="toast-container"][data-position="bottom-right"] {
+  bottom: var(--space-5, 24px);
+  right: var(--space-5, 24px);
+}
+
+[data-component="toast-container"][data-position="bottom-left"] {
+  bottom: var(--space-5, 24px);
+  left: var(--space-5, 24px);
+}
+
+[data-component="toast-container"][data-position="top-center"] {
+  top: var(--space-5, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+[data-component="toast-container"][data-position="bottom-center"] {
+  bottom: var(--space-5, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* === 单个 toast === */
+[data-component="toast"] {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 420px;
+  padding: var(--space-4, 16px) var(--space-5, 24px);
+  background: oklch(99% 0.003 0);
+  border: 1px solid oklch(92% 0.005 0);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3, 12px);
+  animation: toast-in 300ms var(--ease-emphasized-decelerate);
+}
+
+[data-component="toast"][data-state="closing"] {
+  animation: toast-out 200ms ease forwards;
+}
+
+/* === Toast 状态 === */
+[data-component="toast"][data-type="success"] {
+  border-left: 3px solid oklch(50% 0.18 145);
+}
+[data-component="toast"][data-type="success"] .toast-icon {
+  color: oklch(50% 0.18 145);
+}
+
+[data-component="toast"][data-type="warning"] {
+  border-left: 3px solid oklch(70% 0.18 75);
+}
+[data-component="toast"][data-type="warning"] .toast-icon {
+  color: oklch(70% 0.18 75);
+}
+
+[data-component="toast"][data-type="error"] {
+  border-left: 3px solid oklch(55% 0.22 25);
+}
+[data-component="toast"][data-type="error"] .toast-icon {
+  color: oklch(55% 0.22 25);
+}
+
+[data-component="toast"][data-type="info"] {
+  border-left: 3px solid oklch(55% 0.22 280);
+}
+[data-component="toast"][data-type="info"] .toast-icon {
+  color: oklch(55% 0.22 280);
+}
+
+[data-component="toast"] .toast-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+
+[data-component="toast"] .toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
+[data-component="toast"] .toast-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin: 0 0 2px;
+  color: oklch(15% 0.015 250);
+}
+
+[data-component="toast"] .toast-desc {
+  font-size: 0.875rem;
+  color: oklch(40% 0.015 250);
+  line-height: 1.5;
+  margin: 0;
+}
+
+[data-component="toast"] .toast-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: oklch(50% 0.015 250);
+  font-size: 16px;
+  line-height: 1;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: background 150ms;
+}
+
+[data-component="toast"] .toast-close:hover {
+  background: oklch(95% 0.005 0);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-out {
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-component="toast"],
+  [data-component="toast"][data-state="closing"] {
+    animation: none;
+  }
+}

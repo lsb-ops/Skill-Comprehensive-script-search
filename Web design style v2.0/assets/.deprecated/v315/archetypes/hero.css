@@ -1,0 +1,119 @@
+/* ============================================
+   WebPPT Maker v3.15 · Hero Archetype (封面原型)
+   ============================================
+   设计参考: Apple Keynote, Stripe homepage, TED opening slides
+   核心原则:
+   - 1 张主图占 70% 视觉重量
+   - 1 句话讲完核心信息
+   - 极致留白 (≥ 60%)
+   - 字体即装饰 (display + sans)
+   ============================================ */
+
+/* === 基础: 全屏沉浸 === */
+[data-archetype="hero"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-9, 96px);
+  text-align: center;
+  background: var(--arch-hero-bg, oklch(99% 0.003 0));
+  color: var(--arch-hero-text, oklch(8% 0.005 0));
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* === Hero 视觉层级 === */
+[data-archetype="hero"] .hero-image {
+  /* 主图占 70% 视觉重量 */
+  width: min(70%, 900px);
+  height: auto;
+  margin: 0 auto var(--space-7, 48px);
+  border-radius: 0;
+  /* 不裁切, 不装饰 */
+  object-fit: contain;
+}
+
+[data-archetype="hero"] .hero-title {
+  /* display 字体 + 大字号 + 极轻字重 = 高端 */
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 100;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-5, 24px);
+  max-width: 12ch; /* 控制行宽, 强迫短句 */
+  color: var(--arch-hero-text, oklch(8% 0.005 0));
+}
+
+[data-archetype="hero"] .hero-subtitle {
+  /* 一句话补充, sans + 轻 */
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--space-7, 48px);
+  max-width: 40ch;
+  opacity: 0.7;
+}
+
+[data-archetype="hero"] .hero-meta {
+  /* 极小元信息 (作者/日期/页码) */
+  position: absolute;
+  bottom: var(--space-7, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* === Hero 极简装饰: 仅 1 根线 === */
+[data-archetype="hero"]::after {
+  /* 顶部细线, 高端杂志感 */
+  content: "";
+  position: absolute;
+  top: var(--space-7, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+}
+
+/* === Hero 反向 (深色背景, 浅色文字) === */
+[data-archetype="hero"][data-tone="dark"] {
+  background: oklch(8% 0.005 0);
+  color: oklch(98% 0.005 0);
+}
+
+/* === Hero 入场: 慢而稳 (Apple Keynote 风) === */
+[data-archetype="hero"] .hero-title,
+[data-archetype="hero"] .hero-image,
+[data-archetype="hero"] .hero-subtitle {
+  opacity: 0;
+  animation: hero-fade-up 1200ms var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1)) forwards;
+}
+[data-archetype="hero"] .hero-image  { animation-delay: 200ms; }
+[data-archetype="hero"] .hero-title  { animation-delay: 600ms; }
+[data-archetype="hero"] .hero-subtitle { animation-delay: 1000ms; }
+
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === 减少动效 === */
+@media (prefers-reduced-motion: reduce) {
+  [data-archetype="hero"] .hero-title,
+  [data-archetype="hero"] .hero-image,
+  [data-archetype="hero"] .hero-subtitle {
+    animation: none;
+    opacity: 1;
+  }
+}

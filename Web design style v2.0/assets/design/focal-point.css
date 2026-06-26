@@ -1,0 +1,81 @@
+/* ============================================
+   WebPPT Maker v3.6 · 焦点标记系统 (Focal Point)
+   用 data-focal="primary|secondary" 标记视觉焦点
+   真正"抓住注意力"的第一个抓手
+   ============================================ */
+
+/* === 焦点 dashed pulse (默认 opacity 0, hover 或 .auto-show 时显) === */
+[data-focal="primary"] {
+  position: relative;
+}
+[data-focal="primary"]::after {
+  content: "";
+  position: absolute;
+  top: -8px; left: -8px; right: -8px; bottom: -8px;
+  border: 2px dashed var(--accent);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+[data-focal="primary"]:hover::after,
+[data-focal="primary"].auto-show::after {
+  opacity: 0.5;
+  animation: focal-pulse 2.4s ease-in-out infinite;
+}
+[data-focal="secondary"] {
+  position: relative;
+}
+[data-focal="secondary"]::before {
+  content: "";
+  position: absolute;
+  top: -4px; left: -4px; right: -4px; bottom: -4px;
+  border: 1px solid var(--text-secondary);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+[data-focal="secondary"]:hover::before { opacity: 0.35; }
+
+@keyframes focal-pulse {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.02); }
+}
+
+/* === 三分法位置 utility (Rule of Thirds) === */
+.thirds-tl { align-self: start;   justify-self: start;  }
+.thirds-tr { align-self: start;   justify-self: end;    }
+.thirds-ml { align-self: center;  justify-self: start;  }
+.thirds-mr { align-self: center;  justify-self: end;    }
+.thirds-bl { align-self: end;     justify-self: start;  }
+.thirds-br { align-self: end;     justify-self: end;    }
+.thirds-center { align-self: center; justify-self: center; }
+
+/* === 视觉重量 scale (size + color + motion = weight) === */
+.w-light   { opacity: 0.65; }              /* 弱化次要元素 */
+.w-medium  { opacity: 0.9; }               /* 默认 */
+.w-heavy   { font-weight: 900; }           /* 焦点重 */
+.w-deco    { opacity: 0.4; pointer-events: none; }  /* 装饰最弱 */
+
+/* === 对比强调 (contrast enforcement) === */
+.contrast-strong { color: var(--text-primary); font-weight: 700; }
+.contrast-soft   { color: var(--text-secondary); opacity: 0.8; }
+.contrast-accent { color: var(--accent); font-weight: 700; }
+
+/* === Focal 视觉下沉修正 (大字号 optical) === */
+[data-focal="primary"].big-text,
+[data-focal="primary"].big-number {
+  /* 大字号 optical alignment */
+  padding-top: 0.04em;
+}
+
+/* === 焦点浮起 (hover lift) === */
+[data-focal="primary"] {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-focal="primary"]:hover {
+  transform: translateY(-4px);
+}

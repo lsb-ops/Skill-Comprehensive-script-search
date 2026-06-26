@@ -1,0 +1,132 @@
+/* ============================================
+   WebPPT Maker v3.16 · Interaction States
+   ============================================
+   完整的网页交互状态:
+   - :hover  (鼠标悬停)
+   - :focus-visible  (键盘焦点, a11y 关键)
+   - :active  (按下)
+   - :disabled  (禁用)
+   - :visited  (链接已访问)
+   ============================================ */
+
+/* === 全局焦点环 (a11y 必备) === */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring, oklch(55% 0.22 280));
+  outline-offset: 2px;
+  border-radius: 4px;
+  transition: outline-offset 100ms;
+}
+
+/* === 链接状态 === */
+a {
+  color: var(--link-color, oklch(45% 0.18 280));
+  text-decoration: none;
+  transition: color 150ms;
+}
+
+a:hover {
+  color: var(--link-hover, oklch(35% 0.18 280));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+a:active {
+  color: var(--link-active, oklch(25% 0.18 280));
+}
+
+a:visited {
+  color: var(--link-visited, oklch(45% 0.15 320));
+}
+
+/* === 按钮状态 === */
+button, [role="button"] {
+  cursor: pointer;
+  transition: background 150ms var(--ease-standard, ease),
+              color 150ms var(--ease-standard),
+              border-color 150ms var(--ease-standard),
+              transform 100ms var(--ease-standard);
+}
+
+button:active, [role="button"]:active {
+  transform: scale(0.98);
+}
+
+button:disabled, [role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* === 输入框状态 === */
+input, textarea, select {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px 14px;
+  border: 1px solid oklch(85% 0.005 0);
+  border-radius: 6px;
+  background: oklch(99% 0.003 0);
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+input:hover, textarea:hover, select:hover {
+  border-color: oklch(70% 0.005 0);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: oklch(55% 0.22 280);
+  box-shadow: 0 0 0 3px oklch(55% 0.22 280 / 0.15);
+  outline: none;
+}
+
+input:disabled, textarea:disabled, select:disabled {
+  background: oklch(95% 0.003 0);
+  cursor: not-allowed;
+}
+
+input[aria-invalid="true"], textarea[aria-invalid="true"] {
+  border-color: oklch(55% 0.22 25);
+}
+
+input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px oklch(55% 0.22 25 / 0.15);
+}
+
+/* === Checkbox / Radio 自定义 (可选) === */
+input[type="checkbox"], input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: oklch(55% 0.22 280);
+}
+
+/* === 卡片 hover 提升 === */
+.interactive-card {
+  cursor: pointer;
+  transition: transform 200ms var(--ease-standard, ease),
+              box-shadow 200ms var(--ease-standard);
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.interactive-card:active {
+  transform: translateY(0);
+}
+
+/* === 触摸设备 (无 hover, 但有 :active) === */
+@media (hover: none) {
+  /* 触摸设备: 关闭 hover 效果 */
+  a:hover, .interactive-card:hover {
+    /* 不应用 hover 视觉变化 */
+  }
+  /* 但保留 :active 反馈 */
+  a:active, .interactive-card:active {
+    opacity: 0.7;
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "topic": "每天喝咖啡的 3 个真相",
+  "content_points": [
+    {
+      "id": "p01",
+      "title": "真相 1：咖啡不会让你脱水",
+      "subtitle": "新研究颠覆 50 年认知",
+      "body": "2021 年《营养学杂志》meta 分析显示：每天 4 杯以内咖啡不会显著影响体液平衡。",
+      "visual_element": "💡",
+      "type": "大字报",
+      "shot_type": "特写",
+      "angle": "正面",
+      "movement": "推近",
+      "lighting": "高调",
+      "atmosphere": "紧迫",
+      "narrative_role": "attention",
+      "data": {},
+      "fragment_class": "fragment-bounce"
+    },
+    {
+      "id": "p02",
+      "title": "真相 2：早上 9-11 点喝效果最好",
+      "subtitle": "皮质醇节律告诉你答案",
+      "body": "皮质醇 9-11 点处于下降通道，此时咖啡因补充效率最高，比 8 点提升 23%。",
+      "visual_element": "clock.svg",
+      "type": "数字",
+      "shot_type": "中景",
+      "angle": "侧面",
+      "movement": "横移",
+      "lighting": "侧光",
+      "atmosphere": "温暖",
+      "narrative_role": "interest",
+      "data": {"metric": "9-11", "unit": "点"},
+      "fragment_class": "fragment-zoom-in"
+    },
+    {
+      "id": "p03",
+      "title": "真相 3：超过 4 杯就会反向脱水",
+      "subtitle": "为什么周末头疼？",
+      "body": "咖啡因半衰期 5-6 小时，连喝 4 杯后累积剂量触发利尿效应，比平时多排 30% 水分。",
+      "visual_element": "chart.svg",
+      "type": "对比",
+      "shot_type": "全景",
+      "angle": "俯视",
+      "movement": "拉远",
+      "lighting": "低调",
+      "atmosphere": "悬疑",
+      "narrative_role": "action",
+      "data": {"before": "≤ 4 杯 · 水分平衡", "after": "> 4 杯 · 脱水 30%"},
+      "fragment_class": "fragment-slide-left"
+    }
+  ],
+  "style": "知识科普",
+  "color_scheme": "深海蓝",
+  "layout": "auto",
+  "mode": "dual",
+  "variance": 8,
+  "motion": 8,
+  "density": 5,
+  "output_dir": "./output_v3_dual_test"
+}

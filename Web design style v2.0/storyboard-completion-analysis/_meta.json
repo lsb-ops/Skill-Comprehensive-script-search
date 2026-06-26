@@ -1,0 +1,148 @@
+{
+  "name": "storyboard-shot-optimizer",
+  "version": "2.0.0",
+  "schema_version": "1.0",
+  "description": "AI驱动的分镜头脚本优化工具，支持景别优化、人物表情优化、动作优化、镜头完善",
+  "author": "Claude Code",
+  "created": "2026-06-01",
+  "updated": "2026-06-01",
+  "skill_type": "workflow",
+  "entry_point": "SKILL.md",
+  "dependencies": [],
+  "permissions": [],
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "input"
+    ],
+    "properties": {
+      "input": {
+        "type": "string",
+        "description": "分镜头脚本内容或文件路径"
+      },
+      "optimize": {
+        "type": "string",
+        "enum": [
+          "all",
+          "shot",
+          "expression",
+          "action"
+        ],
+        "default": "all",
+        "description": "优化维度"
+      },
+      "style": {
+        "type": "string",
+        "enum": [
+          "cinematic",
+          "documentary",
+          "commercial",
+          "anime"
+        ],
+        "default": "cinematic",
+        "description": "风格类型"
+      },
+      "language": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "zh",
+          "en"
+        ],
+        "default": "auto",
+        "description": "输出语言"
+      },
+      "depth": {
+        "type": "string",
+        "enum": [
+          "minimal",
+          "normal",
+          "deep"
+        ],
+        "default": "normal",
+        "description": "优化深度"
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "success",
+          "error"
+        ]
+      },
+      "optimized_shots": {
+        "type": "array",
+        "description": "优化后的镜头列表"
+      },
+      "summary": {
+        "type": "object",
+        "description": "优化汇总"
+      }
+    }
+  },
+  "tools": {
+    "enabled": true,
+    "search_engine": {
+      "enabled": true,
+      "engines": 16,
+      "path": "tools/搜索引擎/",
+      "script": "search.py",
+      "config": "配置.json"
+    }
+  },
+  "trace": {
+    "trust": {
+      "safety_check": true,
+      "domestic_compatible": true,
+      "chinese_support": true
+    },
+    "reliability": {
+      "retry_mechanism": true,
+      "timeout_handling": true,
+      "error_recovery": true
+    },
+    "adaptability": {
+      "capability_boundary_clear": true,
+      "trigger_defined": true
+    },
+    "convention": {
+      "progressive_disclosure": true,
+      "structure_clear": true,
+      "docs_complete": true
+    },
+    "effectiveness": {
+      "output_accurate": true,
+      "content_complete": true,
+      "ready_to_use": true
+    }
+  },
+  "tags": [
+    "storyboard",
+    "shot-optimization",
+    "cinematography",
+    "景别优化",
+    "镜头脚本",
+    "视频制作"
+  ],
+  "license": "MIT",
+  "distributable": true,
+  "portable": true,
+  "changelog": [
+    {
+      "version": "1.1.0",
+      "date": "2026-06-01",
+      "changes": [
+        "初始版本发布",
+        "支持景别优化",
+        "支持表情优化",
+        "支持动作优化",
+        "支持镜头完善",
+        "集成16个搜索引擎"
+      ]
+    }
+  ]
+}

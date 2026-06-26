@@ -1,0 +1,92 @@
+/* ============================================
+   WebPPT Maker v3.6 · 可读性 (Readability)
+   行宽控制 + 中英混排 + 标点优化
+   中文 25-40 字 / 英文 45-75 字符 黄金行宽
+   ============================================ */
+
+/* === body 强制 max-width === */
+.body, .t-body {
+  max-width: var(--read-base, 720px);   /* 30-40 中文字 */
+  margin-left: auto;
+  margin-right: auto;
+}
+/* 密集文本更窄 (避免长行阅读疲劳) */
+.body.text-dens,
+.layout-compare .compare-card .content,
+.layout-numbers .body {
+  max-width: var(--read-narrow, 540px);
+}
+/* 详情/列表可更宽 */
+.layout-storyline .body,
+.layout-waterfall .body,
+.layout-focal .focal-note {
+  max-width: var(--read-wide, 900px);
+}
+
+/* === 段落间距 (中文段落) === */
+.body p, .body p + p { margin-top: var(--space-4); }
+
+/* === 中文排版: 两端对齐 + 标点悬挂 + line-height 1.7 === */
+:lang(zh) .body,
+:lang(zh) .subtitle,
+[lang="zh"] .body {
+  line-height: var(--lh-relaxed);   /* 1.7 (中文需要更松) */
+  text-justify: inter-ideograph;
+  hanging-punctuation: allow-end;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* === 中文 line-break 优化 === */
+:lang(zh), [lang="zh"] {
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* === 数字 tabular 强制 (count-up 不抖动) === */
+.big-number, .t-num, [data-count], .count-up {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* === 大数字 (display/hero) lining-nums 强制 === */
+.t-display, .t-hero, .t-3xl, .big-text, .big-number {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+
+/* === 段落首字下沉 (可选, body.has-dropcap) === */
+.has-dropcap::first-letter {
+  font-size: 3em;
+  font-weight: 900;
+  float: left;
+  line-height: 0.85;
+  margin-right: 0.1em;
+  margin-top: 0.05em;
+  color: var(--accent);
+}
+
+/* === 引用块 (blockquote 风格) === */
+blockquote, .quote {
+  font-size: var(--font-lg);
+  line-height: var(--lh-relaxed);
+  font-style: italic;
+  padding-left: var(--space-5);
+  border-left: 4px solid var(--accent);
+  margin: var(--space-5) auto;
+  max-width: var(--read-base, 720px);
+  color: var(--text-primary);
+}
+
+/* === 列表项节奏 === */
+ul.body li, ol.body li { margin-top: var(--space-2); }
+ul.body li + li, ol.body li + li { margin-top: var(--space-3); }
+
+/* === 紧凑模式 (data-density="high"): 行宽收紧 === */
+body[data-density="high"] .body { max-width: var(--read-narrow, 540px); }
+body[data-density="high"] .body p, body[data-density="high"] .body p + p { margin-top: var(--space-3); }
+
+/* === 宽松模式 (data-density="low"): 行宽放宽 === */
+body[data-density="low"] .body { max-width: var(--read-wide, 900px); }
+body[data-density="low"] .body p, body[data-density="low"] .body p + p { margin-top: var(--space-5); }

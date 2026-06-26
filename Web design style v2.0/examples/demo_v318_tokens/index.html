@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-type="docs" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>v3.18 Design Tokens Showcase</title>
+
+  <!-- v3.18 token 系统 -->
+  <link rel="stylesheet" href="../../assets/design/color-tokens.css" />
+  <link rel="stylesheet" href="../../assets/design/color-tokens-v2.css" />
+  <link rel="stylesheet" href="../../assets/design/grid-system.css" />
+  <link rel="stylesheet" href="../../assets/design/elevation.css" />
+  <link rel="stylesheet" href="../../assets/motion/easing-tokens.css" />
+
+  <link rel="stylesheet" href="../../assets/pages/docs.css" />
+  <link rel="stylesheet" href="../../assets/sections/nav.css" />
+  <link rel="stylesheet" href="../../assets/sections/footer.css" />
+  <link rel="stylesheet" href="../../assets/components/breadcrumbs.css" />
+  <link rel="stylesheet" href="../../assets/components/tabs.css" />
+  <link rel="stylesheet" href="../../assets/components/toast.css" />
+  <link rel="stylesheet" href="../../assets/components/modal.css" />
+
+  <link rel="stylesheet" href="../../assets/scroll/scroll-reveal.css" />
+  <link rel="stylesheet" href="../../assets/responsive/breakpoints.css" />
+  <link rel="stylesheet" href="../../assets/interaction/states.css" />
+  <link rel="stylesheet" href="../../assets/interaction/touch.css" />
+  <style>
+    /* === Page-specific showcase === */
+    body { padding: 0; margin: 0; }
+    .showcase { max-width: 960px; margin: 0 auto; padding: 64px 24px; }
+    .showcase h1 { font-size: 2.5rem; margin: 0 0 16px; color: var(--color-fg); }
+    .showcase h2 { font-size: 1.5rem; margin: 48px 0 16px; color: var(--color-fg); border-bottom: 1px solid var(--color-border); padding-bottom: 8px; }
+    .showcase p { color: var(--color-fg-muted); line-height: 1.6; }
+
+    /* Color swatch grid */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .swatch {
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      transition: transform var(--dur-short3, 150ms) var(--ease-standard);
+    }
+    .swatch:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+    .swatch-name { font-family: var(--font-mono, monospace); font-size: 0.8125rem; margin: 0 0 4px; }
+    .swatch-value { font-size: 0.75rem; opacity: 0.7; }
+
+    /* Elevation showcase */
+    .elev-row { display: flex; gap: 24px; align-items: flex-end; padding: 24px; background: var(--color-bg-muted); border-radius: 12px; margin: 16px 0; }
+    .elev-card { width: 100px; height: 100px; background: var(--color-bg-elevated); border-radius: 12px; display: grid; place-items: center; font-weight: 600; }
+
+    /* Duration showcase */
+    .dur-bar {
+      height: 4px;
+      background: var(--color-primary);
+      border-radius: 2px;
+      margin: 8px 0;
+    }
+
+    /* Toast demo button */
+    .toast-btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+    .toast-btn { padding: 8px 16px; border: 1px solid var(--color-border); background: var(--color-bg-elevated); border-radius: 6px; cursor: pointer; font-family: inherit; color: var(--color-fg); }
+    .toast-btn:hover { background: var(--color-bg-muted); }
+
+    /* Theme switch */
+    .theme-toggle {
+      position: fixed; top: 80px; right: 24px; z-index: 100;
+      padding: 8px 16px; border-radius: 999px;
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-2);
+      cursor: pointer; font-family: inherit; color: var(--color-fg);
+      transition: all var(--dur-short3) var(--ease-standard);
+    }
+    .theme-toggle:hover { box-shadow: var(--shadow-3); }
+
+    /* CVD palette */
+    .cvd-row { display: flex; gap: 8px; margin: 16px 0; }
+    .cvd-chip { width: 56px; height: 56px; border-radius: 8px; display: grid; place-items: center; color: white; font-weight: 600; font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" data-scroll-aware>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <span class="nav-logo-mark">⌘</span>
+        <span class="nav-logo-text">v3.18 Tokens</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#color">Color</a></li>
+        <li><a href="#elev">Elevation</a></li>
+        <li><a href="#motion">Motion</a></li>
+        <li><a href="#cvd">CVD</a></li>
+        <li><a href="#a11y">A11y</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">
+    🌓 切换主题
+  </button>
+
+  <main class="showcase">
+    <h1>v3.18 Design Tokens</h1>
+    <p>基于 Radix UI / shadcn / Tailwind v4 / Open Props / MD3 / Apple HIG 的综合研究, v3.18 落地:</p>
+    <ul>
+      <li><strong>OKLCH + HSL 拆段</strong> (shadcn 风格)</li>
+      <li><strong>语义色</strong> success / warning / error / info</li>
+      <li><strong>5 级阴影</strong> (Open Props 风格)</li>
+      <li><strong>MD3 12 级 duration</strong></li>
+      <li><strong>Apple spring 三参数</strong> (mass/stiffness/damping)</li>
+      <li><strong>CVD 色盲安全</strong> 8 色 (Okabe-Ito)</li>
+      <li><strong>WCAG 2.2 focus-visible</strong> 2px / 3:1 对比</li>
+    </ul>
+
+    <!-- ============ Color ============ -->
+    <h2 id="color">Color Tokens</h2>
+    <p>OKLCH 感知均匀色彩空间, 暗色模式自动重映射</p>
+
+    <h3 style="color: var(--color-fg); margin-top: 24px;">Background scale</h3>
+    <div class="swatch-grid">
+      <div class="swatch" style="background: var(--color-bg);">
+        <p class="swatch-name">--color-bg</p>
+        <p class="swatch-value">默认背景</p>
+      </div>
+      <div class="swatch" style="background: var(--color-bg-subtle);">
+        <p class="swatch-name">--color-bg-subtle</p>
+        <p class="swatch-value">次级背景</p>
+      </div>
+      <div class="swatch" style="background: var(--color-bg-muted);">
+        <p class="swatch-name">--color-bg-muted</p>
+        <p class="swatch-value">柔化背景</p>
+      </div>
+      <div class="swatch" style="background: var(--color-bg-elevated);">
+        <p class="swatch-name">--color-bg-elevated</p>
+        <p class="swatch-value">抬升背景</p>
+      </div>
+    </div>
+
+    <h3 style="color: var(--color-fg);">Semantic colors</h3>
+    <div class="swatch-grid">
+      <div class="swatch text-success" style="background: var(--color-success-bg); color: var(--color-success-fg); border-color: var(--color-success-border);">
+        <p class="swatch-name">✓ Success</p>
+        <p class="swatch-value">var(--color-success)</p>
+      </div>
+      <div class="swatch text-warning" style="background: var(--color-warning-bg); color: var(--color-warning-fg); border-color: var(--color-warning-border);">
+        <p class="swatch-name">! Warning</p>
+        <p class="swatch-value">var(--color-warning)</p>
+      </div>
+      <div class="swatch text-error" style="background: var(--color-error-bg); color: var(--color-error-fg); border-color: var(--color-error-border);">
+        <p class="swatch-name">✕ Error</p>
+        <p class="swatch-value">var(--color-error)</p>
+      </div>
+      <div class="swatch text-info" style="background: var(--color-info-bg); color: var(--color-info-fg); border-color: var(--color-info-border);">
+        <p class="swatch-name">i Info</p>
+        <p class="swatch-value">var(--color-info)</p>
+      </div>
+    </div>
+
+    <!-- ============ Elevation ============ -->
+    <h2 id="elev">Elevation (5 levels)</h2>
+    <p>Open Props shadow scale + MD3 elevation. 暗色模式自动降阴影提边框.</p>
+    <div class="elev-row">
+      <div class="elev-card elev-0">Level 0</div>
+      <div class="elev-card elev-1">Level 1</div>
+      <div class="elev-card elev-2">Level 2</div>
+      <div class="elev-card elev-3">Level 3</div>
+      <div class="elev-card elev-4">Level 4</div>
+      <div class="elev-card elev-5">Level 5</div>
+    </div>
+
+    <!-- ============ Motion ============ -->
+    <h2 id="motion">Motion (MD3 12 duration + Apple spring 三参数)</h2>
+    <p>MD3 完整的 12 级 duration token, 配 Apple mass/stiffness/damping 弹簧物理.</p>
+
+    <h3 style="color: var(--color-fg); margin-top: 24px;">Short (50-200ms)</h3>
+    <div class="dur-bar" style="width: var(--dur-short1);"></div>
+    <div class="dur-bar" style="width: var(--dur-short2);"></div>
+    <div class="dur-bar" style="width: var(--dur-short3);"></div>
+    <div class="dur-bar" style="width: var(--dur-short4);"></div>
+
+    <h3 style="color: var(--color-fg);">Medium (250-400ms)</h3>
+    <div class="dur-bar" style="width: var(--dur-medium1);"></div>
+    <div class="dur-bar" style="width: var(--dur-medium2);"></div>
+    <div class="dur-bar" style="width: var(--dur-medium3);"></div>
+    <div class="dur-bar" style="width: var(--dur-medium4);"></div>
+
+    <h3 style="color: var(--color-fg);">Long (450-600ms)</h3>
+    <div class="dur-bar" style="width: var(--dur-long1);"></div>
+    <div class="dur-bar" style="width: var(--dur-long2);"></div>
+    <div class="dur-bar" style="width: var(--dur-long3);"></div>
+    <div class="dur-bar" style="width: var(--dur-long4);"></div>
+
+    <h3 style="color: var(--color-fg); margin-top: 32px;">Toast 演示</h3>
+    <p>4 种语义色 + 6 个位置</p>
+    <div class="toast-btn-row">
+      <button class="toast-btn" onclick="showToast({type:'success', title:'成功', message:'操作已完成'})">Success</button>
+      <button class="toast-btn" onclick="showToast({type:'warning', title:'提示', message:'注意操作风险'})">Warning</button>
+      <button class="toast-btn" onclick="showToast({type:'error', title:'错误', message:'操作失败,请重试'})">Error</button>
+      <button class="toast-btn" onclick="showToast({type:'info', title:'信息', message:'v3.18 token 演示'})">Info</button>
+    </div>
+
+    <!-- ============ CVD ============ -->
+    <h2 id="cvd">CVD-Safe Palette (Okabe-Ito 8)</h2>
+    <p>色觉多样性 (CVD) 友好调色板, 8% 男性有色觉缺陷, 不只靠红绿区分状态.</p>
+    <div class="cvd-row">
+      <div class="cvd-chip" style="background: var(--color-cvd-1);">1</div>
+      <div class="cvd-chip" style="background: var(--color-cvd-2);">2</div>
+      <div class="cvd-chip" style="background: var(--color-cvd-3);">3</div>
+      <div class="cvd-chip" style="background: var(--color-cvd-4);">4</div>
+      <div class="cvd-chip" style="background: var(--color-cvd-5);">5</div>
+      <div class="cvd-chip" style="background: var(--color-cvd-6);">6</div>
+      <div class="cvd-chip" style="background: var(--color-cvd-7);">7</div>
+      <div class="cvd-chip" style="background: var(--color-cvd-8);">8</div>
+    </div>
+
+    <!-- ============ A11y ============ -->
+    <h2 id="a11y">WCAG 2.2 Accessibility</h2>
+    <p>Focus indicator ≥ 2px, 对比比 ≥ 3:1. Tab 到此元素查看效果.</p>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; padding: 16px; background: var(--color-bg-muted); border-radius: 8px;">
+      <button class="toast-btn">Focus me (Tab)</button>
+      <button class="toast-btn" data-modal-open="#test-modal">打开 Modal (Portal)</button>
+    </div>
+  </main>
+
+  <!-- ============ Modal (Portal 模式演示) ============ -->
+  <div data-component="modal" id="test-modal" data-dismiss="true" data-portal="true"
+       role="dialog" aria-modal="true" aria-labelledby="test-modal-title">
+    <div class="modal-dialog">
+      <button class="modal-close" data-modal-close aria-label="关闭">×</button>
+      <h2 id="test-modal-title" class="modal-title">Portal Modal (v3.18)</h2>
+      <p class="modal-subtitle">这个 modal 在打开时会被移动到 body 末 (data-portal="true"), 避免父级 overflow/z-index 问题.</p>
+      <p>查看 devtools 的 body 末可以看到这个 modal.</p>
+    </div>
+  </div>
+
+  <!-- ============ Toast 容器 ============ -->
+  <div data-component="toast-container" data-position="top-right"></div>
+
+  <footer class="footer" style="margin-top: 80px;">
+    <div class="footer-bottom">
+      <p>© 2026 Flow · v3.18 Design Tokens · 基于开源研究综合落地</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/motion/_utils/scroll-observer.js"></script>
+  <script src="../../assets/components/_utils/component-engine.js"></script>
+</body>
+</html>

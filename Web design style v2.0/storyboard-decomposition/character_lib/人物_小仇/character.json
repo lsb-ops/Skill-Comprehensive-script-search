@@ -1,0 +1,94 @@
+{
+  "id": "人物_小仇",
+  "name": "小仇",
+  "version": "1.0.0",
+  "type": "character",
+  "role": "配角·反派助手",
+  "ep_first_appearance": "EP01",
+  "created_at": "2026-06-17",
+  "basic_info": {
+    "gender": "男",
+    "age": 28,
+    "height": "175cm（比刘一鸣矮半头）",
+    "ethnicity": "汉族",
+    "voice": "尖锐夸张，戏精本精"
+  },
+  "appearance": {
+    "hair": "飞机头，染亚麻黄",
+    "face": "瓜子脸，眉眼细长",
+    "build": "瘦弱，溜肩",
+    "skin": "白皙",
+    "distinctive_features": [
+      "银框圆形金属眼镜（细框）",
+      "镜面冷蓝色反光",
+      "左耳单只银色耳钉"
+    ]
+  },
+  "wardrobe": {
+    "primary_outfit": {
+      "name": "秘书西装",
+      "items": [
+        "浅蓝色修身西装外套",
+        "白色印花T恤（胸前小图案）",
+        "深蓝色休闲裤",
+        "白色运动鞋（Nike Air Force）"
+      ],
+      "color_palette": [
+        "#a3cef1",
+        "#ffffff",
+        "#2c3e50"
+      ],
+      "fit": "修身但稍宽松（不抢主角风头）"
+    }
+  },
+  "personality": {
+    "core_traits": [
+      "极度夸张（戏精）",
+      "忠诚（对刘一鸣）",
+      "话多",
+      "忠心但愚笨"
+    ],
+    "speech_pattern": "长句+语气词+夸张描述，画外音式介绍",
+    "tics": [
+      "紧张时扶眼镜",
+      "被骂时身体后缩肩膀内扣",
+      "汇报时九十度鞠躬"
+    ]
+  },
+  "assets": {
+    "reference_images": [
+      "03_人物档案/人物_小仇.png"
+    ],
+    "lora_path": null
+  },
+  "consistency_rules": {
+    "must_keep": [
+      "银框圆形眼镜",
+      "浅蓝西装外套",
+      "飞机头发型",
+      "戏精夸张风格"
+    ],
+    "must_change": [
+      "T恤图案（每集可换）",
+      "运动鞋颜色"
+    ]
+  },
+  "ep_appearances": {
+    "EP01": {
+      "first_mirror": "镜001",
+      "total_mirrors": 11,
+      "key_scenes": [
+        "画外音介绍",
+        "鞠躬引路",
+        "紧张被教化"
+      ]
+    },
+    "EP02": {
+      "first_mirror": "镜001",
+      "outfit": "延续 EP01 主造型（清新职场穿搭）",
+      "continuity_notes": "延续 EP01 结尾状态"
+    }
+  },
+  "prompt_template": "资产人物小仇前景MCU模糊（关键特征：飞机头亚麻黄+银框圆形眼镜+浅蓝西装+175cm+戏精表情）",
+  "notes": "EP01 配角。画外音式夸张介绍，反差制造者。前 5 镜夸张戏精，后 6 镜被教化后逐渐变收敛。"
+}

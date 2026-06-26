@@ -1,0 +1,109 @@
+{
+  "id": "人物_刘一鸣",
+  "name": "刘一鸣",
+  "version": "1.0.0",
+  "type": "character",
+  "role": "主角",
+  "ep_first_appearance": "EP01",
+  "created_at": "2026-06-17",
+  "updated_at": "2026-06-17",
+
+  "basic_info": {
+    "gender": "男",
+    "age": 32,
+    "height": "188cm",
+    "ethnicity": "汉族",
+    "voice": "低沉浑厚，语速快"
+  },
+
+  "appearance": {
+    "hair": "黑色短发，自然垂坠，无染烫",
+    "face": "国字脸，剑眉星目，轮廓分明",
+    "build": "高大健硕，肩宽腰窄",
+    "skin": "小麦色，自然肤色",
+    "distinctive_features": [
+      "右眉上方 1cm 浅疤（EP01 撞到门框留下）",
+      "下颌线条硬朗",
+      "瞳孔深棕色"
+    ]
+  },
+
+  "wardrobe": {
+    "primary_outfit": {
+      "name": "霸总经典三件套",
+      "items": [
+        "全黑修身西装（Prada 款）",
+        "深蓝衬衫（Burberry 款）",
+        "黑色真丝领带（Hermès）",
+        "黑色尖头皮鞋（Berluti）",
+        "银色袖扣（Cartier）"
+      ],
+      "color_palette": ["#000000", "#1a1a2e", "#2c3e50"],
+      "fit": "修身不紧绷"
+    },
+    "secondary_outfit": {
+      "name": "休闲西装",
+      "items": ["深灰羊毛西装", "白色T恤", "白色运动鞋"]
+    },
+    "accessories": [
+      "飞行员墨镜（金属框，反光）",
+      "百达翡丽鹦鹉螺系列腕表",
+      "婚戒（左手中指，婚后新增）"
+    ]
+  },
+
+  "personality": {
+    "core_traits": [
+      "冷酷（表面）",
+      "霸道（强势）",
+      "深情（对白月光）",
+      "讲逻辑（被教化后）"
+    ],
+    "speech_pattern": "短句为主，命令式语气，不带情绪词",
+    "tics": [
+      "思考时右手食指轻敲桌面",
+      "生气时右手抬手掌心向前五指张开",
+      "演讲时语速加快到每秒 6-8 字"
+    ]
+  },
+
+  "assets": {
+    "reference_images": [
+      "03_人物档案/人物_刘一鸣.png"
+    ],
+    "lora_path": null,
+    "ip_adapter_embeds": null
+  },
+
+  "consistency_rules": {
+    "must_keep": [
+      "身高 188cm",
+      "全黑西装配色",
+      "金属框墨镜",
+      "低沉浑厚的声线"
+    ],
+    "must_change": [
+      "衬衫颜色（不同集数可换）",
+      "领带花纹",
+      "腕表款式"
+    ]
+  },
+
+  "ep_appearances": {
+    "EP01": {
+      "first_mirror": "镜001",
+      "total_mirrors": 11,
+      "key_scenes": ["张园外景登场", "弄堂内摘墨镜", "总裁办公室长台词"],
+      "outfit": "霸总经典三件套"
+    },
+    "EP02": {
+      "first_mirror": "镜001",
+      "outfit": "霸总经典三件套 + 婚戒",
+      "continuity_notes": "延续 EP01 结尾的婚戒"
+    }
+  },
+
+  "prompt_template": "资产人物刘一鸣MS居中纵向（关键特征：黑色短发+全黑西装+深蓝衬衫+金属框墨镜+188cm+小麦肤色+右眉浅疤）",
+
+  "notes": "EP01 主角。从霸总美学到反差的载体。前 5 镜保持冷酷，后 6 镜逐渐展现温情面。台词风格：短句+命令式+不带情绪词。"
+}

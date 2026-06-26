@@ -1,0 +1,66 @@
+{
+  "id": "道具_墨镜",
+  "name": "刘一鸣的飞行员墨镜",
+  "version": "1.0.0",
+  "type": "prop",
+  "created_at": "2026-06-17",
+  "owner": "人物_刘一鸣",
+  "category": "配饰",
+  "subcategory": "墨镜",
+  "appearance": {
+    "type": "飞行员墨镜（Aviator）",
+    "frame": "金属框（银色）+ 双梁设计",
+    "lens": "深绿色偏光镜片",
+    "size": "标准 58mm 镜片宽",
+    "brand_impression": "雷朋经典款",
+    "distinctive_features": [
+      "金属框反光强烈",
+      "镜片会反光出当前场景",
+      "鼻托有金属压痕"
+    ]
+  },
+  "state_evolution": {
+    "EP01_镜001_镜003": {
+      "state": "戴在脸上",
+      "position": "刘一鸣面部",
+      "function": "遮挡面部表情（霸总冷漠）"
+    },
+    "EP01_镜004_CUE①": {
+      "state": "摘下到手里",
+      "position": "刘一鸣左手",
+      "function": "戏剧断点 — 摘墨镜标志反转开始",
+      "transition": "从'遮挡'到'露脸'"
+    },
+    "EP01_镜005_镜011": {
+      "state": "拿在手里/放在桌上",
+      "position": "左手/办公桌",
+      "function": "延续 CUE① 后的视觉符号"
+    },
+    "EP02_镜001_镜005": {
+      "state": "戴在脸上",
+      "position": "面部",
+      "function": "延续 EP01 镜011 最终状态（戴回墨镜回归霸总美学）"
+    }
+  },
+  "consistency_rules": {
+    "must_keep": [
+      "金属框银色",
+      "深绿色偏光镜片",
+      "雷朋经典款造型"
+    ],
+    "must_change": [
+      "镜面反光（随场景变化）"
+    ]
+  },
+  "assets": {
+    "reference_images": [
+      "04_道具档案/道具_墨镜.png"
+    ]
+  },
+  "prompt_templates": {
+    "worn": "资产道具墨镜（关键特征：金属银色框+深绿偏光镜片+雷朋经典款）",
+    "in_hand": "资产道具墨镜拿在手里左手（关键特征：金属框反射日光+镜片朝下）",
+    "on_table": "资产道具墨镜放在办公桌上（关键特征：金属框反光+镜片朝上）"
+  },
+  "notes": "EP01 关键道具。CUE① 摘墨镜是整集的视觉转折点（霸总美学 → 真实自然）。摘下后不可再戴回去（叙事约束）。"
+}

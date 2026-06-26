@@ -1,0 +1,521 @@
+/* ============================================
+   WebPPT Maker v3.7 · 13 Layouts 专属 3D 处理
+   每 layout 都有独特的 3D 视觉效果
+   ============================================ */
+
+/* ============================================
+   1. Card: hover 3D 倾斜 + lift + shadow rotate
+   ============================================ */
+.layout-card {
+  perspective: 1500px;
+}
+.layout-card .card {
+  transform-style: preserve-3d;
+  transform: perspective(1500px) rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg));
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.5s ease;
+  will-change: transform;
+}
+.layout-card .card:hover {
+  transform: perspective(1500px) rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg)) translateZ(30px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 12px 24px rgba(0, 0, 0, 0.1),
+    0 24px 48px rgba(0, 0, 0, 0.08);
+}
+/* Card 数字 badge: 凸起 3D */
+.layout-card .number {
+  transform-style: preserve-3d;
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s ease;
+}
+.layout-card:hover .number {
+  transform: translateZ(20px) rotate(-5deg);
+}
+
+/* ============================================
+   2. Poster: 文字挤出 (text-extrude)
+   ============================================ */
+.layout-poster {
+  perspective: 1200px;
+}
+.layout-poster .big-text {
+  transform-style: preserve-3d;
+  text-shadow:
+    1px 1px 0 rgba(0, 0, 0, 0.1),
+    2px 2px 0 rgba(0, 0, 0, 0.15),
+    3px 3px 0 rgba(0, 0, 0, 0.2),
+    4px 4px 0 rgba(0, 0, 0, 0.25),
+    8px 12px 24px rgba(0, 0, 0, 0.3);
+  animation: text-extrude-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-poster .sub-text {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transform: translateZ(20px);
+}
+
+/* ============================================
+   3. Timeline: 3D 卡片堆叠入场
+   ============================================ */
+.layout-timeline {
+  perspective: 1500px;
+}
+.layout-timeline .timeline-item {
+  transform-style: preserve-3d;
+  animation: card-stack-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-timeline .timeline-item:nth-child(1) { animation-delay: 0.0s; }
+.layout-timeline .timeline-item:nth-child(2) { animation-delay: 0.15s; }
+.layout-timeline .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+.layout-timeline .timeline-item:nth-child(4) { animation-delay: 0.45s; }
+.layout-timeline .timeline-item:nth-child(5) { animation-delay: 0.6s; }
+
+.layout-timeline .timeline-dot {
+  transform-style: preserve-3d;
+  box-shadow:
+    0 0 0 6px rgba(255, 59, 48, 0.15),
+    0 4px 0 rgba(204, 47, 40, 0.5),    /* 3D 凸起 */
+    0 6px 12px rgba(255, 59, 48, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  animation: tilt-float 4s ease-in-out infinite;
+}
+
+/* ============================================
+   4. Numbers: 3D 数字翻转 + 磁性吸附
+   ============================================ */
+.layout-numbers {
+  perspective: 1500px;
+}
+.layout-numbers .big-number {
+  display: inline-block;
+  transform-style: preserve-3d;
+  text-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.08),
+    0 4px 0 rgba(0, 0, 0, 0.06),
+    0 6px 12px rgba(255, 59, 48, 0.2),
+    0 12px 32px rgba(255, 59, 48, 0.15);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: flip-in-X 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-numbers:hover .big-number {
+  transform: perspective(1200px) rotateY(15deg) translateZ(20px);
+}
+.layout-numbers .unit {
+  display: inline-block;
+  transform: translateZ(-10px);
+  transform-style: preserve-3d;
+}
+
+/* ============================================
+   5. Compare: 3D 开门效果
+   ============================================ */
+.layout-compare {
+  perspective: 1500px;
+}
+.layout-compare .compare-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease;
+}
+.layout-compare .compare-card.before {
+  transform-origin: right center;
+  transform: perspective(1500px) rotateY(var(--tilt-y, 0deg));
+}
+.layout-compare .compare-card.after {
+  transform-origin: left center;
+  transform: perspective(1500px) rotateY(var(--tilt-y, 0deg));
+}
+.layout-compare:hover .compare-card.before {
+  transform: perspective(1500px) rotateY(-12deg) translateZ(30px);
+}
+.layout-compare:hover .compare-card.after {
+  transform: perspective(1500px) rotateY(12deg) translateZ(30px);
+}
+.layout-compare .compare-arrow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: translateZ(40px);
+}
+
+/* ============================================
+   6. Icon: 3D 倾斜 + 自旋
+   ============================================ */
+.layout-icon {
+  perspective: 1500px;
+}
+.layout-icon .big-emoji {
+  display: inline-block;
+  transform-style: preserve-3d;
+  filter:
+    drop-shadow(0 4px 0 rgba(0, 0, 0, 0.08))
+    drop-shadow(0 12px 24px rgba(0, 0, 0, 0.15));
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              filter 0.4s ease;
+  animation: zoom-3d-pop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.layout-icon:hover .big-emoji {
+  transform: perspective(1200px) rotateY(20deg) rotateX(-10deg) translateZ(40px) scale(1.1);
+  filter:
+    drop-shadow(0 6px 0 rgba(0, 0, 0, 0.1))
+    drop-shadow(0 16px 32px var(--accent))
+    drop-shadow(0 24px 48px rgba(255, 59, 48, 0.3));
+}
+
+/* ============================================
+   7. Storyline: 深度层叠 + 卡片入场
+   ============================================ */
+.layout-storyline {
+  perspective: 1500px;
+}
+.layout-storyline .story-flow {
+  transform-style: preserve-3d;
+}
+.layout-storyline .story-step {
+  display: inline-block;
+  transform-style: preserve-3d;
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.layout-storyline:hover .story-step {
+  transform: translateZ(15px) scale(1.05);
+}
+.layout-storyline .title {
+  transform-style: preserve-3d;
+  animation: depth-rise 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================
+   8. Q&A: 卡片翻转入场 + tag 凸起
+   ============================================ */
+.layout-qa {
+  perspective: 1500px;
+}
+.layout-qa .qa-question,
+.layout-qa .qa-answer {
+  transform-style: preserve-3d;
+  animation: flip-in-Y 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-qa .qa-question { animation-delay: 0.1s; }
+.layout-qa .qa-answer { animation-delay: 0.3s; }
+.layout-qa .qa-tag {
+  transform-style: preserve-3d;
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.15),
+    0 6px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.layout-qa .qa-tag:hover {
+  transform: translateY(2px) translateZ(10px);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.15),
+    0 3px 6px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.layout-qa .qa-tag:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   9. Waterfall: 3D 卡片下坠 + 错位 stagger
+   ============================================ */
+.layout-waterfall {
+  perspective: 1500px;
+}
+.layout-waterfall .waterfall-item {
+  transform-style: preserve-3d;
+  animation: depth-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.layout-waterfall .waterfall-item:nth-child(1) { animation-delay: 0.0s; }
+.layout-waterfall .waterfall-item:nth-child(2) { animation-delay: 0.1s; }
+.layout-waterfall .waterfall-item:nth-child(3) { animation-delay: 0.2s; }
+.layout-waterfall .waterfall-item:nth-child(4) { animation-delay: 0.3s; }
+.layout-waterfall .waterfall-item:nth-child(5) { animation-delay: 0.4s; }
+.layout-waterfall:hover .waterfall-item {
+  transform: perspective(1500px) translateZ(20px);
+}
+
+/* ============================================
+   10. F-pattern: 3D 深度层级 (左缩进越深越靠后)
+   ============================================ */
+.layout-f-pattern {
+  perspective: 1500px;
+}
+.layout-f-pattern .f-headline {
+  transform: translateZ(40px);
+  animation: depth-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-f-pattern .f-top {
+  transform: translateZ(20px);
+  animation: depth-rise 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-f-pattern .f-list {
+  transform-style: preserve-3d;
+}
+.layout-f-pattern .f-item {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              padding-left 0.4s ease;
+}
+.layout-f-pattern .f-item:nth-child(1) { transform: translateZ(0);   animation: depth-rise 0.6s 0.2s both; }
+.layout-f-pattern .f-item:nth-child(2) { transform: translateZ(10px); animation: depth-rise 0.6s 0.3s both; }
+.layout-f-pattern .f-item:nth-child(3) { transform: translateZ(20px); animation: depth-rise 0.6s 0.4s both; }
+.layout-f-pattern .f-item:nth-child(4) { transform: translateZ(30px); animation: depth-rise 0.6s 0.5s both; }
+.layout-f-pattern .f-item:hover {
+  transform: translateZ(40px) translateX(8px);
+}
+
+/* ============================================
+   11. Z-pattern: 3D 角折叠 (右上 + 左下 凹陷感)
+   ============================================ */
+.layout-z-pattern {
+  perspective: 2000px;
+}
+.layout-z-pattern .z-1 {
+  transform-style: preserve-3d;
+  transform: translateZ(40px);
+  animation: flip-in-X 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-z-pattern .z-2 {
+  transform: perspective(1500px) rotateY(5deg) rotateX(-2deg) translateZ(-10px);
+  animation: depth-rise 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-z-pattern .z-3 {
+  transform: perspective(1500px) rotateY(-5deg) rotateX(2deg) translateZ(-10px);
+  animation: depth-rise 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-z-pattern .z-cta {
+  transform-style: preserve-3d;
+  transform: translateZ(60px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.4s ease,
+              background 0.3s ease;
+  box-shadow:
+    0 4px 0 rgba(255, 59, 48, 0.3),
+    0 8px 16px rgba(255, 59, 48, 0.2);
+  animation: zoom-3d-pop 1s 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-z-pattern:hover .z-cta {
+  transform: translateZ(80px) scale(1.08);
+  box-shadow:
+    0 8px 0 rgba(255, 59, 48, 0.3),
+    0 16px 32px rgba(255, 59, 48, 0.4);
+}
+
+/* ============================================
+   12. Golden: 焦点 + 详情视差深度
+   ============================================ */
+.layout-golden {
+  perspective: 1500px;
+}
+.layout-golden .golden-focus {
+  transform-style: preserve-3d;
+  transform: translateZ(60px);
+  animation: depth-rise 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  text-shadow:
+    0 4px 0 rgba(255, 59, 48, 0.15),
+    0 8px 16px rgba(255, 59, 48, 0.25),
+    0 16px 32px rgba(255, 59, 48, 0.15);
+}
+.layout-golden:hover .golden-focus {
+  transform: translateZ(80px) scale(1.05);
+}
+.layout-golden .golden-detail {
+  transform-style: preserve-3d;
+}
+.layout-golden .golden-title {
+  transform: translateZ(20px);
+  animation: depth-rise 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-golden .golden-body {
+  transform: translateZ(10px);
+  animation: depth-rise 0.8s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-golden .golden-tag {
+  display: inline-block;
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.3s ease;
+}
+.layout-golden .golden-tag:hover {
+  transform: translateZ(20px) scale(1.08);
+}
+
+/* ============================================
+   13. Focal: 穹顶旋转 + 焦点磁性
+   ============================================ */
+.layout-focal {
+  perspective: 1800px;
+}
+.layout-focal .focal-center {
+  transform-style: preserve-3d;
+  transform: translateZ(80px);
+  text-shadow:
+    0 4px 0 rgba(255, 59, 48, 0.15),
+    0 8px 0 rgba(255, 59, 48, 0.12),
+    0 16px 32px rgba(255, 59, 48, 0.25);
+  animation: focal-3d-enter 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes focal-3d-enter {
+  from {
+    opacity: 0;
+    transform: perspective(1800px) translateZ(-200px) scale(0.5) rotateX(-30deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1800px) translateZ(80px) scale(1) rotateX(0);
+  }
+}
+.layout-focal:hover .focal-center {
+  transform: translateZ(120px) scale(1.05);
+  text-shadow:
+    0 4px 0 rgba(255, 59, 48, 0.2),
+    0 8px 0 rgba(255, 59, 48, 0.15),
+    0 24px 48px rgba(255, 59, 48, 0.4);
+}
+.layout-focal .focal-note {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+  animation: depth-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-focal .focal-note:nth-child(n) { animation-delay: calc(0.1s * var(--i, 1)); }
+.layout-focal .focal-note:hover {
+  transform: translateZ(40px) scale(1.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+.layout-focal .focal-tl { transform: translateZ(0); }
+.layout-focal .focal-tr { transform: translateZ(0); }
+.layout-focal .focal-ml { transform: translateZ(10px); }
+.layout-focal .focal-mr { transform: translateZ(10px); }
+.layout-focal .focal-bl { transform: translateZ(20px); }
+.layout-focal .focal-br { transform: translateZ(20px); }
+
+/* ============================================
+   Universal: 数据驱动 tilt (任意元素可 .tilt-3d)
+   ============================================ */
+.tilt-3d {
+  transform-style: preserve-3d;
+}
+
+/* ============================================
+   Reduced-motion: 全部禁用 3D transform 动画
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .layout-card .card,
+  .layout-poster .big-text,
+  .layout-timeline .timeline-item,
+  .layout-numbers .big-number,
+  .layout-compare .compare-card,
+  .layout-icon .big-emoji,
+  .layout-qa .qa-question,
+  .layout-qa .qa-answer,
+  .layout-waterfall .waterfall-item,
+  .layout-f-pattern .f-headline,
+  .layout-f-pattern .f-item,
+  .layout-z-pattern .z-1,
+  .layout-z-pattern .z-cta,
+  .layout-golden .golden-focus,
+  .layout-focal .focal-center,
+  .layout-focal .focal-note {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+/* ============================================
+   v3.8: 3D Particle Field Background
+   给 .particles-3d 容器绝对定位 + 置于内容下层
+   ============================================ */
+.particles-3d {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.layout-poster > *:not(.particles-3d),
+.layout-focal > *:not(.particles-3d) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   v3.9: 3D 立体文字 (text extrude via text-shadow stacking)
+   像 Apple Vision Pro / Linear.app 标题字效
+   ============================================ */
+.text-3d {
+  /* 8 层 text-shadow 叠加形成 Z 轴深度 (1px 步进, 颜色由深到浅) */
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.15),
+    0 2px 0 rgba(0, 0, 0, 0.13),
+    0 3px 0 rgba(0, 0, 0, 0.11),
+    0 4px 0 rgba(0, 0, 0, 0.09),
+    0 5px 0 rgba(0, 0, 0, 0.07),
+    0 6px 0 rgba(0, 0, 0, 0.05),
+    0 7px 0 rgba(0, 0, 0, 0.04),
+    0 8px 12px rgba(0, 0, 0, 0.2);
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.text-3d-extrude {
+  /* 12 层更深挤压, + 微 translateZ 触发 GPU */
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.18),
+    0 2px 0 rgba(0, 0, 0, 0.16),
+    0 3px 0 rgba(0, 0, 0, 0.14),
+    0 4px 0 rgba(0, 0, 0, 0.12),
+    0 5px 0 rgba(0, 0, 0, 0.10),
+    0 6px 0 rgba(0, 0, 0, 0.08),
+    0 7px 0 rgba(0, 0, 0, 0.06),
+    0 8px 0 rgba(0, 0, 0, 0.05),
+    0 9px 0 rgba(0, 0, 0, 0.04),
+    0 10px 0 rgba(0, 0, 0, 0.03),
+    0 11px 0 rgba(0, 0, 0, 0.02),
+    0 12px 16px rgba(0, 0, 0, 0.25);
+  transform: translateZ(0);
+}
+/* 强调色版本: 用 --accent 做最后层高光 */
+.text-3d-accent {
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.15),
+    0 2px 0 rgba(0, 0, 0, 0.13),
+    0 3px 0 rgba(0, 0, 0, 0.11),
+    0 4px 0 rgba(0, 0, 0, 0.09),
+    0 5px 0 rgba(0, 0, 0, 0.07),
+    0 6px 0 rgba(0, 0, 0, 0.05),
+    0 7px 0 rgba(0, 0, 0, 0.04),
+    0 8px 12px var(--accent),  /* 主光晕 */
+    0 12px 24px rgba(255, 59, 48, 0.4);
+}
+/* hover: 文字向 cursor 倾斜, 加深景深 */
+.text-3d-hover {
+  display: inline-block;
+  cursor: default;
+}
+.text-3d-hover:hover {
+  transform: perspective(800px) rotateX(-5deg) rotateY(5deg) translateZ(20px);
+}
+
+/* 倒角版 (inset shadow + extrude, 像纪念币文字) */
+.text-3d-emboss {
+  text-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.6),  /* 上白边 = 凸起 */
+    0 1px 1px rgba(0, 0, 0, 0.4),       /* 下黑边 = 凹陷 */
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .text-3d, .text-3d-extrude, .text-3d-accent, .text-3d-emboss {
+    text-shadow: none !important;
+    transform: none !important;
+  }
+}

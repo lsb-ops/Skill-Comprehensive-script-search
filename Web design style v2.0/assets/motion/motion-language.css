@@ -1,0 +1,310 @@
+/* ============================================
+   WebPPT Maker v3.14 · Motion Language (主题化动效语言)
+   4 主题对应 4 套独立动效系统 (商务/科技/教育/时尚)
+   ============================================
+   设计原则 (来自 DESIGN_PHILOSOPHY.md §2.3):
+   - 每主题单一缓动曲线 (全站一致)
+   - 时长 distance-based (8ms/px)
+   - Stagger 间隔主题化
+   - 调性匹配主题情绪
+
+   修复 v3.13 问题:
+   - 缓动散落 → 每主题 1 套
+   - 时长固定 → distance-based
+   - 没动效语言 → 4 套完整
+   ============================================ */
+
+/* ============================================
+   §1. 4 套 Motion Language
+   ============================================ */
+
+/* === 1.1 商务 Motion Language (精确, 高效, 专业) === */
+:root,
+[data-theme="business"] {
+  /* 单一缓动: cubic-bezier(0.2, 0, 0, 1) MD3 standard */
+  --motion-ease:        cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --motion-ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --motion-ease-bounce: cubic-bezier(0.2, 0, 0, 1);   /* 商务不弹 */
+
+  /* 时长 (精确, 快, 200-300ms) */
+  --motion-dur-instant: 100ms;
+  --motion-dur-fast:    150ms;
+  --motion-dur-base:    200ms;
+  --motion-dur-slow:    250ms;
+  --motion-dur-slower:  300ms;
+
+  /* Stagger (紧, 60ms - 商务精准节奏) */
+  --motion-stagger: 60ms;
+
+  /* distance → duration: 8ms/px (商务精准) */
+  --motion-per-px: 8ms;
+
+  /* Scale 微变 (商务克制) */
+  --motion-scale-from: 0.98;
+  --motion-translate-from: 8px;
+}
+
+/* === 1.2 科技 Motion Language (弹性, 未来, 活力) === */
+[data-theme="tech"] {
+  /* 单一缓动: cubic-bezier(0.34, 1.56, 0.64, 1) bounce */
+  --motion-ease:        cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-ease-in:     cubic-bezier(0.5, 0, 0.75, 0);
+  --motion-ease-out:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);   /* 强过冲 */
+
+  /* 时长 (中, 400-600ms - 给弹性足够时间) */
+  --motion-dur-instant: 150ms;
+  --motion-dur-fast:    300ms;
+  --motion-dur-base:    450ms;
+  --motion-dur-slow:    600ms;
+  --motion-dur-slower:  800ms;
+
+  /* Stagger (中, 100ms) */
+  --motion-stagger: 100ms;
+
+  /* distance → duration: 12ms/px (科技偏慢, 显弹性) */
+  --motion-per-px: 12ms;
+
+  /* Scale 较大变化 (弹性) */
+  --motion-scale-from: 0.92;
+  --motion-translate-from: 16px;
+}
+
+/* === 1.3 教育 Motion Language (平滑, 渐进, 易懂) === */
+[data-theme="education"] {
+  /* 单一缓动: cubic-bezier(0.4, 0, 0.2, 1) ease-in-out */
+  --motion-ease:        cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --motion-ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --motion-ease-bounce: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 时长 (中, 300-500ms - 渐进易懂) */
+  --motion-dur-instant: 150ms;
+  --motion-dur-fast:    250ms;
+  --motion-dur-base:    350ms;
+  --motion-dur-slow:    450ms;
+  --motion-dur-slower:  600ms;
+
+  /* Stagger (中, 80ms) */
+  --motion-stagger: 80ms;
+
+  /* distance → duration: 10ms/px */
+  --motion-per-px: 10ms;
+
+  /* Scale 微变 */
+  --motion-scale-from: 0.95;
+  --motion-translate-from: 12px;
+}
+
+/* === 1.4 时尚 Motion Language (优雅, 慢速, 高级) === */
+[data-theme="fashion"] {
+  /* 单一缓动: cubic-bezier(0.65, 0, 0.35, 1) ease (平滑, 高端) */
+  --motion-ease:        cubic-bezier(0.65, 0, 0.35, 1);
+  --motion-ease-in:     cubic-bezier(0.65, 0, 1, 1);
+  --motion-ease-out:    cubic-bezier(0, 0, 0.35, 1);
+  --motion-ease-bounce: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* 时长 (慢, 600-1000ms - 时尚优雅) */
+  --motion-dur-instant: 250ms;
+  --motion-dur-fast:    400ms;
+  --motion-dur-base:    600ms;
+  --motion-dur-slow:    800ms;
+  --motion-dur-slower:  1200ms;
+
+  /* Stagger (慢, 150ms - 慢节奏) */
+  --motion-stagger: 150ms;
+
+  /* distance → duration: 20ms/px (慢节奏) */
+  --motion-per-px: 20ms;
+
+  /* Scale 极微 (时尚克制) */
+  --motion-scale-from: 0.99;
+  --motion-translate-from: 20px;
+}
+
+/* ============================================
+   §2. Motion Utility (主题化)
+   ============================================ */
+
+[data-theme] .motion-enter {
+  transition: transform var(--motion-dur-base) var(--motion-ease),
+              opacity var(--motion-dur-base) var(--motion-ease);
+  transform-origin: center;
+}
+
+/* === 入场动画 (基础) === */
+[data-theme] [data-enter] {
+  opacity: 0;
+  transform: translateY(var(--motion-translate-from)) scale(var(--motion-scale-from));
+  transition: opacity var(--motion-dur-base) var(--motion-ease),
+              transform var(--motion-dur-base) var(--motion-ease);
+}
+
+[data-theme] [data-enter].entered {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ============================================
+   §3. Distance-based Duration (物理启发)
+   元素移动距离 → duration
+   用 calc() 实现
+   ============================================ */
+
+[data-theme] [data-travel="4"]   { transition-duration: calc(4 * var(--motion-per-px)); }
+[data-theme] [data-travel="8"]   { transition-duration: calc(8 * var(--motion-per-px)); }
+[data-theme] [data-travel="16"]  { transition-duration: calc(16 * var(--motion-per-px)); }
+[data-theme] [data-travel="24"]  { transition-duration: calc(24 * var(--motion-per-px)); }
+[data-theme] [data-travel="48"]  { transition-duration: calc(48 * var(--motion-per-px)); }
+[data-theme] [data-travel="64"]  { transition-duration: calc(64 * var(--motion-per-px)); }
+[data-theme] [data-travel="96"]  { transition-duration: calc(96 * var(--motion-per-px)); }
+
+/* ============================================
+   §4. Stagger 系统 (主题化间隔)
+   ============================================ */
+
+[data-theme] [data-stagger] > *:nth-child(1) { transition-delay: 0ms; }
+[data-theme] [data-stagger] > *:nth-child(2) { transition-delay: var(--motion-stagger); }
+[data-theme] [data-stagger] > *:nth-child(3) { transition-delay: calc(var(--motion-stagger) * 2); }
+[data-theme] [data-stagger] > *:nth-child(4) { transition-delay: calc(var(--motion-stagger) * 3); }
+[data-theme] [data-stagger] > *:nth-child(5) { transition-delay: calc(var(--motion-stagger) * 4); }
+[data-theme] [data-stagger] > *:nth-child(6) { transition-delay: calc(var(--motion-stagger) * 5); }
+[data-theme] [data-stagger] > *:nth-child(7) { transition-delay: calc(var(--motion-stagger) * 6); }
+[data-theme] [data-stagger] > *:nth-child(8) { transition-delay: calc(var(--motion-stagger) * 7); }
+
+/* ============================================
+   §5. 主题化 Hover (按主题情绪)
+   ============================================ */
+
+/* 商务: 微抬升, 快速 */
+[data-theme="business"] .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* 科技: 弹性抬升, scale */
+[data-theme="tech"] .btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 24px var(--theme-accent-light);
+}
+
+/* 教育: 柔光, scale */
+[data-theme="education"] .btn-primary:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 16px oklch(60% 0.20 35 / 0.30);
+}
+
+/* 时尚: 极微 scale, 优雅 */
+[data-theme="fashion"] .btn-primary:hover {
+  transform: scale(1.02);
+  letter-spacing: 0.12em;     /* 时尚 hover 时字距略增 */
+}
+
+/* ============================================
+   §6. 主题化 Reveal (内容渐显, 入场)
+   ===================================================== */
+
+/* 商务: 渐显 + 短位移 (克制) */
+[data-theme="business"] [data-reveal] {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--motion-dur-base) var(--motion-ease),
+              transform var(--motion-dur-base) var(--motion-ease);
+}
+[data-theme="business"] [data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 科技: 弹性 scale + fade */
+[data-theme="tech"] [data-reveal] {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity var(--motion-dur-base) var(--motion-ease),
+              transform var(--motion-dur-base) var(--motion-ease-bounce);
+}
+[data-theme="tech"] [data-reveal].revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 教育: 上下交替入场 */
+[data-theme="education"] [data-reveal] {
+  opacity: 0;
+  transform: translateY(12px) rotate(-1deg);
+  transition: opacity var(--motion-dur-base) var(--motion-ease),
+              transform var(--motion-dur-base) var(--motion-ease);
+}
+[data-theme="education"] [data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0) rotate(0);
+}
+
+/* 时尚: 慢速淡入 + 大位移 */
+[data-theme="fashion"] [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--motion-dur-slow) var(--motion-ease),
+              transform var(--motion-dur-slow) var(--motion-ease);
+}
+[data-theme="fashion"] [data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   §7. 主题化 Transition (全局)
+   ============================================================ */
+
+[data-theme] * {
+  /* 默认过渡用主题缓动 */
+  transition-timing-function: var(--motion-ease);
+}
+
+/* ============================================
+   §8. 主题化 Skeleton (loading shimmer)
+   ============================================================ */
+
+[data-theme="business"] .skeleton {
+  background: linear-gradient(90deg, var(--theme-bg-secondary) 0%, oklch(95% 0.008 250) 50%, var(--theme-bg-secondary) 100%);
+}
+
+[data-theme="tech"] .skeleton {
+  background: linear-gradient(90deg, var(--theme-bg-secondary) 0%, var(--theme-accent-light) 50%, var(--theme-bg-secondary) 100%);
+}
+
+[data-theme="education"] .skeleton {
+  background: linear-gradient(90deg, var(--theme-bg-secondary) 0%, var(--theme-accent-light) 50%, var(--theme-bg-secondary) 100%);
+}
+
+[data-theme="fashion"] .skeleton {
+  background: linear-gradient(90deg, var(--theme-bg-primary) 0%, oklch(95% 0.003 0) 50%, var(--theme-bg-primary) 100%);
+}
+
+/* ============================================
+   §9. Reduced Motion 适配 (a11y)
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme] [data-enter],
+  [data-theme] [data-reveal],
+  [data-theme] [data-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: opacity var(--dur-fast) linear !important;
+  }
+
+  [data-theme] [data-travel] {
+    transition-property: opacity !important;
+  }
+}
+
+/* ============================================
+   §10. Motion Debug (开发模式)
+   ============================================================ */
+
+[data-motion-debug="true"] [data-enter],
+[data-motion-debug="true"] [data-reveal] {
+  outline: 1px dashed var(--theme-accent);
+}

@@ -1,0 +1,184 @@
+/* ============================================
+   WebPPT Maker v3.19.2 · State Custom Variants (data-* 模式)
+   ============================================
+   真实开源出处:
+   - Radix UI: 每个交互组件用 data-state="open|closed"
+     data-state="open" 触发展开, data-state="closed" 触发折叠
+   - shadcn v4 globals.css (curl 验证): @custom-variant syntax 真实写法
+       @custom-variant dark (&:is(.dark *));
+     模式: 父类选择器 + 元素 attr 选择器
+   - Tailwind v4 @custom-variant: 官方支持 (与 @utility 并列)
+
+   WebPPT 用 CSS 简化版 (不需要 Tailwind):
+   - data-state="open|closed|on|off|checked|unchecked|selected|active|disabled|loading"
+   - 对应 Radix 真实状态属性
+   - 不需要 JS 写 class, 直接用 attribute selector
+
+   ============================================ */
+
+/* === 通用 data-state pattern (Radix 真实做法) === */
+
+/* open / closed: 用于 dialog/popover/menu */
+[data-state="open"] {
+  display: block;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity var(--dur-medium2, 300ms) var(--ease-emphasized-decelerate, ease-out),
+              transform var(--dur-medium2, 300ms) var(--ease-emphasized-decelerate, ease-out);
+}
+[data-state="closed"] {
+  display: none;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.96);
+}
+
+/* on / off: 用于 switch/toggle */
+[data-state="on"] {
+  background-color: var(--color-primary, #3b82f6);
+  color: var(--color-on-primary, white);
+}
+[data-state="off"] {
+  background-color: var(--color-surface-variant, #e5e7eb);
+  color: var(--color-on-surface-variant, #4b5563);
+}
+
+/* checked / unchecked: 用于 checkbox/radio */
+[data-state="checked"] {
+  background-color: var(--color-primary, #3b82f6);
+  color: var(--color-on-primary, white);
+}
+[data-state="unchecked"] {
+  background-color: transparent;
+  border: 1px solid var(--color-outline, #d1d5db);
+}
+
+/* selected / unselected: 用于 tabs / listbox */
+[data-state="selected"] {
+  color: var(--color-primary, #3b82f6);
+  border-bottom: 2px solid var(--color-primary, #3b82f6);
+}
+[data-state="unselected"] {
+  color: var(--color-on-surface-variant, #6b7280);
+  border-bottom: 2px solid transparent;
+}
+
+/* active / inactive: 用于 navigation */
+[data-state="active"] {
+  background-color: var(--color-primary-container, #dbeafe);
+  color: var(--color-on-primary-container, #1e3a8a);
+}
+[data-state="inactive"] {
+  background-color: transparent;
+  color: var(--color-on-surface, #1f2937);
+}
+
+/* disabled: 通用禁用 */
+[data-disabled],
+[data-state="disabled"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* loading: 加载中 */
+[data-state="loading"] {
+  position: relative;
+  color: transparent !important;
+}
+[data-state="loading"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: state-loading-spin 0.6s linear infinite;
+  color: var(--color-primary, #3b82f6);
+}
+
+@keyframes state-loading-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* === 通用 data-open / data-closed (shadcn v4 风格简化) === */
+[data-open="true"]  { display: block; }
+[data-open="false"] { display: none; }
+
+/* === 通用 data-checked (Tailwind data-[checked] 风格) === */
+[data-checked="true"]  { background-color: var(--color-primary, #3b82f6); color: var(--color-on-primary, white); }
+[data-checked="false"] { background-color: transparent; }
+
+/* === Dialog 状态动画 (MD3 + Radix 融合) === */
+[data-component="modal"][data-state="open"] {
+  animation: state-modal-open var(--dur-long2, 500ms) var(--ease-emphasized-decelerate, ease-out);
+}
+[data-component="modal"][data-state="closed"] {
+  animation: state-modal-close var(--dur-medium1, 250ms) var(--ease-emphasized-accelerate, ease-in);
+}
+
+@keyframes state-modal-open {
+  from { opacity: 0; transform: translateY(-50px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes state-modal-close {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.95); }
+}
+
+/* === Popover / Tooltip 状态 === */
+[data-component="popover"][data-state="open"] {
+  animation: state-popover-open var(--dur-medium2, 300ms) var(--ease-emphasized-decelerate, ease-out);
+}
+[data-component="popover"][data-state="closed"] {
+  animation: state-popover-close var(--dur-short2, 100ms) var(--ease-emphasized-accelerate, ease-in);
+}
+
+@keyframes state-popover-open {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes state-popover-close {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.9); }
+}
+
+/* === Tabs 状态 (继承上方 [data-state="selected"]) === */
+[data-component="tab"][data-state="selected"] {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+[data-component="tab"][data-state="unselected"]:hover {
+  color: var(--color-on-surface);
+  background-color: var(--color-surface-variant);
+}
+
+/* === Switch 状态 (on/off) === */
+[data-component="switch"][data-state="on"]  { background-color: var(--color-primary); }
+[data-component="switch"][data-state="off"] { background-color: var(--color-surface-variant); }
+[data-component="switch"][data-state="on"]  .switch-thumb { transform: translateX(20px); }
+[data-component="switch"][data-state="off"] .switch-thumb { transform: translateX(0); }
+.switch-thumb { transition: transform var(--dur-medium2, 300ms) var(--ease-emphasized, ease); }
+
+/* === Accordion 展开/折叠 (高度动画) === */
+[data-component="accordion"][data-state="open"] .accordion-content {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+[data-component="accordion"][data-state="closed"] .accordion-content {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+.accordion-content {
+  display: grid;
+  transition: grid-template-rows var(--dur-medium2, 300ms) var(--ease-emphasized, ease),
+              opacity var(--dur-medium2, 300ms) var(--ease-emphasized, ease);
+}
+.accordion-content > * {
+  overflow: hidden;
+  min-height: 0;
+}

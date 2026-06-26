@@ -1,0 +1,55 @@
+/* ============================================
+   Layout: 卡片 (card) — 9:16 + 16:9 双模式适配
+   ============================================ */
+
+.layout-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 9:16 竖屏 (portrait): 卡片居中, 紧凑布局 */
+.layout-card[data-mode="portrait"] .card {
+  width: 86%;
+  max-width: 640px;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.layout-card[data-mode="portrait"] .number {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  line-height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: var(--space-sm);
+}
+
+/* 16:9 横屏 (landscape): 卡片更宽, 留白多 */
+.layout-card[data-mode="landscape"] .card {
+  width: 80%;
+  max-width: 900px;
+  padding: var(--space-lg) var(--space-xl);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.layout-card[data-mode="landscape"] .number {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: var(--space-md);
+}

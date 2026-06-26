@@ -1,0 +1,151 @@
+/* ============================================
+   WebPPT Maker v3.19.2 · Color Role Tokens (MD3 v0.192 REAL)
+   ============================================
+   真实开源出处 (curl 直连验证):
+   - @material/web@2.4.1 tokens/versions/v0_192/_md-sys-color.scss
+     50+ role tokens, 实现"组件-色"解耦.
+     模式: color (色) + on-color (色上的文字) + color-container (容器色)
+
+   WebPPT 选型 (20 个核心 role):
+   - Primary group: primary, on-primary, primary-container, on-primary-container
+   - Secondary group: secondary, on-secondary, secondary-container, on-secondary-container
+   - Tertiary group: tertiary, on-tertiary, tertiary-container, on-tertiary-container
+   - Error group: error, on-error, error-container, on-error-container
+   - Surface: surface, on-surface, surface-variant, on-surface-variant
+   - Outline: outline, outline-variant
+   - Inverse: inverse-surface, inverse-on-surface, inverse-primary
+   - 其它: shadow, scrim
+
+   MD3 vs Tailwind v4:
+   - MD3 50+ 语义 role (per-component mapping)
+   - Tailwind v4 26 base × 11 step (per-color scale)
+   - WebPPT 现两者并存: color-tokens-v2.css (Tailwind) + color-roles.css (MD3)
+
+   ============================================ */
+
+:root,
+[data-theme="light"] {
+  /* === Primary group === */
+  --color-primary:              oklch(40% 0.18 280);   /* MD3 primary40 */
+  --color-on-primary:            oklch(98% 0.005 280);  /* MD3 primary100 (light) */
+  --color-primary-container:     oklch(90% 0.06 280);   /* MD3 primary90 */
+  --color-on-primary-container:  oklch(15% 0.06 280);   /* MD3 primary10 */
+
+  /* === Secondary group === */
+  --color-secondary:            oklch(45% 0.10 280);   /* MD3 secondary40 */
+  --color-on-secondary:          oklch(98% 0.005 280);
+  --color-secondary-container:   oklch(92% 0.04 280);
+  --color-on-secondary-container: oklch(18% 0.04 280);
+
+  /* === Tertiary group === */
+  --color-tertiary:             oklch(50% 0.14 180);   /* MD3 tertiary40 */
+  --color-on-tertiary:           oklch(98% 0.005 180);
+  --color-tertiary-container:    oklch(90% 0.06 180);
+  --color-on-tertiary-container: oklch(15% 0.06 180);
+
+  /* === Error group === */
+  --color-error:                oklch(45% 0.20 25);    /* MD3 error40 */
+  --color-on-error:              oklch(98% 0.005 25);
+  --color-error-container:       oklch(95% 0.04 25);
+  --color-on-error-container:    oklch(20% 0.10 25);
+
+  /* === Surface group === */
+  --color-surface:              oklch(98% 0.003 0);    /* MD3 neutral98 */
+  --color-on-surface:            oklch(15% 0.005 250);  /* MD3 neutral10 */
+  --color-surface-variant:       oklch(90% 0.005 280);  /* MD3 neutral-variant90 */
+  --color-on-surface-variant:    oklch(30% 0.005 280);  /* MD3 neutral-variant30 */
+
+  /* === Outline group === */
+  --color-outline:              oklch(55% 0.01 250);   /* MD3 neutral-variant50 */
+  --color-outline-variant:       oklch(85% 0.005 250);  /* MD3 neutral-variant80 */
+
+  /* === Inverse group === */
+  --color-inverse-surface:      oklch(15% 0.005 250);  /* MD3 neutral20 */
+  --color-inverse-on-surface:    oklch(95% 0.005 250);  /* MD3 neutral95 */
+  --color-inverse-primary:      oklch(80% 0.15 280);   /* MD3 primary80 */
+
+  /* === 其它 === */
+  --color-shadow:               oklch(0% 0 0);          /* shadow 黑色 */
+  --color-scrim:                oklch(0% 0 0);          /* 遮罩 黑色 */
+}
+
+/* === Dark mode (MD3 v0.192 dark palette 真实值) === */
+[data-theme="dark"] {
+  --color-primary:              oklch(80% 0.15 280);   /* MD3 primary80 */
+  --color-on-primary:            oklch(15% 0.10 280);   /* MD3 primary20 */
+  --color-primary-container:     oklch(30% 0.10 280);   /* MD3 primary30 */
+  --color-on-primary-container:  oklch(90% 0.06 280);   /* MD3 primary90 */
+
+  --color-secondary:            oklch(80% 0.06 280);
+  --color-on-secondary:          oklch(15% 0.04 280);
+  --color-secondary-container:   oklch(28% 0.04 280);
+  --color-on-secondary-container: oklch(92% 0.04 280);
+
+  --color-tertiary:             oklch(80% 0.10 180);
+  --color-on-tertiary:           oklch(15% 0.06 180);
+  --color-tertiary-container:    oklch(30% 0.10 180);
+  --color-on-tertiary-container: oklch(90% 0.06 180);
+
+  --color-error:                oklch(80% 0.15 25);
+  --color-on-error:              oklch(15% 0.10 25);
+  --color-error-container:       oklch(30% 0.15 25);
+  --color-on-error-container:    oklch(95% 0.04 25);
+
+  --color-surface:              oklch(10% 0.005 250);  /* MD3 dark neutral10 */
+  --color-on-surface:            oklch(90% 0.005 250);  /* MD3 dark neutral90 */
+  --color-surface-variant:       oklch(30% 0.005 280);
+  --color-on-surface-variant:    oklch(80% 0.005 280);
+
+  --color-outline:              oklch(60% 0.01 250);
+  --color-outline-variant:       oklch(30% 0.005 250);
+
+  --color-inverse-surface:      oklch(95% 0.005 250);
+  --color-inverse-on-surface:    oklch(15% 0.005 250);
+  --color-inverse-primary:      oklch(40% 0.18 280);
+
+  --color-shadow:               oklch(0% 0 0);
+  --color-scrim:                oklch(0% 0 0);
+}
+
+/* === Background utility (semantic) === */
+.bg-primary            { background-color: var(--color-primary); }
+.bg-on-primary         { background-color: var(--color-on-primary); }
+.bg-primary-container  { background-color: var(--color-primary-container); }
+.bg-secondary          { background-color: var(--color-secondary); }
+.bg-secondary-container { background-color: var(--color-secondary-container); }
+.bg-tertiary           { background-color: var(--color-tertiary); }
+.bg-tertiary-container { background-color: var(--color-tertiary-container); }
+.bg-error              { background-color: var(--color-error); }
+.bg-error-container    { background-color: var(--color-error-container); }
+.bg-surface            { background-color: var(--color-surface); }
+.bg-surface-variant    { background-color: var(--color-surface-variant); }
+.bg-inverse-surface    { background-color: var(--color-inverse-surface); }
+
+/* === Text utility (semantic) === */
+.text-primary              { color: var(--color-primary); }
+.text-on-primary           { color: var(--color-on-primary); }
+.text-on-primary-container { color: var(--color-on-primary-container); }
+.text-on-surface           { color: var(--color-on-surface); }
+.text-on-surface-variant   { color: var(--color-on-surface-variant); }
+.text-on-secondary-container { color: var(--color-on-secondary-container); }
+.text-on-tertiary-container  { color: var(--color-on-tertiary-container); }
+.text-on-error-container   { color: var(--color-on-error-container); }
+.text-inverse-on-surface   { color: var(--color-inverse-on-surface); }
+
+/* === Border utility === */
+.border-outline         { border-color: var(--color-outline); }
+.border-outline-variant { border-color: var(--color-outline-variant); }
+.border-primary         { border-color: var(--color-primary); }
+.border-error           { border-color: var(--color-error); }
+
+/* === Inverse section (用于 snackbar/banner 黑色底) === */
+.inverse-surface { background-color: var(--color-inverse-surface); color: var(--color-inverse-on-surface); }
+
+/* === 高层语义 component utility === */
+.btn-primary { background-color: var(--color-primary); color: var(--color-on-primary); }
+.btn-tonal   { background-color: var(--color-secondary-container); color: var(--color-on-secondary-container); }
+.btn-error   { background-color: var(--color-error-container); color: var(--color-on-error-container); }
+
+.chip-primary { background-color: var(--color-primary-container); color: var(--color-on-primary-container); }
+.chip-tertiary { background-color: var(--color-tertiary-container); color: var(--color-on-tertiary-container); }
+.chip-error   { background-color: var(--color-error-container); color: var(--color-on-error-container); }

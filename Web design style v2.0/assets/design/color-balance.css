@@ -1,0 +1,85 @@
+/* ============================================
+   WebPPT Maker v3.6 · 颜色平衡 (60-30-10)
+   60% 主导色 / 30% 次要色 / 10% 强调色
+   经典色彩比例法则,保证视觉层次
+   ============================================ */
+
+/* === 颜色层级 utility (CSS 端表达) === */
+.color-dominant { color: var(--bg-primary); }        /* 60% 主导 (背景/底色) */
+.color-base     { color: var(--text-primary); }      /* 30% 次要 (正文) */
+.color-secondary{ color: var(--text-secondary); }    /* 30% 次要 (描述) */
+.color-accent   { color: var(--accent); }            /* 10% 强调 (CTA/重点) */
+.color-muted    { opacity: 0.6; }                    /* 进一步弱化 */
+
+/* === 对比保证 (WCAG AA 4.5:1) === */
+.contrast-hi    { color: var(--text-primary); }      /* 必为深色, ≥ 7:1 */
+.contrast-md    { color: var(--text-secondary); }    /* 中等, ≥ 4.5:1 */
+.contrast-accent{ color: var(--accent); }            /* 强调色 (高饱和) */
+
+/* === 背景权重 === */
+.bg-dominant    { background: var(--bg-primary); }   /* 60% */
+.bg-secondary   { background: var(--bg-secondary); }  /* 30% */
+.bg-accent      { background: var(--accent); }        /* 10% */
+
+/* === 颜色比例计数 (visible hint: 开发者调试用) === */
+[data-color-ratio]::before {
+  content: "60-30-10";
+  display: inline-block;
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  opacity: 0.3;
+  margin-right: var(--space-2);
+}
+
+/* === 60% 主导: 页面背景 === */
+.page {
+  background: var(--bg-primary);   /* 60% 占比 */
+}
+
+/* === 30% 次要: 卡片/容器 === */
+.card, .compare-card, .qa-question, .qa-answer,
+.focal-note, .waterfall-item {
+  background: var(--bg-secondary); /* 30% 占比 */
+}
+
+/* === 10% 强调: 数字/CTA/badge === */
+.big-number, .accent-bg,
+.cta-button, .badge, .timeline-dot {
+  color: var(--accent);
+  /* 10% 占比 - 只能用于真正焦点 */
+}
+
+/* === 强制禁用纯黑 (AS-04) === */
+.no-pure-black { /* 不允许 #000 / #FFF 直接出现 */ }
+/* 已在 tokens 中用 #1a1a1a / #FFFFFF 替代, 这层是显式声明 */
+
+/* === 反向 (dark accent on light bg) === */
+.on-accent { color: white; }                /* 当在 accent 背景上时 */
+.on-dark   { color: rgba(255,255,255,0.92); } /* dark 背景 */
+
+/* === 颜色块 (用于 chart / 视觉分区) === */
+.color-block {
+  display: inline-block;
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: var(--radius-sm);
+  vertical-align: middle;
+  margin-right: var(--space-2);
+}
+.color-block.bg-dominant    { background: var(--bg-primary); border: 1px solid var(--border); }
+.color-block.bg-secondary   { background: var(--bg-secondary); }
+.color-block.bg-accent      { background: var(--accent); }
+
+/* === 标签: 60-30-10 比例标注 (hover 时显) === */
+.page-cover::after {
+  content: "60% bg · 30% secondary · 10% accent";
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.page-cover:hover::after { opacity: 0.5; }

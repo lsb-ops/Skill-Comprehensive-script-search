@@ -1,0 +1,81 @@
+/* ============================================
+   WebPPT Maker v3.16 · Responsive Breakpoints
+   ============================================
+   4 个标准断点 (mobile-first):
+   - mobile:  ≤640px   (默认, 不写媒体查询)
+   - tablet:  641-1024px
+   - laptop:  1025-1440px
+   - desktop: ≥1441px
+
+   移动优先: 默认样式针对 mobile
+   ============================================ */
+
+/* === 默认 mobile (无媒体查询) === */
+:root {
+  --bp-mobile-max: 640px;
+  --bp-tablet-min: 641px;
+  --bp-tablet-max: 1024px;
+  --bp-laptop-min: 1025px;
+  --bp-laptop-max: 1440px;
+  --bp-desktop-min: 1441px;
+
+  --content-padding: 1rem;        /* mobile 默认 */
+  --content-padding-tablet: 1.5rem;
+  --content-padding-laptop: 2rem;
+  --content-max-width: 100%;       /* mobile 全宽 */
+  --content-max-width-laptop: 1200px;
+  --content-max-width-desktop: 1400px;
+}
+
+/* === Tablet (≥641px) === */
+@media (min-width: 641px) {
+  :root {
+    --content-padding: var(--content-padding-tablet);
+  }
+}
+
+/* === Laptop (≥1025px) === */
+@media (min-width: 1025px) {
+  :root {
+    --content-padding: var(--content-padding-laptop);
+    --content-max-width: var(--content-max-width-laptop);
+  }
+}
+
+/* === Desktop (≥1441px) === */
+@media (min-width: 1441px) {
+  :root {
+    --content-max-width: var(--content-max-width-desktop);
+  }
+}
+
+/* === 工具类: 响应式显隐 === */
+.hidden-mobile { display: none; }
+@media (min-width: 641px)  { .hidden-mobile { display: initial; } }
+
+.hidden-tablet { display: initial; }
+@media (min-width: 641px) and (max-width: 1024px) { .hidden-tablet { display: none; } }
+
+.hidden-laptop { display: initial; }
+@media (min-width: 1025px) { .hidden-laptop { display: none; } }
+
+.hidden-desktop { display: initial; }
+@media (min-width: 1441px) { .hidden-desktop { display: none; } }
+
+.show-mobile-only { display: initial; }
+@media (min-width: 641px) { .show-mobile-only { display: none; } }
+
+/* === 响应式文字大小 === */
+.text-responsive-xs { font-size: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); }
+.text-responsive-sm { font-size: clamp(0.875rem, 0.8rem + 0.35vw, 1rem); }
+.text-responsive-md { font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem); }
+.text-responsive-lg { font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem); }
+.text-responsive-xl { font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2rem); }
+.text-responsive-2xl { font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem); }
+.text-responsive-3xl { font-size: clamp(2.5rem, 1.8rem + 3.5vw, 4rem); }
+
+/* === 响应式间距 === */
+.gap-responsive-sm { gap: clamp(0.5rem, 0.4rem + 0.5vw, 1rem); }
+.gap-responsive-md { gap: clamp(1rem, 0.8rem + 1vw, 1.5rem); }
+.gap-responsive-lg { gap: clamp(1.5rem, 1rem + 2vw, 3rem); }
+.gap-responsive-xl { gap: clamp(2rem, 1rem + 4vw, 5rem); }

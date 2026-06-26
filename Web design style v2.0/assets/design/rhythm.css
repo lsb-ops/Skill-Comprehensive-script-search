@@ -1,0 +1,53 @@
+/* ============================================
+   WebPPT Maker v3.6 · 垂直节奏 (Vertical Rhythm)
+   8px baseline grid · 全页节奏统一
+   ============================================ */
+
+/* === 8px baseline: 默认 sibling spacing === */
+.page > * + * { margin-top: var(--space-5); }   /* 24px 默认 */
+.page > h1 + h2 { margin-top: var(--space-4); } /* 16px (标题间紧凑) */
+.page > h2 + p  { margin-top: var(--space-3); } /* 12px (副标题) */
+.page > h1 + p  { margin-top: var(--space-5); } /* 24px (主标题→正文) */
+
+/* === Section 内 vertical rhythm === */
+.layout-card .card > * + * { margin-top: var(--space-4); }
+.layout-timeline .timeline-item { margin-bottom: var(--space-6); }
+.layout-timeline .timeline-content > * + * { margin-top: var(--space-2); }
+.layout-waterfall .waterfall-item { margin-bottom: var(--space-5); }
+.layout-waterfall .waterfall-item > * + * { margin-top: var(--space-3); }
+.layout-compare .compare-card { padding: var(--space-5) var(--space-6); }
+.layout-compare .compare-card > * + * { margin-top: var(--space-3); }
+.layout-qa .qa-question, .layout-qa .qa-answer {
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-4);
+}
+.layout-qa .qa-question > *, .layout-qa .qa-answer > * { margin: 0; }
+.layout-storyline .story-step { margin-bottom: var(--space-4); }
+.layout-storyline .story-flow > * + * { margin-top: var(--space-4); }
+.layout-numbers > * + * { margin-top: var(--space-4); }
+
+/* === Section 大块 spacing (page padding) === */
+.page { padding-block: var(--space-7); }       /* 48px 上下内边距 */
+.page-cover, .page-cta { padding-block: var(--space-8); } /* 64px 封面/CTA */
+
+/* === Optical alignment: 大字号 +1-2% vertical offset (避免下沉) === */
+.t-display, .t-hero, .t-3xl, .big-text, .big-number {
+  /* 视觉下沉修正: 数学居中 → 视觉居中 */
+  padding-top: 0.04em;
+  /* 等价: transform: translateY(-2%); 但 padding 不影响布局 */
+}
+
+/* === Banner / Hero 块 padding 更宽 === */
+.page-cover > * + *, .page-cta > * + * { margin-top: var(--space-5); }
+
+/* === 紧凑模式 (data-density="high"): rhythm 收紧 === */
+body[data-density="high"] .page > * + * { margin-top: var(--space-3); }
+body[data-density="high"] .page { padding-block: var(--space-5); }
+body[data-density="high"] .timeline-item,
+body[data-density="high"] .waterfall-item { margin-bottom: var(--space-3); }
+
+/* === 宽松模式 (data-density="low"): rhythm 放松 === */
+body[data-density="low"] .page > * + * { margin-top: var(--space-6); }
+body[data-density="low"] .page { padding-block: var(--space-8); }
+body[data-density="low"] .timeline-item,
+body[data-density="low"] .waterfall-item { margin-bottom: var(--space-7); }

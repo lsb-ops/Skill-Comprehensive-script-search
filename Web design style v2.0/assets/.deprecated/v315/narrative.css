@@ -1,0 +1,154 @@
+/* ============================================
+   WebPPT Maker v3.15 · Narrative Arc (叙事弧线)
+   ============================================
+   核心原则 (和"宣传结合"的具体落地):
+   - 每张幻灯片有 1 个角色: hook / value / proof / cta
+   - 角色决定视觉强调 (hook 大, value 清, proof 数据, cta 行动)
+   - 序列感知: 相邻页视觉过渡有节奏 (不是每页一样)
+   - 故事弧: 起 (hook 5%) → 承 (value 30%) → 转 (proof 50%) → 合 (cta 15%)
+
+   来源: Nancy Duarte (slide:ology), Garr Reynolds (Presentation Zen),
+         Chip & Dan Heath (Made to Stick)
+   ============================================ */
+
+/* === 4 种叙事角色 === */
+[data-role="hook"] {
+  /* HOOK: 抓眼, 1 张图 + 1 句话, 3 秒决定继续看 */
+  /* 已经在 hero.css 中具体实现 */
+  --role-accent: oklch(55% 0.22 280);
+  --role-emphasis: 1;
+}
+
+[data-role="value"] {
+  /* VALUE: 传达核心价值, 5 秒说清 */
+  /* 通常用 action-title 原型 */
+  --role-accent: oklch(55% 0.18 200);
+  --role-emphasis: 0.9;
+}
+
+[data-role="proof"] {
+  /* PROOF: 证明 (数据/案例/对比), 持续给可信度 */
+  /* 用 big-number / comparison / quote */
+  --role-accent: oklch(50% 0.18 145);
+  --role-emphasis: 0.85;
+}
+
+[data-role="cta"] {
+  /* CTA: 行动召唤, 结尾 */
+  /* 用 cta 原型 */
+  --role-accent: oklch(60% 0.22 30);
+  --role-emphasis: 1;
+}
+
+/* === 角色权重: hook/cta 视觉最强, proof 适中 === */
+[data-role="hook"] [data-h-primary] {
+  font-size: calc(var(--h-size-primary) * 1.2);  /* hook 加大 20% */
+  font-weight: 700;
+}
+
+[data-role="cta"] [data-h-primary] {
+  font-size: calc(var(--h-size-primary) * 1.1);  /* cta 也加强 */
+}
+
+/* === 序列感知: 视觉过渡节奏 === */
+
+/* 序列开头: hook → 紧凑聚焦 */
+.narrative-start {
+  /* 第 1-2 张, 视觉张力最强 */
+  --motion-tension: 1.2;
+}
+
+/* 序列中段: value + proof → 平缓 */
+.narrative-middle {
+  /* 中间页, 节奏放缓, 让读者消化 */
+  --motion-tension: 0.8;
+}
+
+/* 序列结尾: cta → 重新聚焦 */
+.narrative-end {
+  /* 结尾页, 重新唤起注意 */
+  --motion-tension: 1.1;
+}
+
+/* === 故事弧比例标记 (开发模式可视化) === */
+[data-narrative-debug="true"]::before {
+  /* 显示当前页在故事弧中的位置 */
+  content: "Role: " attr(data-role) " | Position: " attr(data-narrative-position);
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  background: var(--role-accent);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 11px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* === 叙事节奏曲线 (4 段) === */
+:root {
+  /* 故事弧曲线: 5% / 30% / 50% / 15% */
+  --arc-hook: 5%;
+  --arc-value: 30%;
+  --arc-proof: 50%;
+  --arc-cta: 15%;
+}
+
+/* === 序列过渡动画 (相邻页有视觉联系) === */
+.slide-transition-forward {
+  animation: slide-in-right 500ms var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
+}
+.slide-transition-back {
+  animation: slide-in-left 500ms var(--ease-emphasized-decelerate);
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* === 角色识别标记 (开发/调试) === */
+[data-role]::after {
+  /* 半透明角标, 开发模式可见 */
+  content: attr(data-role);
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: var(--role-accent);
+  color: white;
+  font-family: monospace;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms;
+}
+
+[data-narrative-debug="true"] [data-role]::after {
+  opacity: 0.8;
+}
+
+/* === 故事弧健康度 (开发工具) === */
+[data-narrative-health] {
+  /* 数据属性: 健康度评分 0-100 */
+  --health-color: oklch(60% 0.18 145);
+}
+
+[data-narrative-health="poor"] { --health-color: oklch(55% 0.22 25); }
+[data-narrative-health="fair"] { --health-color: oklch(70% 0.18 75); }
+[data-narrative-health="good"] { --health-color: oklch(60% 0.18 145); }
+
+/* === 减少动效 === */
+@media (prefers-reduced-motion: reduce) {
+  .slide-transition-forward,
+  .slide-transition-back {
+    animation: none;
+  }
+}

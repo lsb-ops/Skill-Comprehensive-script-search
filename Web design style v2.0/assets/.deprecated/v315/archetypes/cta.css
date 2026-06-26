@@ -1,0 +1,175 @@
+/* ============================================
+   WebPPT Maker v3.15 · CTA Archetype (行动召唤)
+   ============================================
+   设计参考: Airbnb closing slide, TED "join us", 销售收尾
+   核心原则:
+   - ONE 行动, 不能多选
+   - 按钮占 30% 视觉重量
+   - 紧迫感/价值感用副文案表达
+   - 这是收尾页, 必须留印象
+   ============================================ */
+
+/* === 基础: 居中 + 沉浸 === */
+[data-archetype="cta"] {
+  display: grid;
+  place-items: center;
+  padding: var(--space-9, 96px);
+  background: var(--arch-cta-bg, oklch(8% 0.005 0));
+  color: var(--arch-cta-text, oklch(98% 0.005 0));
+  min-height: 100vh;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* === 背景: 微妙径向渐变 (温暖聚焦) === */
+[data-archetype="cta"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle at center, oklch(55% 0.22 280 / 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* === 顶部副文案 (紧迫感/价值) === */
+[data-archetype="cta"] .cta-eyebrow {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin: 0 0 var(--space-5, 24px);
+  position: relative;
+  z-index: 1;
+}
+
+/* === 主标题 (行动 + 价值) === */
+[data-archetype="cta"] .cta-headline {
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 200;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-6, 32px);
+  max-width: 14ch;
+  position: relative;
+  z-index: 1;
+}
+
+/* === 描述: 一句话说清做什么 === */
+[data-archetype="cta"] .cta-description {
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.5;
+  margin: 0 0 var(--space-8, 64px);
+  max-width: 40ch;
+  opacity: 0.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* === 主按钮 (CTA 核心) === */
+[data-archetype="cta"] .cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-5, 24px) var(--space-8, 64px);
+  background: oklch(98% 0.005 0);
+  color: oklch(8% 0.005 0);
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  transition: transform 200ms var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+              box-shadow 200ms var(--ease-standard);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+[data-archetype="cta"] .cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-archetype="cta"] .cta-button:active {
+  transform: translateY(0);
+}
+
+/* === 按钮箭头 === */
+[data-archetype="cta"] .cta-button .arrow {
+  display: inline-block;
+  transition: transform 200ms var(--ease-standard);
+}
+
+[data-archetype="cta"] .cta-button:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* === 次级链接 === */
+[data-archetype="cta"] .cta-secondary {
+  display: block;
+  margin-top: var(--space-5, 24px);
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 13px;
+  opacity: 0.5;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+[data-archetype="cta"] .cta-secondary:hover {
+  opacity: 0.8;
+}
+
+/* === 元信息 (联系/版权) === */
+[data-archetype="cta"] .cta-meta {
+  position: absolute;
+  bottom: var(--space-7, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+/* === 入场: 逐元素递进 === */
+[data-archetype="cta"] .cta-eyebrow,
+[data-archetype="cta"] .cta-headline,
+[data-archetype="cta"] .cta-description,
+[data-archetype="cta"] .cta-button {
+  opacity: 0;
+  animation: cta-rise 800ms var(--ease-emphasized-decelerate) forwards;
+}
+[data-archetype="cta"] .cta-eyebrow    { animation-delay: 100ms; }
+[data-archetype="cta"] .cta-headline   { animation-delay: 300ms; }
+[data-archetype="cta"] .cta-description { animation-delay: 600ms; }
+[data-archetype="cta"] .cta-button     { animation-delay: 900ms; }
+
+@keyframes cta-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-archetype="cta"] .cta-eyebrow,
+  [data-archetype="cta"] .cta-headline,
+  [data-archetype="cta"] .cta-description,
+  [data-archetype="cta"] .cta-button {
+    animation: none;
+    opacity: 1;
+  }
+}

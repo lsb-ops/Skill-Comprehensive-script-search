@@ -1,0 +1,142 @@
+/* ============================================
+   WebPPT Maker v3.17 · Tabs (标签页)
+   ============================================
+   真实参考: Radix UI Tabs, Headless UI
+   关键能力:
+   - 键盘导航 (←/→/Home/End)
+   - ARIA roles
+   - URL hash 同步 (可选)
+   - 滑动指示器 (animated underline)
+   ============================================ */
+
+[data-component="tabs"] {
+  width: 100%;
+}
+
+/* === Tab 列表 === */
+[data-component="tabs"] .tabs-list {
+  display: flex;
+  gap: var(--space-2, 8px);
+  border-bottom: 1px solid oklch(92% 0.005 0);
+  margin-bottom: var(--space-5, 24px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-component="tabs"] .tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
+[data-component="tabs"] .tab-trigger {
+  background: none;
+  border: none;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: oklch(45% 0.015 250);
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  transition: color 150ms;
+}
+
+[data-component="tabs"] .tab-trigger:hover {
+  color: oklch(20% 0.015 250);
+}
+
+[data-component="tabs"] .tab-trigger[aria-selected="true"] {
+  color: oklch(15% 0.015 250);
+}
+
+/* 底部指示线 */
+[data-component="tabs"] .tab-trigger[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: oklch(55% 0.22 280);
+  animation: tab-indicator-in 200ms var(--ease-emphasized-decelerate);
+}
+
+@keyframes tab-indicator-in {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+[data-component="tabs"] .tab-trigger:focus-visible {
+  outline: 2px solid oklch(55% 0.22 280);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* === Tab 内容 === */
+[data-component="tabs"] .tab-panel {
+  display: none;
+  animation: tab-content-in 250ms var(--ease-standard);
+}
+
+[data-component="tabs"] .tab-panel[aria-hidden="false"] {
+  display: block;
+}
+
+@keyframes tab-content-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === 变体: 垂直 tabs === */
+[data-component="tabs"][data-orientation="vertical"] {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-6, 32px);
+}
+
+[data-component="tabs"][data-orientation="vertical"] .tabs-list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid oklch(92% 0.005 0);
+  margin-bottom: 0;
+  align-items: stretch;
+}
+
+[data-component="tabs"][data-orientation="vertical"] .tab-trigger {
+  text-align: left;
+}
+
+[data-component="tabs"][data-orientation="vertical"] .tab-trigger[aria-selected="true"]::after {
+  bottom: 0;
+  top: 0;
+  left: auto;
+  right: -1px;
+  width: 2px;
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  [data-component="tabs"][data-orientation="vertical"] {
+    grid-template-columns: 1fr;
+  }
+  [data-component="tabs"][data-orientation="vertical"] .tabs-list {
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid oklch(92% 0.005 0);
+  }
+  [data-component="tabs"][data-orientation="vertical"] .tab-trigger[aria-selected="true"]::after {
+    bottom: -1px;
+    top: auto;
+    right: 0;
+    width: auto;
+    height: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-component="tabs"] .tab-trigger[aria-selected="true"]::after,
+  [data-component="tabs"] .tab-panel {
+    animation: none;
+  }
+}

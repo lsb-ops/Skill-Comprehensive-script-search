@@ -1,0 +1,92 @@
+{
+  "id": "人物_骆骆",
+  "name": "骆骆",
+  "version": "1.0.0",
+  "type": "character",
+  "role": "配角·白月光",
+  "ep_first_appearance": "EP01",
+  "created_at": "2026-06-17",
+  "basic_info": {
+    "gender": "女",
+    "age": 24,
+    "height": "165cm",
+    "ethnicity": "汉族",
+    "voice": "轻柔，略带颤抖（紧张时）"
+  },
+  "appearance": {
+    "hair": "黑色长直发，自然垂坠过肩",
+    "face": "鹅蛋脸，柳叶眉，圆眼",
+    "build": "纤细",
+    "skin": "白皙，微泛红（紧张时）",
+    "distinctive_features": [
+      "右眼角一颗泪痣",
+      "齐刘海",
+      "无妆（素颜感）"
+    ]
+  },
+  "wardrobe": {
+    "primary_outfit": {
+      "name": "白月光纯白造型",
+      "items": [
+        "白色衬衫（V 领）",
+        "米色长裙（过膝）",
+        "白色帆布鞋",
+        "无首饰（突出素净）"
+      ],
+      "color_palette": [
+        "#ffffff",
+        "#f5e6d3",
+        "#fafafa"
+      ],
+      "fit": "宽松自然（不显身材）"
+    }
+  },
+  "personality": {
+    "core_traits": [
+      "温柔",
+      "清醒（对霸总套路的清醒认知）",
+      "倔强（不屈服）"
+    ],
+    "speech_pattern": "短句+反问+逻辑清晰",
+    "tics": [
+      "紧张时双手紧握",
+      "思考时低头",
+      "被教化时身体僵硬"
+    ]
+  },
+  "assets": {
+    "reference_images": [
+      "03_人物档案/人物_骆骆.png"
+    ],
+    "lora_path": null
+  },
+  "consistency_rules": {
+    "must_keep": [
+      "白月光纯白造型",
+      "右眼角泪痣",
+      "齐刘海黑色长直发"
+    ],
+    "must_change": [
+      "鞋款",
+      "衬衫领口"
+    ]
+  },
+  "ep_appearances": {
+    "EP01": {
+      "first_mirror": "镜002",
+      "total_mirrors": 6,
+      "key_scenes": [
+        "弄堂内撞到刘一鸣",
+        "被教化物理反应",
+        "温情递物"
+      ]
+    },
+    "EP02": {
+      "first_mirror": "镜001",
+      "outfit": "延续 EP01 主造型（清新职场穿搭）",
+      "continuity_notes": "延续 EP01 结尾状态"
+    }
+  },
+  "prompt_template": "资产人物骆骆前景CU模糊（关键特征：黑色长直发+齐刘海+白色衬衫+右眼角泪痣+165cm+紧张表情）",
+  "notes": "EP01 配角。白月光形象，对霸总套路有清醒认知。被教化时展现物理反应（身体僵硬+眼神紧张+肩膀内扣）。"
+}

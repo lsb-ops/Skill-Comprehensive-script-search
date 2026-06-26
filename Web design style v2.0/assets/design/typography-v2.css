@@ -1,0 +1,245 @@
+/* ============================================
+   WebPPT Maker v3.14 · 字体系统重构 (Typography v2)
+   Type Pairing + Modular Scale (1.25 ratio) + 3 级字重 + 完整中英回退
+   ============================================
+   设计原则 (来自 DESIGN_PHILOSOPHY.md §2.1):
+   1. Modular Scale: 1.25 ratio (但只保留 5 级, 不再 10 级泛滥)
+   2. Type Pairing: Heading Serif + Body Sans (或 Heading Sans + Body Sans)
+   3. Measure (行宽): 中文 25-40 字 / 英文 45-75 字符
+   4. Leading: Heading 1.15 / Body 1.6 / 中文 1.75
+   5. Hierarchy: 3 级字号 + 2 级字重 (regular/medium/bold)
+
+   修复 v3.13 问题:
+   - 字体回退链缺失 → 完整中英回退
+   - 字号 14/16/18/22/28/36/48/64/96/144 跳跃过大 → 只保留 5 级
+   - 字重只有 400/700 → 改为 3 级 (400/500/700)
+   ============================================ */
+
+/* ============================================
+   §1. 字体族 (4 族 + 完整回退链)
+   ============================================ */
+
+:root {
+  /* === Sans Serif (默认, 现代无衬线) === */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue",
+               "Source Han Sans CN", "Noto Sans CJK SC", Arial, sans-serif;
+
+  /* === Serif (衬线, 用于标题/商务/教育) === */
+  --font-serif: "Source Serif Pro", "Source Serif 4", "Noto Serif SC",
+                "Songti SC", "STSong", "SimSun", Georgia, "Times New Roman",
+                "PT Serif", "Playfair Display", serif;
+
+  /* === Display (展示字体, 用于 hero / poster) === */
+  --font-display: "Playfair Display", "Bodoni Moda", "Source Serif Pro",
+                  "Noto Serif SC", "PingFang SC", Georgia, serif;
+
+  /* === Mono (等宽, 用于科技 / 代码 / 数据) === */
+  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code",
+               "Source Han Mono SC", "Menlo", "Consolas", monospace;
+
+  /* === 系统默认回退 (用户系统字体优先) === */
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Microsoft YaHei", sans-serif;
+}
+
+/* === 字体族 utility === */
+.font-sans    { font-family: var(--font-sans); }
+.font-serif   { font-family: var(--font-serif); }
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+
+/* ============================================
+   §2. Modular Scale (1.25 ratio, 5 级)
+   1.25 ratio = 黄金比例 (1.618) 的对数平均
+   14 × 1.25 = 17.5 ≈ 18
+   18 × 1.25 = 22.5 ≈ 22
+   22 × 1.25 = 27.5 ≈ 28
+   28 × 1.25 = 35   ≈ 36
+   36 × 1.25 = 45   ≈ 48 (hero)
+
+   5 级而非 10 级: 决策疲劳问题 (DESIGN_PHILOSOPHY §1.1)
+   ============================================ */
+
+:root {
+  /* === 5 级字号 (1.25 ratio) === */
+  --text-xs:    14px;     /* caption, badge, label */
+  --text-base:  18px;     /* body 默认 (中文舒服尺寸) */
+  --text-md:    22px;     /* subtitle, lead */
+  --text-lg:    28px;     /* h3, section title */
+  --text-xl:    36px;     /* h2, page title */
+  --text-2xl:   48px;     /* h1, hero title */
+  --text-3xl:   64px;     /* display */
+
+  /* === 兼容旧 var 名 === */
+  --font-size-caption: var(--text-xs);
+  --font-size-body: var(--text-base);
+  --font-size-h2: var(--text-xl);
+  --font-size-h1: var(--text-2xl);
+
+  /* === 3 级字重 (regular / medium / bold) === */
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-bold:    700;
+
+  /* === 行高 (5 级) === */
+  --lh-tight:    1.15;    /* 大标题, 紧凑 */
+  --lh-snug:     1.3;     /* 小标题, subtitle */
+  --lh-normal:   1.5;     /* 英文 body */
+  --lh-relaxed:  1.7;     /* 中文 body */
+  --lh-loose:    1.9;     /* 大段引用 */
+}
+
+/* ============================================
+   §3. Type Pairing (Heading + Body 配对)
+   关键: Heading 和 Body 必须**对比**而非相似
+   ============================================ */
+
+/* === 默认 pairing (Sans-Sans 同族, 安全) === */
+:root {
+  --font-heading: var(--font-sans);
+  --font-body:    var(--font-sans);
+}
+
+/* === 高级 pairing (Serif Heading + Sans Body) === */
+[data-pairing="editorial"] {
+  --font-heading: var(--font-serif);   /* 衬线标题 */
+  --font-body:    var(--font-sans);    /* 无衬线正文 */
+}
+
+/* === 科技 pairing (Sans Heading + Mono Accent) === */
+[data-pairing="tech"] {
+  --font-heading: var(--font-sans);
+  --font-body:    var(--font-sans);
+}
+
+/* === 时尚 pairing (Display + Sans) === */
+[data-pairing="fashion"] {
+  --font-heading: var(--font-display);
+  --font-body:    var(--font-sans);
+}
+
+/* === 强制继承 === */
+h1, h2, h3, h4, h5, h6,
+.t-h1, .t-h2, .t-h3, .t-display, .t-hero,
+.title, .big-text, .big-number {
+  font-family: var(--font-heading);
+}
+
+/* ============================================
+   §4. 6 级 Hierarchy utility (替代 v3.13 的 8 级)
+   ============================================ */
+
+.t-caption { font-size: var(--text-xs);    line-height: var(--lh-snug);    font-weight: var(--fw-regular); }
+.t-body    { font-size: var(--text-base);  line-height: var(--lh-relaxed); font-weight: var(--fw-regular); }
+.t-lead    { font-size: var(--text-md);    line-height: var(--lh-snug);    font-weight: var(--fw-regular); }
+.t-sub     { font-size: var(--text-md);    line-height: var(--lh-snug);    font-weight: var(--fw-medium);  }
+.t-h3      { font-size: var(--text-lg);    line-height: var(--lh-snug);    font-weight: var(--fw-medium);  }
+.t-h2      { font-size: var(--text-xl);    line-height: var(--lh-tight);   font-weight: var(--fw-medium);  }
+.t-h1      { font-size: var(--text-2xl);   line-height: var(--lh-tight);   font-weight: var(--fw-bold);    }
+.t-display { font-size: var(--text-3xl);   line-height: var(--lh-tight);   font-weight: var(--fw-bold);    }
+
+/* === 行宽 utility (中英区分) === */
+.t-measure-narrow { max-width: 540px; margin-left: auto; margin-right: auto; }
+.t-measure-base   { max-width: 720px; margin-left: auto; margin-right: auto; }
+.t-measure-wide   { max-width: 900px; margin-left: auto; margin-right: auto; }
+
+/* ============================================
+   §5. 字重 utility
+   ============================================ */
+.fw-regular { font-weight: var(--fw-regular); }
+.fw-medium  { font-weight: var(--fw-medium);  }
+.fw-bold    { font-weight: var(--fw-bold);    }
+
+/* ============================================================
+   §6. 中英混排 (CJK + Latin)
+   ============================================================ */
+
+/* === 中文字符: letter-spacing + 略宽行高 === */
+:lang(zh), [lang="zh"], .lang-zh {
+  letter-spacing: 0.02em;       /* 中文空气感 */
+  word-break: break-word;
+}
+
+/* === 英文字符: 紧凑 === */
+:lang(en), [lang="en"], .lang-en {
+  letter-spacing: -0.01em;
+}
+
+/* === 中文标题 (≥ 28px): 加大字号时仍保字距 === */
+:lang(zh) h1, :lang(zh) h2, :lang(zh) .t-h1, :lang(zh) .t-h2,
+[lang="zh"] h1, [lang="zh"] h2 {
+  letter-spacing: 0.05em;
+}
+
+/* === 数字 tabular (count-up 不抖动) === */
+.tnum { font-variant-numeric: tabular-nums lining-nums; }
+.num, .big-number, .count-up, [data-count] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   §7. Optical Sizing (大字号下沉修正)
+   修复 v3.13: padding-top 0.04em 不够, 应 0.06em (大字号视觉下沉更明显)
+   ============================================================ */
+
+.t-h1, .t-display {
+  padding-top: 0.06em;
+}
+
+.t-h2, .t-h3, .t-lead {
+  padding-top: 0.04em;
+}
+
+.t-body {
+  padding-top: 0.02em;
+}
+
+/* ============================================
+   §8. 字体特性 (Feature Settings)
+   ============================================================ */
+
+:root {
+  /* 启用 kern / liga / calt (连字, 字距) */
+  --font-features: "kern" 1, "liga" 1, "calt" 1;
+}
+
+body, .t-body, .t-lead {
+  font-feature-settings: var(--font-features);
+}
+
+/* ============================================================
+   §9. Density Dial (密度调节) - 保留 v3.13 能力
+   ============================================================ */
+
+body[data-density="compact"] {
+  --text-base: 16px;
+  --text-md: 20px;
+  --text-lg: 24px;
+  --text-xl: 32px;
+  --text-2xl: 40px;
+}
+
+body[data-density="default"] {
+  /* 默认值, 不需声明 */
+}
+
+body[data-density="airy"] {
+  --text-base: 20px;
+  --text-md: 26px;
+  --text-lg: 32px;
+  --text-xl: 42px;
+  --text-2xl: 56px;
+}
+
+/* ============================================
+   §10. Reduced Motion 字体适配 (避免抖动)
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* 字体特性保持, 但禁用所有过渡 */
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

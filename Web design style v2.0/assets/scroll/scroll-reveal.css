@@ -1,0 +1,101 @@
+/* ============================================
+   WebPPT Maker v3.16 · Scroll-Driven Animation
+   ============================================
+   取代 slide transition 的核心动效系统
+   使用 IntersectionObserver 触发入场动画
+   不使用 scroll-linked animation (性能)
+   ============================================ */
+
+/* === 初始状态: 元素未可见时 === */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 800ms var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1)),
+              transform 800ms var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
+  will-change: opacity, transform;
+}
+
+/* === 可见后激活 (JS 加 data-revealed="true") === */
+[data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Reveal 变体 === */
+[data-reveal="fade"] {
+  /* 仅淡入 */
+  transform: none;
+}
+
+[data-reveal="slide-left"] {
+  transform: translateX(-40px);
+}
+[data-reveal="slide-left"][data-revealed="true"] {
+  transform: translateX(0);
+}
+
+[data-reveal="slide-right"] {
+  transform: translateX(40px);
+}
+[data-reveal="slide-right"][data-revealed="true"] {
+  transform: translateX(0);
+}
+
+[data-reveal="scale"] {
+  transform: scale(0.95);
+}
+[data-reveal="scale"][data-revealed="true"] {
+  transform: scale(1);
+}
+
+[data-reveal="blur"] {
+  opacity: 0;
+  filter: blur(8px);
+}
+[data-reveal="blur"][data-revealed="true"] {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* === Reveal 延迟 (通过 nth-child 或 inline style) === */
+[data-reveal-delay="1"] { transition-delay: 100ms; }
+[data-reveal-delay="2"] { transition-delay: 200ms; }
+[data-reveal-delay="3"] { transition-delay: 300ms; }
+[data-reveal-delay="4"] { transition-delay: 400ms; }
+[data-reveal-delay="5"] { transition-delay: 500ms; }
+
+/* === 错开 stagger (容器内子元素依次) === */
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 600ms var(--ease-emphasized-decelerate),
+              transform 600ms var(--ease-emphasized-decelerate);
+}
+
+[data-reveal-stagger][data-revealed="true"] > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-reveal-stagger][data-revealed="true"] > *:nth-child(1) { transition-delay: 0ms; }
+[data-reveal-stagger][data-revealed="true"] > *:nth-child(2) { transition-delay: 80ms; }
+[data-reveal-stagger][data-revealed="true"] > *:nth-child(3) { transition-delay: 160ms; }
+[data-reveal-stagger][data-revealed="true"] > *:nth-child(4) { transition-delay: 240ms; }
+[data-reveal-stagger][data-revealed="true"] > *:nth-child(5) { transition-delay: 320ms; }
+[data-reveal-stagger][data-revealed="true"] > *:nth-child(6) { transition-delay: 400ms; }
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+/* === 性能: 释放 will-change === */
+[data-reveal][data-revealed="true"] {
+  will-change: auto;
+}

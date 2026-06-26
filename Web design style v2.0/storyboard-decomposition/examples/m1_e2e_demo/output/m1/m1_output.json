@@ -1,0 +1,373 @@
+{
+  "script_meta": {
+    "title": "> **源文件**：`副本当霸道总裁拥有媒体素养 EP01(3).docx`",
+    "ep": "EP01",
+    "style": "古早霸总",
+    "total_duration_target": 80.0,
+    "source_file": "/Users/lin/Desktop/霸道总裁/剧本/skill/examples/m1_e2e_demo/00_input_script.md"
+  },
+  "scenes": [
+    {
+      "id": "S01",
+      "time": "未知",
+      "location": "先拍场景三、五室内对话戏，演员状态最易控",
+      "characters": [],
+      "props": [],
+      "mood": "中性",
+      "structure_position": "建制"
+    },
+    {
+      "id": "S02",
+      "time": "未知",
+      "location": "再拍场景四外景过渡戏，光线可控",
+      "characters": [],
+      "props": [],
+      "mood": "中性",
+      "structure_position": "发展中"
+    },
+    {
+      "id": "S03",
+      "time": "未知",
+      "location": "最后拍场景一、二外景 + 升格慢动作，对设备/天气要求高",
+      "characters": [],
+      "props": [],
+      "mood": "中性",
+      "structure_position": "发展中"
+    },
+    {
+      "id": "S04",
+      "time": "未知",
+      "location": "**可拆条短视频**：每个反转3.5 / 5.7单独剪辑 15 秒，投放 B 站 / 视频号。",
+      "characters": [],
+      "props": [],
+      "mood": "中性",
+      "structure_position": "发展中"
+    },
+    {
+      "id": "S05",
+      "time": "未知",
+      "location": "**可做系列 IP**：本片确立了\"霸总 × 媒体素养\"的范式，后续 EP 可延展至：",
+      "characters": [],
+      "props": [],
+      "mood": "中性",
+      "structure_position": "发展中"
+    },
+    {
+      "id": "S06",
+      "time": "未知",
+      "location": "**可做衍生课件**：与高校新闻学院、网信办普法合作，做成\"媒介素养第一课\"教学包。",
+      "characters": [],
+      "props": [],
+      "mood": "中性",
+      "structure_position": "发展中"
+    }
+  ],
+  "characters": [
+    {
+      "id": "P01",
+      "name": "- **镜头 6.4**",
+      "role": "主角",
+      "gender": "未知",
+      "age": 0,
+      "height": "未知",
+      "traits": []
+    },
+    {
+      "id": "P02",
+      "name": "| 6.7 | 字幕 | — | 1.0s | **字幕**",
+      "role": "对手",
+      "gender": "未知",
+      "age": 0,
+      "height": "未知",
+      "traits": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "A001",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| **运镜语言** | 反转前：跟拍、推拉、慢动作<br>反转后：固定机位、对话式平视 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A002",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 1.1 | 极远景 | 航拍快速推近 | 1.0s | 张园石库门建筑群全貌 | 动感电音 BGM 起 | 滤镜偏黄绿、低饱和 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A003",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 1.2 | 特写 | 贴地仰拍 | 0.6s | 一双锃亮皮鞋踏步走入画 | BGM 重低音鼓点 | 皮鞋反光强，制造压迫感 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A004",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 1.5 | 中景 | 侧拍 90° | 0.8s | 小仇紧随其后，独角戏式走出\"千军万马\"排场 | BGM 不变 | 单人演出\"大军\"气质，夸张滑稽 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A005",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 2.2 | 中景 | 反向跟拍 | 1.0s | 骆骆端白色饮料杯低头匆匆走来 | BGM 不变 | 骆骆普通职场人造型（白衬衫、马尾） |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A006",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 2.9 | 中近景 | 快速推近 | 1.0s | 小仇瞬间\"闪现\"至骆骆面前，手指几乎戳到鼻子 | 静 → 小仇台词 | 戏剧化登场，速度感强 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A007",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "你就算打十辈子工也赔不起这一条袖子",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A008",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 3.4 | 中近景 | 固定 | 0.5s | 刘一鸣抬手做出\"打住\"手势 | 静 → 台词起 | 手势干脆利落 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A009",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "小仇，你最近是不是看了什么不良网文",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A010",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "我又不是明星走红毯",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A011",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "动不动就\"打十辈子工赔不起\"，这不仅涉嫌人格侮辱，更是缺乏基本的生活常识和法治观念",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A012",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "其次，如果我没看错的话，这位女士手里端的就是白水，泼在我衣服上的这点儿，被你这么一折腾，怕是已经干了",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A013",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 4.1 | 近景 | 过肩（骆骆肩） | 1.0s | 刘一鸣看向骆骆 | 静 → 台词 | 角度温和 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A014",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 4.2 | 近景 | 反打 | 1.5s | **刘一鸣（语气平和）**：你可以走了",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A015",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 骆骆台词 | 接过刘一鸣递出的名片（手部特写穿插） |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A016",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 4.4 | 中景 | 侧面跟拍 | 1.5s | 骆骆拿着名片\"像小兔子一样飞快逃离\"现场 | 轻快配乐起（不抢戏） | 步伐可爱夸张 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A017",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 4.5 | 中景 | 固定 | 1.5s | 刘一鸣看着她的背影，**若有所思** | 配乐延续 | ⚠️ 此处需明确为\"工作场景的若有所思\"，**避免暧昧擦边**（建议刘一鸣手中同时有手机/记事本） |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A018",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 5.1 | 中近景 | 推近 | 1.0s | 小仇注意到刘一鸣\"盯着\"女主背影，眼神瞬间狂热 | 静 | 小仇眼睛放光表情 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A019",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 5.3 | 近景 | 推近至特写 | 0.8s | 小仇凑上前，**嘴角勾起邪魅狂狷的笑**，压低声音 | 静 → 台词 | 经典霸总剧小跟班表情 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A020",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 5.4 | 近景 | 固定 | 3.5s | **小仇（压低声线）**：总裁，我知道您的想法，您放心",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A021",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 5.6 | 特写 | 固定 | 0.6s | 刘一鸣转头看小仇，**眼神像看智障** | 静 | 眉头紧锁、嘴角下垂 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A022",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "你信不信警察十分钟后就来把你带走",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A023",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 6.1 | 全景 | 固定 | 1.5s | 小仇瑟瑟发抖，抱紧自己 | 静 | 喜剧感拉满 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A024",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 6.2 | 中景 | 跟拍 | 1.5s | 刘一鸣摇摇头，叹了口气，大步走开 | 配乐起（恢弘大气正向） | 步伐比开场稳健、不再夸张 |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A025",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 6.5 | 特写 | 推近 | 1.5s | **刘一鸣（画外音/内心OS）**：这届助理，真难带，一点媒介素养都没有",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A026",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "- **镜头 1.5 / 2.9**：小仇的戏剧化表演是喜剧核心，**演员需要放得开**",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A027",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "### ⚠️ 风险镜头（需打磨）",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A028",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "- 镜头后续接 0.3 秒刘一鸣低头看工作手机，自然化解暧昧",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A029",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "- **BGM**：不要直接套用某知名霸总剧 BGM，避免版权风险",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A030",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "| 刘一鸣 | 收放自如 | 既能\"端着霸总架子\"又能\"瞬间理性冷静\" |",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A031",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "- **横屏 16:9**：B 站、视频号、YouTube Shorts（横屏）",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A032",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "- **竖屏 9:16**：抖音、快手、小红书（需重新构图，把对话镜头拉紧）",
+      "physical_details": [],
+      "dialogue": ""
+    },
+    {
+      "id": "A033",
+      "scene_id": "S01",
+      "character_id": "P01",
+      "description": "1. **可拆条短视频**：每个反转（3.5 / 5.7）单独剪辑 15 秒，投放 B 站 / 视频号",
+      "physical_details": [],
+      "dialogue": ""
+    }
+  ],
+  "dialogue": [
+    {
+      "id": "D001",
+      "character_id": "| 6.7 | 字幕 | — | 1.0s | **字幕**",
+      "text": "未完待续…」 | 静 | 黑底白字，居中 |",
+      "context": "| 6.6 | 远景 | 固定 | 1.0s | 画面定格 | 配乐止 | — |"
+    },
+    {
+      "id": "D002",
+      "character_id": "- **镜头 6.4**",
+      "text": "普法先锋\"光环特效，是记忆锚点，**后期必须做扎实**。",
+      "context": "- **镜头 3.5 / 5.7**：两段刘一鸣长台词，**全片灵魂**。建议单机长镜头 + 多机位备份，演员台词功底需扎实。"
+    }
+  ],
+  "structure": {
+    "setup": "先拍场景三、五室内对话戏，演员状态最易控",
+    "trigger": "再拍场景四外景过渡戏，光线可控",
+    "twist1": "**可拆条短视频**：每个反转3.5 / 5.7单独剪辑 15 秒，投放 B 站 / 视频号。",
+    "twist2": "**可做系列 IP**：本片确立了\"霸总 × 媒体素养\"的范式，后续 EP 可延展至：",
+    "resolution": "**可做衍生课件**：与高校新闻学院、网信办普法合作，做成\"媒介素养第一课\"教学包。"
+  },
+  "style": "古早霸总"
+}

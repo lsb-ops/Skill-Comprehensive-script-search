@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-type="landing">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Flow — 让深度工作自动发生</title>
+  <meta name="description" content="Flow 是一款基于 AI 的专注力助手, 自动归类任务, 让深度工作自动发生。" />
+
+  <!-- 主题变量 -->
+  <link rel="stylesheet" href="../../assets/design/color-tokens.css" />
+  <link rel="stylesheet" href="../../assets/design/grid-system.css" />
+  <link rel="stylesheet" href="../../assets/motion/easing-tokens.css" />
+
+  <!-- 基础 -->
+  <link rel="stylesheet" href="../../assets/pages/landing.css" />
+  <link rel="stylesheet" href="../../assets/sections/nav.css" />
+  <link rel="stylesheet" href="../../assets/sections/hero.css" />
+  <link rel="stylesheet" href="../../assets/sections/features.css" />
+  <link rel="stylesheet" href="../../assets/sections/big-number.css" />
+  <link rel="stylesheet" href="../../assets/sections/testimonial.css" />
+  <link rel="stylesheet" href="../../assets/sections/pricing.css" />
+  <link rel="stylesheet" href="../../assets/sections/faq.css" />
+  <link rel="stylesheet" href="../../assets/sections/cta.css" />
+  <link rel="stylesheet" href="../../assets/sections/footer.css" />
+
+  <!-- v3.17 组件 -->
+  <link rel="stylesheet" href="../../assets/components/modal.css" />
+  <link rel="stylesheet" href="../../assets/components/tabs.css" />
+  <link rel="stylesheet" href="../../assets/components/carousel.css" />
+  <link rel="stylesheet" href="../../assets/components/toast.css" />
+  <link rel="stylesheet" href="../../assets/components/form.css" />
+
+  <!-- 滚动 / 交互 -->
+  <link rel="stylesheet" href="../../assets/scroll/scroll-reveal.css" />
+  <link rel="stylesheet" href="../../assets/scroll/scroll-progress.css" />
+  <link rel="stylesheet" href="../../assets/responsive/breakpoints.css" />
+  <link rel="stylesheet" href="../../assets/interaction/states.css" />
+  <link rel="stylesheet" href="../../assets/interaction/touch.css" />
+</head>
+<body>
+
+  <!-- 阅读进度条 -->
+  <div data-scroll-progress class="scroll-progress-bar"></div>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" data-scroll-aware>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <span class="nav-logo-mark">⌘</span>
+        <span class="nav-logo-text">Flow</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">功能</a></li>
+        <li><a href="#pricing">价格</a></li>
+        <li><a href="#testimonials">用户</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="nav-link-secondary" href="#">登录</a>
+        <button class="nav-cta" data-modal-open="#signup-modal">免费试用</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ 面包屑 (移动端折叠) ============ -->
+  <div data-component="breadcrumbs" data-collapsible="true" data-expanded="false"
+       class="hero-breadcrumbs" aria-label="路径">
+    <ol class="breadcrumbs-list">
+      <li class="breadcrumb-item"><a class="breadcrumb-link" href="#">首页</a></li>
+      <li class="breadcrumb-item" aria-hidden="true"><span class="breadcrumb-separator">/</span></li>
+      <li class="breadcrumb-item">
+        <button class="breadcrumb-expand" data-breadcrumbs-expand aria-label="展开">…</button>
+      </li>
+      <li class="breadcrumb-item" aria-hidden="true"><span class="breadcrumb-separator">/</span></li>
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-current" aria-current="page">Flow · 让深度工作自动发生</span>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow" data-reveal>v3.17 · Web-Native · 已上线</p>
+      <h1 class="hero-title" data-reveal>
+        让深度工作<br/>
+        <span class="hero-title-accent">自动发生</span>
+      </h1>
+      <p class="hero-subtitle" data-reveal>
+        Flow 用 AI 自动归类你的任务, 屏蔽干扰, 让每天的 4 小时深度工作不靠意志力,
+        而是靠系统。已帮助 <strong>5,000+ 用户</strong> 每天节省 2.1 小时。
+      </p>
+      <div class="hero-actions" data-reveal>
+        <button class="btn-primary" data-modal-open="#signup-modal">免费开始 14 天</button>
+        <a class="btn-secondary" href="#features">看功能演示 →</a>
+      </div>
+      <p class="hero-trust" data-reveal>
+        无需信用卡 · 30 秒上手 · 支持 macOS / iOS / Web
+      </p>
+      <div data-reveal>
+        <button class="btn-secondary btn-toast-demo" data-demo-toast="feature">查看核心功能</button>
+      </div>
+    </div>
+    <div class="hero-scroll-cue" aria-hidden="true">
+      <span>向下滚动</span>
+      <span class="hero-scroll-arrow">↓</span>
+    </div>
+  </section>
+
+  <!-- ============ BIG NUMBER (社会证明) ============ -->
+  <section class="big-number">
+    <div class="big-number-grid" data-reveal-stagger>
+      <div class="big-number-item">
+        <div class="big-number-value" data-counter data-target="5000">5,000+</div>
+        <div class="big-number-label">活跃用户</div>
+      </div>
+      <div class="big-number-item">
+        <div class="big-number-value">2.1<span class="big-number-unit">小时</span></div>
+        <div class="big-number-label">日均节省时间</div>
+      </div>
+      <div class="big-number-item">
+        <div class="big-number-value">47<span class="big-number-unit">%</span></div>
+        <div class="big-number-label">深度工作提升</div>
+      </div>
+      <div class="big-number-item">
+        <div class="big-number-value">4.9<span class="big-number-unit">/5</span></div>
+        <div class="big-number-label">App Store 评分</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES (3 大核心) ============ -->
+  <section class="features" id="features">
+    <header class="features-header" data-reveal>
+      <p class="section-eyebrow">核心能力</p>
+      <h2 class="section-title">3 步, 让琐事自动消失</h2>
+      <p class="section-subtitle">不是工具, 是一套专注力操作系统。</p>
+    </header>
+
+    <!-- Tabs 切换不同视角 -->
+    <div data-component="tabs" data-orientation="horizontal" class="features-tabs">
+      <div class="tabs-list" role="tablist">
+        <button role="tab" data-tab-trigger="capture" aria-selected="true">① 收集</button>
+        <button role="tab" data-tab-trigger="classify" aria-selected="false">② 分类</button>
+        <button role="tab" data-tab-trigger="focus" aria-selected="false">③ 专注</button>
+      </div>
+
+      <div role="tabpanel" data-tab-panel="capture" aria-hidden="false">
+        <div class="features-grid" data-reveal-stagger>
+          <article class="feature-card">
+            <div class="feature-icon">⌘</div>
+            <h3 class="feature-title">全局快捷键</h3>
+            <p class="feature-desc">⌘+Shift+A 任何地方呼出, 0.3 秒捕获想法, 不打断心流。</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">📥</div>
+            <h3 class="feature-title">多源导入</h3>
+            <p class="feature-desc">邮件 / Slack / Notion / Apple 提醒事项, 一处收齐。</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">🎙️</div>
+            <h3 class="feature-title">语音转写</h3>
+            <p class="feature-desc">走路时的灵感, 说一句就归档, AI 自动整理为任务。</p>
+          </article>
+        </div>
+      </div>
+
+      <div role="tabpanel" data-tab-panel="classify" aria-hidden="true">
+        <div class="features-grid" data-reveal-stagger>
+          <article class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3 class="feature-title">AI 智能分类</h3>
+            <p class="feature-desc">GPT-4 驱动, 按艾森豪威尔矩阵自动分级, 准确率 96%。</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">优先级打分</h3>
+            <p class="feature-desc">结合截止时间 + 重要度 + 你的精力曲线, 给出今日 Top 3。</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">🏷️</div>
+            <h3 class="feature-title">智能标签</h3>
+            <p class="feature-desc">自动识别项目归属, 同一项目任务聚合为卡片墙。</p>
+          </article>
+        </div>
+      </div>
+
+      <div role="tabpanel" data-tab-panel="focus" aria-hidden="true">
+        <div class="features-grid" data-reveal-stagger>
+          <article class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">专注模式</h3>
+            <p class="feature-desc">一键屏蔽通知 + 关闭标签页, 进入 90 分钟深度工作块。</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">🌳</div>
+            <h3 class="feature-title">成长树</h3>
+            <p class="feature-desc">每次完成深度任务, 树长高一截, 看见专注的复利。</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">周报</h3>
+            <p class="feature-desc">每周日自动生成你的深度工作时长 + 项目进度报告。</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="testimonials" id="testimonials">
+    <header class="testimonials-header" data-reveal>
+      <p class="section-eyebrow">用户故事</p>
+      <h2 class="section-title">他们用 Flow 找回了时间</h2>
+    </header>
+
+    <div data-component="carousel"
+         data-slides-per-view="3"
+         data-loop="true"
+         data-autoplay="5000"
+         class="testimonials-carousel">
+      <button data-carousel-arrow="prev" aria-label="上一个">‹</button>
+      <div class="carousel-track" data-carousel-track>
+
+        <article class="carousel-slide testimonial-card testimonial-featured">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">
+            用了 Flow 3 个月, 我的深度工作时长从每天 1 小时涨到 4.5 小时。
+            最神奇的是, 我不再焦虑今天该做什么 — 系统已经告诉我。
+          </p>
+          <footer class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">L</div>
+            <div>
+              <div class="testimonial-name">李明</div>
+              <div class="testimonial-role">独立开发者 · 上海</div>
+            </div>
+          </footer>
+        </article>
+
+        <article class="carousel-slide testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">
+            AI 分类准确率高得离谱, 我每周节省 5 小时手动整理 Inbox。
+          </p>
+          <footer class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">W</div>
+            <div>
+              <div class="testimonial-name">王雪</div>
+              <div class="testimonial-role">产品经理 · 北京</div>
+            </div>
+          </footer>
+        </article>
+
+        <article class="carousel-slide testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">
+            成长树这个设计绝了, 我女儿现在跟我抢着用。
+          </p>
+          <footer class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">Z</div>
+            <div>
+              <div class="testimonial-name">张涛</div>
+              <div class="testimonial-role">设计师 · 深圳</div>
+            </div>
+          </footer>
+        </article>
+
+        <article class="carousel-slide testimonial-card">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">
+            从 Todoist 迁过来, 第一周就回不去了。
+          </p>
+          <footer class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">C</div>
+            <div>
+              <div class="testimonial-name">陈思</div>
+              <div class="testimonial-role">创业者 · 杭州</div>
+            </div>
+          </footer>
+        </article>
+
+      </div>
+      <button data-carousel-arrow="next" aria-label="下一个">›</button>
+      <div class="carousel-dots" role="tablist">
+        <button data-carousel-dot="0" aria-current="true" aria-label="第 1 张"></button>
+        <button data-carousel-dot="1" aria-current="false" aria-label="第 2 张"></button>
+        <button data-carousel-dot="2" aria-current="false" aria-label="第 3 张"></button>
+        <button data-carousel-dot="3" aria-current="false" aria-label="第 4 张"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="pricing" id="pricing">
+    <header class="pricing-header" data-reveal>
+      <p class="section-eyebrow">价格方案</p>
+      <h2 class="section-title">简单透明, 无隐藏费用</h2>
+    </header>
+
+    <div class="pricing-grid" data-reveal-stagger>
+      <article class="pricing-card">
+        <h3 class="pricing-name">免费</h3>
+        <div class="pricing-price"><span class="pricing-amount">¥0</span><span class="pricing-period">/永久</span></div>
+        <ul class="pricing-features">
+          <li>✓ 50 个任务 / 月</li>
+          <li>✓ 基础 AI 分类</li>
+          <li>✓ 单设备同步</li>
+        </ul>
+        <button class="pricing-cta" data-modal-open="#signup-modal">开始使用</button>
+      </article>
+
+      <article class="pricing-card pricing-card-featured">
+        <span class="pricing-badge">最受欢迎</span>
+        <h3 class="pricing-name">专业版</h3>
+        <div class="pricing-price"><span class="pricing-amount">¥39</span><span class="pricing-period">/月</span></div>
+        <ul class="pricing-features">
+          <li>✓ 无限任务</li>
+          <li>✓ GPT-4 智能分类</li>
+          <li>✓ 多设备同步</li>
+          <li>✓ 专注模式 + 成长树</li>
+          <li>✓ 周报 + 数据导出</li>
+        </ul>
+        <button class="pricing-cta pricing-cta-featured" data-modal-open="#signup-modal">14 天免费试用</button>
+      </article>
+
+      <article class="pricing-card">
+        <h3 class="pricing-name">团队</h3>
+        <div class="pricing-price"><span class="pricing-amount">¥29</span><span class="pricing-period">/人/月</span></div>
+        <ul class="pricing-features">
+          <li>✓ 专业版全部功能</li>
+          <li>✓ 团队任务板</li>
+          <li>✓ 协作评论</li>
+          <li>✓ 管理员控制台</li>
+        </ul>
+        <button class="pricing-cta" data-modal-open="#contact-modal">联系销售</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <header class="faq-header" data-reveal>
+      <p class="section-eyebrow">常见问题</p>
+      <h2 class="section-title">还有疑问?</h2>
+    </header>
+
+    <div class="faq-list" data-reveal-stagger>
+      <details class="faq-item">
+        <summary class="faq-question">Flow 和 Todoist / Things 有什么不同?</summary>
+        <p class="faq-answer">Todoist 是清单工具, Flow 是操作系统。我们用 AI 接管"分类"和"决策",
+        你只需要做一件事: 进入专注模式。</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">数据隐私如何保障?</summary>
+        <p class="faq-answer">所有任务数据端到端加密, 我们不读取你的内容, AI 分类在本地 LLaMA 模型优先,
+        云端 GPT-4 仅在你显式开启时使用。</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">可以导入现有数据吗?</summary>
+        <p class="faq-answer">支持从 Todoist / Things / TickTick / Apple 提醒事项一键导入,
+        首次登录时会有引导流程。</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">免费版够用吗?</summary>
+        <p class="faq-answer">如果你每月任务不超过 50 个, 免费版完全够用。
+        我们不希望你为了基本功能付费。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="cta">
+    <div class="cta-content" data-reveal>
+      <h2 class="cta-title">今天开始, 把时间还给深度工作</h2>
+      <p class="cta-subtitle">14 天免费试用, 无需信用卡, 30 秒上手。</p>
+      <button class="btn-primary btn-large" data-modal-open="#signup-modal">免费开始</button>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo-mark">⌘</span>
+        <span>Flow</span>
+        <p class="footer-tagline">让深度工作自动发生。</p>
+      </div>
+      <div class="footer-col">
+        <h4>产品</h4>
+        <ul>
+          <li><a href="#features">功能</a></li>
+          <li><a href="#pricing">价格</a></li>
+          <li><a href="#">更新日志</a></li>
+          <li><a href="#">路线图</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>资源</h4>
+        <ul>
+          <li><a href="#">文档</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">社区</a></li>
+          <li><a href="#">博客</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>公司</h4>
+        <ul>
+          <li><a href="#">关于</a></li>
+          <li><a href="#">招聘</a></li>
+          <li><a href="#">隐私</a></li>
+          <li><a href="#">条款</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Flow Inc. · 用 <span aria-hidden="true">♥</span> 在杭州制作</p>
+    </div>
+  </footer>
+
+  <!-- ============ Toast 容器 ============ -->
+  <div data-component="toast-container" data-position="top-right">
+    <!-- 演示: 静态 toast 样例 (实际使用时通过 showToast() 动态创建) -->
+    <div data-component="toast" data-type="info" role="status" aria-live="polite">
+      <div class="toast-icon" aria-hidden="true">i</div>
+      <div class="toast-content">
+        <p class="toast-title">演示 toast</p>
+        <p class="toast-desc">这是 v3.17 组件层 toast 的视觉样例 (点击 × 关闭)。</p>
+      </div>
+      <button class="toast-close" data-toast-close="true" aria-label="关闭">×</button>
+    </div>
+  </div>
+
+  <!-- ============ Modal: 注册 ============ -->
+  <div data-component="modal" id="signup-modal" data-dismiss="true" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+    <div class="modal-dialog">
+      <button class="modal-close" data-modal-close aria-label="关闭">×</button>
+      <h2 id="signup-title" class="modal-title">14 天免费试用</h2>
+      <p class="modal-subtitle">无需信用卡, 30 秒上手。</p>
+
+      <form data-component="form" novalidate>
+        <div class="form-field">
+          <label class="form-label" for="signup-name">姓名 <span class="form-required">*</span></label>
+          <input class="form-input" id="signup-name" name="name" required />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="signup-email">邮箱 <span class="form-required">*</span></label>
+          <input class="form-input" id="signup-email" name="email" type="email" required data-max-length="120" />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="signup-msg">想对我们说</label>
+          <textarea class="form-textarea" id="signup-msg" name="message" data-max-length="500"></textarea>
+        </div>
+        <button type="submit" class="form-submit">开始试用</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ Modal: 联系销售 ============ -->
+  <div data-component="modal" id="contact-modal" data-dismiss="true" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <button class="modal-close" data-modal-close aria-label="关闭">×</button>
+      <h2 class="modal-title">联系企业销售</h2>
+      <p class="modal-subtitle">10 人以上团队? 我们提供定制方案。</p>
+      <form data-component="form" novalidate>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label">公司</label>
+            <input class="form-input" name="company" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">团队规模</label>
+            <select class="form-select" name="size">
+              <option>10-50 人</option>
+              <option>50-200 人</option>
+              <option>200+ 人</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">工作邮箱</label>
+          <input class="form-input" name="email" type="email" required />
+        </div>
+        <button type="submit" class="form-submit">提交咨询</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JS 引擎 -->
+  <script src="../../assets/motion/_utils/scroll-observer.js"></script>
+  <script src="../../assets/components/_utils/component-engine.js"></script>
+  <script>
+    // 演示: 表单提交后弹出 toast
+    document.addEventListener('submit', function (e) {
+      var form = e.target.closest('[data-component="form"]');
+      if (!form) return;
+      // 引擎已做基础验证, 通过则显示 toast
+      setTimeout(function () {
+        if (window.showToast) {
+          window.showToast({
+            type: 'success',
+            title: '提交成功',
+            message: '我们会在 24 小时内联系你。'
+          });
+          // 关闭 modal
+          var modal = form.closest('[data-component="modal"]');
+          if (modal && window.WebPPTComponent) {
+            window.WebPPTComponent.closeModal(modal);
+          }
+        }
+      }, 100);
+    });
+
+    // 演示: 页面加载后弹出欢迎 toast
+    setTimeout(function () {
+      if (window.showToast) {
+        window.showToast({
+          type: 'info',
+          title: '欢迎来到 Flow',
+          message: '这是 v3.17 组件演示, 包含 Modal/Tabs/Carousel/Toast/Breadcrumbs/Form 6 大组件。',
+          duration: 6000
+        });
+      }
+    }, 1500);
+
+    // 演示: 滚动到 pricing 区域时弹出 social proof toast
+    var pricingShown = false;
+    var pricingEl = document.querySelector('.pricing');
+    if (pricingEl && 'IntersectionObserver' in window) {
+      var pricingObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !pricingShown) {
+            pricingShown = true;
+            setTimeout(function () {
+              if (window.showToast) {
+                window.showToast({
+                  type: 'success',
+                  message: '本周已有 142 人开始试用专业版',
+                  duration: 4000
+                });
+              }
+            }, 500);
+          }
+        });
+      }, { threshold: 0.4 });
+      pricingObserver.observe(pricingEl);
+    }
+
+    // 演示: 按钮触发 toast
+    document.querySelectorAll('[data-demo-toast]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var kind = btn.getAttribute('data-demo-toast');
+        var map = {
+          feature: { type: 'info', title: '核心功能', message: '收集 / 分类 / 专注 三大模块即将演示。' },
+          warn:    { type: 'warning', title: '提示', message: '请确保 macOS 12+ 或 iOS 16+ 系统。' }
+        };
+        if (window.showToast && map[kind]) {
+          window.showToast(map[kind]);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

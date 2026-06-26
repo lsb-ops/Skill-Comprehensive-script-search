@@ -1,0 +1,48 @@
+/* ============================================
+   Layout: 故事线 (storyline) — 连续叙述流
+   ============================================ */
+
+.layout-storyline {
+  align-items: flex-start;
+  text-align: left;
+  padding: var(--space-xl);
+}
+
+.layout-storyline .story-flow {
+  width: 100%;
+}
+
+.layout-storyline[data-mode="portrait"] .story-flow {
+  max-width: 90%;
+}
+
+.layout-storyline[data-mode="landscape"] .story-flow {
+  max-width: 1000px;
+}
+
+.layout-storyline .story-step {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-md);
+}
+
+.layout-storyline .title {
+  font-size: var(--font-size-h1);
+  margin-bottom: var(--space-md);
+}
+
+.layout-storyline .body {
+  text-align: left;
+}
+
+.layout-storyline[data-mode="portrait"] .body {
+  max-width: 100%;
+}
+
+.layout-storyline[data-mode="landscape"] .body {
+  max-width: 900px;
+}

@@ -1,0 +1,79 @@
+/* ============================================
+   Layout: 对比 (compare) — 9:16 上下 / 16:9 左右
+   v3.4: 颜色用 CSS 变量,跟随 color_scheme 走
+   ============================================ */
+
+.layout-compare .compare-row {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+/* 9:16 竖屏: 上下堆叠 + 箭头 */
+.layout-compare[data-mode="portrait"] {
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.layout-compare[data-mode="portrait"] .compare-row {
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.layout-compare[data-mode="portrait"] .compare-arrow {
+  display: block;
+  font-size: 32px;
+  color: var(--accent);
+}
+
+/* 16:9 横屏: 左右并排 */
+.layout-compare[data-mode="landscape"] .compare-row {
+  flex-direction: row;
+  max-width: 1000px;
+}
+
+.layout-compare[data-mode="landscape"] .compare-arrow {
+  display: none; /* 横屏不需要箭头 */
+}
+
+.layout-compare .compare-card {
+  flex: 1;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  text-align: left;
+  border-left: 4px solid;
+}
+
+/* v3.4: 用 CSS 变量,跟 color_scheme 走 (赛博朋克/莫兰迪都自然) */
+.layout-compare .compare-card.before {
+  background: var(--compare-before-bg, rgba(255, 59, 48, 0.08));
+  color: var(--text-primary);
+  border-left-color: var(--compare-before-accent, #C92A2A);
+}
+
+.layout-compare .compare-card.after {
+  background: var(--compare-after-bg, rgba(76, 175, 80, 0.08));
+  color: var(--text-primary);
+  border-left-color: var(--compare-after-accent, #2A9D2A);
+}
+
+.layout-compare .compare-card .label {
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+  opacity: 0.6;
+  font-size: var(--font-size-caption);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.layout-compare .compare-card .content {
+  font-weight: 500;
+}
+
+.layout-compare[data-mode="portrait"] .compare-card .content {
+  font-size: 24px;
+}
+
+.layout-compare[data-mode="landscape"] .compare-card .content {
+  font-size: 32px;
+}

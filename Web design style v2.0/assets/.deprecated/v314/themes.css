@@ -1,0 +1,432 @@
+/* ============================================
+   ⚠️  DEPRECATED in v3.15 · 已被 archetype 系统取代
+   ⚠️  替代: assets/archetypes/{hero,action-title,big-number,comparison,quote,flow,cta}.css
+   ⚠️  替代 JS: assets/composition/archetype-{detect,applier}.js
+   ⚠️  原因: "4 主题" 仍是模板思维, v3.15 用 7 种幻灯片原型代替
+   ⚠️  保留此文件仅为 v3.14 回归测试, 不再用于生产
+
+   WebPPT Maker v3.14 · 4 主题独立设计系统
+   商务 / 科技 / 教育 / 时尚 — 每套独立字体+配色+布局+调性
+   ============================================
+   设计原则 (来自 DESIGN_PHILOSOPHY.md §3):
+   - 不再"通用模板适配所有"
+   - 每个主题独立配 4 维度: type + color + layout + mood
+   - 主题由内容自动识别, 不需用户手动选
+
+   来源参考:
+   - Editorial / Business: The Economist, FT, NYT (衬线+深蓝)
+   - Tech: Stripe, Linear, Vercel (无衬线+渐变+等宽)
+   - Education: Coursera, Khan Academy (圆润+暖色)
+   - Fashion: Vogue, Harper's Bazaar (衬线+高对比)
+   ============================================ */
+
+/* ============================================
+   §1. 主题基础架构 (CSS Variables)
+   每个主题通过 data-theme="business|tech|education|fashion" 切换
+   ============================================ */
+
+/* === 默认 (fallback, 商务主题) === */
+:root,
+[data-theme="business"] {
+  /* === 配色 (5 色: bg-primary/secondary/text-primary/text-secondary/accent) === */
+  --theme-bg-primary:    oklch(99% 0.005 250);     /* 接近白 */
+  --theme-bg-secondary:  oklch(96% 0.008 250);     /* 浅灰 */
+  --theme-text-primary:  oklch(20% 0.015 250);     /* 深灰黑 */
+  --theme-text-secondary: oklch(45% 0.015 250);    /* 中灰 */
+  --theme-accent:        oklch(45% 0.18 240);     /* 深蓝 (信任, 专业) */
+  --theme-accent-light:  oklch(85% 0.06 240);
+  --theme-accent-dark:   oklch(30% 0.20 240);
+
+  /* === 字体 (Type Pairing: Serif Heading + Sans Body) === */
+  --font-heading: var(--font-serif);
+  --font-body:    var(--font-sans);
+
+  /* === 布局 === */
+  --theme-columns: 3;                  /* 三栏 (左30 / 中50 / 右20) */
+  --theme-gap: var(--space-5);
+  --theme-radius: 2px;                 /* 微圆角 (商务正式) */
+  --theme-vratio: 0.382;               /* 黄金分割: 主区 62% */
+
+  /* === 视觉重心 === */
+  --theme-align: start;                /* 左对齐 (vs center) */
+
+  /* === 阴影 === */
+  --theme-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  /* === 留白比例 === */
+  --theme-whitespace: 0.4;             /* 40% 留白 */
+}
+
+/* === 科技主题 (Tech / SaaS) === */
+[data-theme="tech"] {
+  --theme-bg-primary:    oklch(99% 0.008 240);
+  --theme-bg-secondary:  oklch(97% 0.012 240);
+  --theme-text-primary:  oklch(15% 0.020 250);
+  --theme-text-secondary: oklch(50% 0.020 250);
+  --theme-accent:        oklch(55% 0.22 280);     /* 蓝紫 (未来, 创新) */
+  --theme-accent-light:  oklch(88% 0.08 280);
+  --theme-accent-dark:   oklch(35% 0.24 280);
+
+  /* === Type: Sans + Mono accent === */
+  --font-heading: var(--font-sans);
+  --font-body:    var(--font-sans);
+
+  /* === 布局: 居中, 大留白 === */
+  --theme-columns: 1;
+  --theme-gap: var(--space-7);
+  --theme-radius: 12px;                /* 较大圆角 (现代) */
+  --theme-vratio: 0.5;                 /* 居中 (科技平衡感) */
+  --theme-align: center;
+
+  /* === 阴影: 较深 (深色投影, 立体感) === */
+  --theme-shadow: 0 4px 24px rgba(80, 100, 200, 0.15);
+
+  /* === 留白: 大 === */
+  --theme-whitespace: 0.5;
+}
+
+/* === 教育主题 (Education / Warm) === */
+[data-theme="education"] {
+  --theme-bg-primary:    oklch(98% 0.020 60);     /* 米白 (温暖) */
+  --theme-bg-secondary:  oklch(95% 0.030 50);
+  --theme-text-primary:  oklch(25% 0.020 50);
+  --theme-text-secondary: oklch(45% 0.025 50);
+  --theme-accent:        oklch(60% 0.20 35);      /* 暖橙 (友好, 启发) */
+  --theme-accent-light:  oklch(90% 0.08 35);
+  --theme-accent-dark:   oklch(40% 0.20 35);
+
+  /* === Type: 衬线 + 圆体 (温暖, 易读) === */
+  --font-heading: var(--font-serif);
+  --font-body:    var(--font-sans);
+
+  /* === 布局: 双栏 (内容 + 图示) === */
+  --theme-columns: 2;
+  --theme-gap: var(--space-6);
+  --theme-radius: 8px;
+  --theme-vratio: 0.618;               /* 黄金分割: 主区 38% (紧凑) */
+  --theme-align: start;
+
+  /* === 阴影: 柔和 (不打扰学习) === */
+  --theme-shadow: 0 2px 8px rgba(200, 150, 80, 0.10);
+
+  /* === 留白: 中等 === */
+  --theme-whitespace: 0.35;
+}
+
+/* === 时尚主题 (Fashion / Editorial) === */
+[data-theme="fashion"] {
+  --theme-bg-primary:    oklch(99% 0.003 0);      /* 纯白 */
+  --theme-bg-secondary:  oklch(8% 0.005 0);       /* 纯黑 */
+  --theme-text-primary:  oklch(8% 0.005 0);       /* 纯黑 */
+  --theme-text-secondary: oklch(40% 0.008 0);
+  --theme-accent:        oklch(55% 0.20 340);     /* 玫红 (高端, 优雅) */
+  --theme-accent-light:  oklch(90% 0.06 340);
+  --theme-accent-dark:   oklch(30% 0.22 340);
+
+  /* === Type: Display + Sans (Playfair + Inter) === */
+  --font-heading: var(--font-display);
+  --font-body:    var(--font-sans);
+
+  /* === 布局: 全屏大图, 单栏 === */
+  --theme-columns: 1;
+  --theme-gap: var(--space-8);
+  --theme-radius: 0px;                 /* 直角 (高端, 硬朗) */
+  --theme-vratio: 0.618;
+  --theme-align: start;
+
+  /* === 阴影: 几乎无 (杂志感) === */
+  --theme-shadow: none;
+
+  /* === 留白: 极大 (≥ 60%) === */
+  --theme-whitespace: 0.6;
+}
+
+/* ============================================
+   §2. 主题应用类 (一键切换)
+   ============================================ */
+
+[data-theme] {
+  background: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+  font-family: var(--font-body);
+  border-radius: var(--theme-radius);
+}
+
+/* === 主题化 .page === */
+[data-theme] .page {
+  background: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+  text-align: var(--theme-align);
+}
+
+/* === 主题化 .card === */
+[data-theme] .card {
+  background: var(--theme-bg-secondary);
+  border-radius: var(--theme-radius);
+  box-shadow: var(--theme-shadow);
+}
+
+/* === 主题化 accent === */
+[data-theme] .accent { color: var(--theme-accent); }
+[data-theme] .accent-bg { background: var(--theme-accent); color: white; }
+[data-theme] .accent-border { border-color: var(--theme-accent); }
+
+/* ============================================
+   §3. 主题化排版 (type-pairing 联动)
+   ============================================ */
+
+[data-theme] h1,
+[data-theme] h2,
+[data-theme] h3,
+[data-theme] .t-h1,
+[data-theme] .t-h2,
+[data-theme] .t-h3,
+[data-theme] .title,
+[data-theme] .big-text {
+  font-family: var(--font-heading);
+}
+
+/* === 主题化 hero / display === */
+[data-theme="business"] .big-number {
+  font-family: var(--font-serif);    /* 商务用衬线, 严肃 */
+  color: var(--theme-accent-dark);
+}
+
+[data-theme="tech"] .big-number {
+  font-family: var(--font-mono);     /* 科技用等宽, 数据感 */
+  color: var(--theme-accent);
+}
+
+[data-theme="education"] .big-number {
+  font-family: var(--font-sans);     /* 教育用无衬线, 友好 */
+  color: var(--theme-accent-dark);
+}
+
+[data-theme="fashion"] .big-number {
+  font-family: var(--font-display);  /* 时尚用 display, 高端 */
+  color: var(--theme-text-primary);  /* 时尚数字用纯黑 */
+  font-weight: 100;                  /* 极细, 高级 */
+}
+
+/* ============================================
+   §4. 主题化布局 (grid columns)
+   ============================================ */
+
+[data-theme] .layout-grid {
+  display: grid;
+  gap: var(--theme-gap);
+}
+
+[data-theme="business"] .layout-grid { grid-template-columns: 3fr 5fr 2fr; }
+[data-theme="tech"]     .layout-grid { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; }
+[data-theme="education"] .layout-grid { grid-template-columns: 4fr 6fr; }
+[data-theme="fashion"]  .layout-grid { grid-template-columns: 1fr; }
+
+/* ============================================
+   §5. 主题化视觉重心 (vertical ratio)
+   ============================================ */
+
+[data-theme] .v-main {
+  flex-basis: calc(var(--theme-vratio) * 100%);
+}
+[data-theme] .v-side {
+  flex-basis: calc((1 - var(--theme-vratio)) * 100%);
+}
+
+/* ============================================
+   §6. 主题化 Mood (留白 + 装饰)
+   ============================================ */
+
+/* === 商务: 严肃, 直线, 微装饰 === */
+[data-theme="business"] .page::after {
+  /* 极淡水平线 (金融感) */
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: var(--theme-accent);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* === 科技: 渐变光晕, 几何感 === */
+[data-theme="tech"] .page::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, var(--theme-accent) 0%, transparent 70%);
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* === 教育: 暖色光斑, 柔和 === */
+[data-theme="education"] .page::before {
+  content: "";
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, var(--theme-accent-light) 0%, transparent 70%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* === 时尚: 大留白, 无装饰, 极致克制 === */
+[data-theme="fashion"] .page {
+  padding: var(--space-9) var(--space-8);   /* 极大留白 */
+}
+
+/* ============================================
+   §7. 主题化按钮 (CTA)
+   ============================================ */
+
+[data-theme] .btn-primary {
+  background: var(--theme-accent);
+  color: white;
+  border-radius: var(--theme-radius);
+  box-shadow: var(--theme-shadow);
+}
+
+/* 商务按钮: 方正, 严肃 */
+[data-theme="business"] .btn-primary {
+  border-radius: 2px;
+  padding: var(--space-3) var(--space-6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--text-xs);
+}
+
+/* 科技按钮: 圆角, 弹性 */
+[data-theme="tech"] .btn-primary {
+  border-radius: 999px;
+  padding: var(--space-4) var(--space-7);
+  background: linear-gradient(135deg, var(--theme-accent), var(--theme-accent-dark));
+}
+
+/* 教育按钮: 温和, 圆角 */
+[data-theme="education"] .btn-primary {
+  border-radius: 8px;
+  padding: var(--space-3) var(--space-6);
+  background: var(--theme-accent);
+  box-shadow: 0 4px 12px oklch(60% 0.20 35 / 0.25);
+}
+
+/* 时尚按钮: 极简, 细线 */
+[data-theme="fashion"] .btn-primary {
+  background: transparent;
+  color: var(--theme-text-primary);
+  border: 1px solid var(--theme-text-primary);
+  border-radius: 0;
+  padding: var(--space-3) var(--space-7);
+  letter-spacing: 0.1em;
+  font-size: var(--text-xs);
+}
+[data-theme="fashion"] .btn-primary:hover {
+  background: var(--theme-text-primary);
+  color: var(--theme-bg-primary);
+}
+
+/* ============================================
+   §8. 主题化边框 + 分隔 (Border/divider)
+   ============================================ */
+
+[data-theme="business"] hr,
+[data-theme="business"] .divider {
+  border-top: 1px solid var(--theme-text-secondary);
+  opacity: 0.3;
+}
+
+[data-theme="tech"] hr,
+[data-theme="tech"] .divider {
+  background: linear-gradient(90deg, transparent, var(--theme-accent), transparent);
+  height: 2px;
+}
+
+[data-theme="education"] hr,
+[data-theme="education"] .divider {
+  border-top: 2px dashed var(--theme-accent);
+  opacity: 0.5;
+}
+
+[data-theme="fashion"] hr,
+[data-theme="fashion"] .divider {
+  border-top: 1px solid var(--theme-text-primary);
+  opacity: 0.8;
+}
+
+/* ============================================
+   §9. 主题化 Badges
+   ============================================ */
+
+[data-theme] .badge {
+  border-radius: var(--theme-radius);
+  font-family: var(--font-body);
+}
+
+[data-theme="business"] .badge {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: var(--text-xs);
+}
+
+[data-theme="tech"] .badge {
+  background: var(--theme-bg-secondary);
+  color: var(--theme-accent);
+  border: 1px solid var(--theme-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+/* ============================================
+   §10. 主题化 Number (数字显示)
+   ============================================ */
+
+[data-theme] .big-number {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+/* ============================================
+   §11. 主题切换 API (CSS 端)
+   ============================================================ */
+
+/* data-theme 在 <html> 或 <body> 上即可生效 */
+html[data-theme] body {
+  background: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+}
+
+/* === 主题切换平滑过渡 === */
+:root {
+  --theme-transition: background-color var(--dur-slow) var(--ease-standard),
+                     color var(--dur-slow) var(--ease-standard),
+                     border-color var(--dur-slow) var(--ease-standard);
+}
+
+[data-theme] {
+  transition: var(--theme-transition);
+}
+
+/* ============================================
+   §12. 主题验证 (开发模式)
+   ============================================================ */
+
+[data-theme-debug="true"]::before {
+  content: "Theme: " attr(data-theme) " | Pairing: " attr(data-pairing);
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  background: var(--theme-accent);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  z-index: var(--z-tooltip);
+}

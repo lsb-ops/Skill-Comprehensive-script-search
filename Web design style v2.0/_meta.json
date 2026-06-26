@@ -1,0 +1,285 @@
+{
+  "name": "webppt-maker",
+  "name_zh": "网页 PPT 一站式生成器",
+  "version": "1.1.0",
+  "schema_version": "1.0",
+  "description": "一站式生成 9:16 手机版 PPT 式静态网页 + 抖音文案 + 时间线剧本 + 剪映字幕 + 网页截图。输入主题和要点，输出完整可发布的抖音视频素材包（HTML + 文案 + 剧本 + 字幕 + 截图）。",
+  "author": "Mr.Lin",
+  "created": "2026-06-25",
+  "updated": "2026-06-25",
+  "skill_type": "workflow",
+  "kind": "workflow",
+  "category": "content-creation",
+  "subcategory": "video-material",
+  "entry_point": "SKILL.md",
+  "dependencies": [],
+  "optional_dependencies": [
+    {
+      "name": "browser-use",
+      "purpose": "网页截图",
+      "fallback": "SVG 占位 + 手动截屏"
+    },
+    {
+      "name": "python3",
+      "purpose": "运行生成器脚本",
+      "version_required": "3.8+"
+    }
+  ],
+  "permissions": [
+    "filesystem:write",
+    "filesystem:read"
+  ],
+  "input_schema": {
+    "topic": {
+      "type": "string",
+      "required": true,
+      "max_length": 30,
+      "description": "视频主题/标题（≤ 30 字）"
+    },
+    "content_points": {
+      "type": "array",
+      "items": {"type": "string"},
+      "required": true,
+      "min_items": 3,
+      "max_items": 8,
+      "description": "3-8 个内容要点"
+    },
+    "style": {
+      "type": "string",
+      "enum": ["现代简约", "温暖治愈", "科技未来", "故事叙述", "知识科普", "产品介绍"],
+      "required": false,
+      "default": "现代简约",
+      "description": "视觉风格"
+    },
+    "color_scheme": {
+      "type": "string",
+      "enum": ["极简黑白", "莫兰迪", "赛博朋克", "暖阳橙", "深海蓝", "森林绿", "auto"],
+      "required": false,
+      "default": "auto",
+      "description": "配色方案；auto = 根据 style 自动匹配"
+    },
+    "target_duration_sec": {
+      "type": "integer",
+      "enum": [15, 30, 60],
+      "required": false,
+      "default": 30,
+      "description": "抖音视频时长（秒）"
+    },
+    "output_dir": {
+      "type": "string",
+      "required": true,
+      "description": "输出文件夹路径"
+    },
+    "layout": {
+      "type": "string",
+      "enum": ["auto", "卡片", "大字报", "时间轴", "瀑布", "数字", "对比", "图标", "故事线", "问答"],
+      "required": false,
+      "default": "auto",
+      "description": "排版美学"
+    },
+    "include_screenshot": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "是否调用 BrowserUse 截图"
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["douyin", "kuaishou", "xiaohongshu"],
+      "required": false,
+      "default": "douyin",
+      "description": "目标平台"
+    }
+  },
+  "output_schema": {
+    "output_folder": {
+      "type": "string",
+      "description": "输出文件夹绝对路径"
+    },
+    "files_generated": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "生成的文件列表"
+    },
+    "subtitle_srt_path": {
+      "type": "string",
+      "description": "⭐ v1.1.0 新增：剪映字幕文件绝对路径（UTF-8 BOM，剪映可直接拖入）"
+    },
+    "verify_report_path": {
+      "type": "string",
+      "description": "verify_report.json 路径"
+    }
+  },
+  "error_handling": {
+    "browser_use_missing": {
+      "strategy": "fallback_to_svg_placeholder",
+      "message": "BrowserUse 未安装，已生成 SVG 占位图，请在 README 查看手动截屏说明"
+    },
+    "topic_empty": {
+      "strategy": "ask_clarification",
+      "message": "请告诉我视频主题（≤ 30 字）"
+    },
+    "points_too_few": {
+      "strategy": "warn_and_continue",
+      "message": "至少需要 3 个要点，当前 {n} 个，建议补充"
+    },
+    "points_too_many": {
+      "strategy": "auto_merge",
+      "message": "已自动合并相邻要点，从 {n} 个合并到 6 个"
+    },
+    "screenshot_partial_fail": {
+      "strategy": "skip_and_record_warning",
+      "message": "{n}/{total} 截图失败，已跳过失败的页面"
+    },
+    "screenshot_all_fail": {
+      "strategy": "blocked_admitted",
+      "message": "全部截图失败，请检查 BrowserUse 安装"
+    },
+    "output_dir_exists": {
+      "strategy": "idempotent_overwrite",
+      "message": "输出目录已存在，直接使用（幂等覆盖）。需要保留旧版本请用 --output-dir ./output_v2",
+      "rationale": "之前 append_timestamp 策略导致 4 个 generator 行为不一致（HTML 加后缀，其他报错），产物散落 2 个目录。改为幂等覆盖后 4 个脚本行为一致，run_all.sh 可一键编排。",
+      "changed_in": "v1.1.0"
+    }
+  },
+  "principles": {
+    "P1": "失败 = 0 价值，不假装完成",
+    "P2": "智能 > 省 token，截图失败时给清晰诊断而非跳过",
+    "P3": "禁止 fallback 到旧代码（本 skill 是新生成，无旧代码）",
+    "P4": "自验证必做：verify_report.json 给每条 check 的 pass/fail + 证据",
+    "P5": "战略上下文强制：失败时记录失败原因，下次重试可借鉴"
+  },
+  "core_capabilities": [
+    "9:16 静态 PPT 网页生成",
+    "抖音文案生成（标题 + 正文 + hashtag + 互动钩子）",
+    "时间线剧本生成（4 列结构 + 钩子 + CTA）",
+    "⭐ 剪映字幕生成（SRT 格式，直接拖入剪映作为字幕轨）",
+    "BrowserUse 截图集成（graceful fallback）",
+    "6 套配色 × 6 风格 × 9 排版美学",
+    "N4 自验证协议（verify_report.json）"
+  ],
+  "trigger_when": [
+    "用户说：做网页PPT / 抖音视频素材 / 9:16 PPT",
+    "用户需要 9:16 手机版静态网页",
+    "用户需要抖音/快手/小红书视频素材",
+    "用户需要带时间线的视频剧本"
+  ],
+  "do_not_call_when": [
+    "用户需要横屏 16:9 PPT",
+    "用户需要视频直接生成（这是素材生成器）",
+    "用户需要直播脚本",
+    "用户需要纯文本排版"
+  ],
+  "pause_conditions": [
+    {
+      "id": "pause-no-topic",
+      "match": "topic is empty",
+      "action": "ABORT, ask user"
+    },
+    {
+      "id": "pause-browser-missing-and-required",
+      "match": "browser-use missing AND include_screenshot=true",
+      "action": "WARN + fallback to SVG, continue"
+    }
+  ],
+  "compatibility": {
+    "min_python_version": "3.8",
+    "platform": ["macOS", "Linux", "Windows"],
+    "agents": ["claude_code", "cursor", "copilot", "universal"],
+    "browser_use_optional": true,
+    "skillhub": true,
+    "publish_ready": true
+  },
+  "tags": [
+    "ppt",
+    "web-ppt",
+    "douyin",
+    "video-material",
+    "9-16",
+    "mobile-ppt",
+    "static-page",
+    "screenshot",
+    "douyin-copy",
+    "timeline-script",
+    "video-script",
+    "srt-subtitle",
+    "jianying-subtitle",
+    "剪映字幕",
+    "tiktok",
+    "short-video"
+  ],
+  "license": "MIT",
+  "distributable": true,
+  "portable": true,
+  "changelog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-06-25",
+      "changes": [
+        "P0: 初始版本",
+        "P0: 9:16 HTML 网页生成器",
+        "P0: 抖音文案生成器（标题+正文+hashtag+互动钩子）",
+        "P0: 时间线剧本生成器（4 列结构）",
+        "P0: BrowserUse 截图集成（graceful fallback）",
+        "P0: 6 配色 × 6 风格 × 9 排版美学",
+        "P0: verify.sh 自验证脚本（N4 落地）",
+        "P0: 3 个完整示例（产品/知识/故事）",
+        "P0: TDD 验证方案 + 验收清单"
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "date": "2026-06-25",
+      "changes": [
+        "P0: ⭐ 新增剪映字幕生成器（generate_subtitle.py）",
+        "P0: ⭐ 新增 SRT 字幕模板（subtitle_template.srt）",
+        "P0: ⭐ 新增字幕产物 subtitle.srt 到 output_schema",
+        "P0: ⭐ 新增 G 类 13 项字幕验收标准（G1-G13）",
+        "P0: 主文档 SKILL.md 集成 Step 4.5 字幕生成流程",
+        "P0: 触发词扩展：'剪映字幕'"
+      ]
+    }
+  ],
+  "trace": {
+    "trust": {
+      "safety_check": true,
+      "domestic_compatible": true,
+      "chinese_support": true,
+      "score_target": "4.8-5.0"
+    },
+    "reliability": {
+      "retry_mechanism": true,
+      "timeout_handling": true,
+      "error_recovery": true,
+      "score_target": "4.5-5.0"
+    },
+    "adaptability": {
+      "capability_boundary_clear": true,
+      "trigger_defined": true,
+      "score_target": "4.2-4.8"
+    },
+    "convention": {
+      "progressive_disclosure": true,
+      "structure_clear": true,
+      "docs_complete": true,
+      "score_target": "4.2-4.8"
+    },
+    "effectiveness": {
+      "output_accurate": true,
+      "content_complete": true,
+      "ready_to_use": true,
+      "value_added": true,
+      "score_target": "4.5-5.0"
+    }
+  },
+  "security_checks": {
+    "supply_chain_risk": "pass",
+    "command_execution_risk": "low",
+    "network_data_exfiltration": "pass",
+    "file_operation_sensitive_paths": "pass",
+    "prompt_injection_risk": "pass",
+    "remote_script_execution": "pass",
+    "suspicious_encoding": "pass",
+    "self_referential_audit": "verified at TDD phase"
+  }
+}

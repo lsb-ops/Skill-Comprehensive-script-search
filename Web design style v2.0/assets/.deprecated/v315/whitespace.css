@@ -1,0 +1,126 @@
+/* ============================================
+   WebPPT Maker v3.15 · Whitespace System (奢侈留白)
+   ============================================
+   核心原则:
+   - 留白不是 padding, 是设计元素
+   - 默认 60% 留白 (vs 业界 20%)
+   - 奢侈品牌 (Apple/Hermès) 用 70%+
+   - 信息密度低 = 视觉重量高
+
+   来源: Bringhurst (Elements of Typographic Style), Massimo Vignelli,
+         Apple Human Interface Guidelines
+   ============================================ */
+
+/* === 留白尺度 (8 级, 极端值大) === */
+:root {
+  /* 8 级空间, 极端值偏大 (奢侈感) */
+  --ws-1:  4px;     /* 极小 */
+  --ws-2:  8px;     /* 微 */
+  --ws-3:  16px;    /* 标准 */
+  --ws-4:  24px;    /* 中 */
+  --ws-5:  40px;    /* 大 */
+  --ws-6:  64px;    /* 极大 */
+  --ws-7:  96px;    /* 奢侈 */
+  --ws-8:  144px;   /* 极致 */
+  --ws-9:  192px;   /* 顶级奢侈 */
+}
+
+/* === 默认页面留白: 60% === */
+[data-whitespace="default"] {
+  padding: var(--ws-7) var(--ws-6);
+}
+
+/* === 奢侈留白: 70% === */
+[data-whitespace="luxury"] {
+  padding: var(--ws-8) var(--ws-7);
+}
+
+/* === 极致奢侈: 75% === */
+[data-whitespace="ultra"] {
+  padding: var(--ws-9) var(--ws-7);
+}
+
+/* === 紧凑 (仅在数据密集页用, 默认禁用) === */
+[data-whitespace="compact"] {
+  padding: var(--ws-5) var(--ws-4);
+}
+
+/* === 边到边 (full-bleed 图像专用) === */
+[data-whitespace="full"] {
+  padding: 0;
+}
+
+/* === 元素间留白 (gap 替代 margin) === */
+.ws-stack > * + * { margin-top: var(--ws-4); }
+.ws-stack-loose > * + * { margin-top: var(--ws-6); }
+.ws-stack-tight > * + * { margin-top: var(--ws-2); }
+
+/* === 容器内边距 (强制 60% 比例) === */
+.ws-container {
+  --ws-target-ratio: 0.6;  /* 留白占比 */
+  padding: max(var(--ws-7), calc((100vh - 60vh) / 2)) max(var(--ws-6), calc((100vw - 60vw) / 2));
+}
+
+/* === 段落最大宽度 (60 字符, 阅读舒适) === */
+.ws-readable {
+  max-width: 60ch;
+}
+
+/* === 段落最大宽度 (更窄, 高密度信息) === */
+.ws-readable-tight {
+  max-width: 40ch;
+}
+
+/* === 反 "塞满" 提示 === */
+.ws-warning {
+  /* 当内容塞满时, 自动提示需要留白 */
+  outline: 2px dashed oklch(60% 0.20 35);
+  outline-offset: 4px;
+}
+
+/* === Section 间距 (大区块之间) === */
+section + section {
+  margin-top: var(--ws-8);
+}
+
+/* === 行内元素间距 === */
+.ws-inline > * + * {
+  margin-left: var(--ws-3);
+}
+
+/* === 居中留白 (垂直) === */
+.ws-vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* === 黄金分割留白 (38% 主, 62% 留白) === */
+.ws-golden {
+  display: grid;
+  grid-template-rows: 38% 62%;
+}
+
+/* === ONE thing 强调: 主元素四周留白加大 === */
+.ws-focus-primary {
+  /* 主元素四周留白是普通元素的 1.5x */
+  margin: var(--ws-7) var(--ws-6);
+  padding: var(--ws-5);
+}
+
+/* === 容器查询: 屏幕宽度自适应留白 === */
+@container (max-width: 600px) {
+  [data-whitespace="luxury"] { padding: var(--ws-6) var(--ws-4); }
+  [data-whitespace="ultra"]  { padding: var(--ws-7) var(--ws-5); }
+}
+
+@container (min-width: 1200px) {
+  [data-whitespace="default"] { padding: var(--ws-8) var(--ws-7); }
+  [data-whitespace="luxury"]  { padding: var(--ws-9) var(--ws-8); }
+}
+
+/* === 减少动效用户不需要更多留白调整 === */
+@media (prefers-reduced-motion: reduce) {
+  /* 留白调整静态, 无需特殊处理 */
+}

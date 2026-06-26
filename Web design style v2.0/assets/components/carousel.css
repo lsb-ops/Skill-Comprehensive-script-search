@@ -1,0 +1,140 @@
+/* ============================================
+   WebPPT Maker v3.17 · Carousel / Slider
+   ============================================
+   真实参考: Embla, Swiper, Splide
+   关键能力:
+   - 多张滑动 (一次 N 张)
+   - 拖拽 (touch + mouse)
+   - 自动播放
+   - 指示器 (dots + arrows)
+   - 循环 / 非循环
+   ============================================ */
+
+[data-component="carousel"] {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+[data-component="carousel"] .carousel-track {
+  display: flex;
+  gap: var(--space-4, 16px);
+  transition: transform 400ms var(--ease-emphasized-decelerate);
+  will-change: transform;
+}
+
+[data-component="carousel"] .carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+[data-component="carousel"][data-slides-per-view="2"] .carousel-slide {
+  flex: 0 0 calc((100% - var(--space-4, 16px)) / 2);
+}
+
+[data-component="carousel"][data-slides-per-view="3"] .carousel-slide {
+  flex: 0 0 calc((100% - var(--space-4, 16px) * 2) / 3);
+}
+
+[data-component="carousel"][data-slides-per-view="4"] .carousel-slide {
+  flex: 0 0 calc((100% - var(--space-4, 16px) * 3) / 4);
+}
+
+@media (max-width: 768px) {
+  [data-component="carousel"][data-slides-per-view="2"] .carousel-slide,
+  [data-component="carousel"][data-slides-per-view="3"] .carousel-slide,
+  [data-component="carousel"][data-slides-per-view="4"] .carousel-slide {
+    flex: 0 0 100%;
+  }
+}
+
+/* === 箭头导航 === */
+[data-component="carousel"] .carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: oklch(99% 0.003 0 / 0.9);
+  backdrop-filter: blur(4px);
+  border: 1px solid oklch(90% 0.005 0);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  transition: background 150ms, transform 150ms;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-component="carousel"] .carousel-arrow:hover {
+  background: oklch(99% 0.003 0);
+  transform: translateY(-50%) scale(1.05);
+}
+
+[data-component="carousel"] .carousel-arrow[data-direction="prev"] {
+  left: var(--space-4, 16px);
+}
+
+[data-component="carousel"] .carousel-arrow[data-direction="next"] {
+  right: var(--space-4, 16px);
+}
+
+[data-component="carousel"] .carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+[data-component="carousel"] .carousel-arrow::before {
+  font-size: 18px;
+  font-weight: 700;
+  color: oklch(20% 0.015 250);
+}
+
+[data-component="carousel"] .carousel-arrow[data-direction="prev"]::before {
+  content: "‹";
+}
+
+[data-component="carousel"] .carousel-arrow[data-direction="next"]::before {
+  content: "›";
+}
+
+/* === 指示器 (dots) === */
+[data-component="carousel"] .carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2, 8px);
+  margin-top: var(--space-5, 24px);
+}
+
+[data-component="carousel"] .carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: oklch(85% 0.005 0);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 200ms, transform 200ms;
+}
+
+[data-component="carousel"] .carousel-dot[aria-current="true"] {
+  background: oklch(55% 0.22 280);
+  transform: scale(1.3);
+}
+
+/* === 拖拽状态 === */
+[data-component="carousel"][data-dragging="true"] .carousel-track {
+  transition: none;
+  cursor: grabbing;
+}
+
+[data-component="carousel"] .carousel-track {
+  cursor: grab;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-component="carousel"] .carousel-track {
+    transition: none;
+  }
+}

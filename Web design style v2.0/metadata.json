@@ -1,0 +1,169 @@
+{
+  "name": "webppt-maker",
+  "name_zh": "网页 PPT 一站式生成器",
+  "display_name": "WebPPT Maker",
+  "display_name_zh": "网页 PPT 一站式生成器",
+  "version": "1.1.0",
+  "schema_version": "1.0",
+  "description": "一站式生成 9:16 手机版 PPT 式静态网页 + 抖音文案 + 时间线剧本 + 剪映字幕 + 网页截图。输入主题和要点，输出完整可发布的抖音视频素材包（HTML + 文案 + 剧本 + 字幕 + 截图）。",
+  "long_description": "WebPPT Maker 是一个 workflow 类 skill。它接收用户提供的视频主题和 3-8 个内容要点，自动生成：(1) 9:16 viewport 的单页 PPT 式 HTML 网页（多 section 切换），(2) 抖音发布文案（标题 + 正文 + hashtag + 互动钩子），(3) 时间线剧本（4 列结构 + 钩子 + CTA），(4) 剪映字幕 SRT 文件（v1.1.0 新增，可直接拖入剪映作为字幕轨），(5) 网页截图（通过 BrowserUse CLI 调用）。支持 6 套视觉风格、6 套配色方案、9 种排版美学。所有产物自带 verify_report.json 自验证报告，符合 N4 诚实执行契约。",
+  "author": "Mr.Lin",
+  "email": "lin@local",
+  "license": "MIT",
+  "homepage": null,
+  "repository": null,
+  "icon": "📱",
+  "category": "content-creation",
+  "subcategory": "video-material",
+  "skill_type": "workflow",
+  "language": "zh-CN",
+  "supported_languages": ["zh-CN", "en"],
+  "platforms": ["macOS", "Linux", "Windows"],
+  "agents": ["claude_code", "cursor", "copilot", "universal"],
+  "core_capabilities": [
+    "9:16 静态 PPT 网页生成（360×640 viewport）",
+    "抖音文案生成（标题 ≤ 25 字 + 正文 80-150 字 + 5-8 hashtag + 互动钩子）",
+    "时间线剧本生成（粒度 ≤ 2 秒 + 4 列结构）",
+    "剪映字幕生成（SRT 格式 v1.1.0 新增，UTF-8 BOM，剪映可直接拖入作为字幕轨）",
+    "BrowserUse 截图集成（graceful fallback 到 SVG 占位）",
+    "6 套视觉风格 + 6 套配色方案 + 9 种排版美学",
+    "N4 自验证协议（verify_report.json + 25 项检查含 G 类字幕验收）"
+  ],
+  "key_features": {
+    "9_16_ppt": "9:16 移动端 PPT，单文件 HTML < 50KB，CSS 变量主题切换",
+    "douyin_copy": "抖音文案生成，含标题/正文/hashtag/互动钩子，符合平台调性",
+    "timeline_script": "时间线剧本生成，4 列结构，开头 3s 钩子，结尾 CTA",
+    "srt_subtitle": "⭐ v1.1.0: 剪映字幕生成，SRT 标准格式，单段 ≤ 5s + ≤ 30 字 + UTF-8 BOM",
+    "browser_use": "集成 BrowserUse CLI 截图，失败时 SVG 占位 + 原因记录",
+    "design_aesthetics": "6 风格 × 6 配色 × 9 排版的矩阵式设计系统",
+    "verify_protocol": "N4 自验证：grep 关键内容 + 文件存在 + JSON 合法性 + G 类字幕合规"
+  },
+  "input_parameters": {
+    "topic": {"type": "string", "required": true, "description": "视频主题"},
+    "content_points": {"type": "array", "required": true, "description": "内容要点数组"},
+    "style": {"type": "enum", "default": "现代简约", "description": "视觉风格"},
+    "color_scheme": {"type": "enum", "default": "auto", "description": "配色方案"},
+    "target_duration_sec": {"type": "integer", "default": 30, "description": "视频时长"},
+    "output_dir": {"type": "string", "required": true, "description": "输出文件夹"},
+    "layout": {"type": "enum", "default": "auto", "description": "排版美学"},
+    "include_screenshot": {"type": "boolean", "default": true, "description": "是否截图"},
+    "platform": {"type": "enum", "default": "douyin", "description": "目标平台"}
+  },
+  "output_products": [
+    "index.html",
+    "pages/page_01.html ~ page_NN.html",
+    "assets/",
+    "screenshots/",
+    "douyin_copy.md",
+    "script_timeline.md",
+    "subtitle.srt",
+    "README.md",
+    "verify_report.json"
+  ],
+  "applicable_scenarios": [
+    "抖音视频素材准备（30 秒 / 60 秒短视频）",
+    "快手 / 小红书视频素材",
+    "9:16 竖屏 PPT（产品介绍 / 知识科普 / 故事叙述）",
+    "文案 A/B 双版本输出",
+    "批量生成视频素材包"
+  ],
+  "non_applicable_scenarios": [
+    "横屏 16:9 PPT",
+    "视频直接生成（这是素材生成器，不是剪辑工具）",
+    "直播脚本",
+    "纯文本排版"
+  ],
+  "dependencies": {
+    "required": [
+      {"name": "python3", "version": ">=3.8"}
+    ],
+    "optional": [
+      {"name": "browser-use", "purpose": "网页截图", "fallback": "SVG 占位 + 手动截屏"}
+    ]
+  },
+  "performance": {
+    "html_generation_sec": "<1",
+    "copy_generation_sec": "<1",
+    "script_generation_sec": "<1",
+    "screenshot_per_page_sec": "3-8",
+    "total_pipeline_sec": "30-60"
+  },
+  "tags": [
+    "ppt",
+    "web-ppt",
+    "douyin",
+    "video-material",
+    "9-16",
+    "mobile-ppt",
+    "static-page",
+    "screenshot",
+    "douyin-copy",
+    "timeline-script",
+    "video-script",
+    "srt-subtitle",
+    "jianying-subtitle",
+    "剪映字幕",
+    "tiktok",
+    "short-video",
+    "content-creation",
+    "workflow"
+  ],
+  "update_history": [
+    {
+      "version": "1.0.0",
+      "date": "2026-06-25",
+      "changes": [
+        "P0: 初始版本发布",
+        "P0: 9:16 HTML 网页生成器（6 风格 × 6 配色 × 9 排版）",
+        "P0: 抖音文案生成器（标题+正文+hashtag+互动钩子）",
+        "P0: 时间线剧本生成器（4 列结构+钩子+CTA）",
+        "P0: BrowserUse 截图集成（graceful fallback）",
+        "P0: verify.sh 自验证脚本（N4 落地）",
+        "P0: 3 个完整示例（产品/知识/故事）",
+        "P0: TDD 验证方案 + 验收清单",
+        "P0: 设计美学参考文档（移动端字体/抖音算法）"
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "date": "2026-06-25",
+      "changes": [
+        "P0: ⭐ 新增剪映字幕生成器（generate_subtitle.py）",
+        "P0: ⭐ 新增 SRT 字幕模板（subtitle_template.srt）",
+        "P0: ⭐ 新增字幕产物 subtitle.srt 到 output_products",
+        "P0: ⭐ 新增 G 类 13 项字幕验收标准（TDD验证方案.md）",
+        "P0: 修复 4 个 generator 输出目录行为不一致（统一为幂等覆盖策略）",
+        "P0: 提取共享逻辑到 scripts/_common.py",
+        "P0: 主文档 SKILL.md 集成 Step 4.5 字幕生成流程",
+        "P0: 触发词扩展：'剪映字幕'",
+        "P1: 计划新增 run_all.sh 一键编排脚本",
+        "P1: 计划修 examples 可运行（用户能跑 + 看到产物）"
+      ]
+    }
+  ],
+  "skillhub_publish": {
+    "identifier": "webppt-maker",
+    "display_name": "WebPPT Maker",
+    "category": "内容创作",
+    "subcategory": "视频素材",
+    "version": "1.1.0",
+    "tags": ["ppt", "douyin", "9-16", "video-material", "screenshot", "jianying-subtitle"],
+    "score_target": "4.5-5.0"
+  },
+  "compatibility": {
+    "min_python_version": "3.8",
+    "platforms": ["macOS", "Linux", "Windows"],
+    "agents": ["claude_code", "cursor", "copilot", "universal"],
+    "browser_use_optional": true,
+    "skillhub_ready": true
+  },
+  "security": {
+    "supply_chain_risk": "pass",
+    "command_execution_risk": "low",
+    "network_data_exfiltration": "pass",
+    "file_operation_sensitive_paths": "pass",
+    "prompt_injection_risk": "pass",
+    "remote_script_execution": "pass",
+    "audit_date": "2026-06-25"
+  }
+}

@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Test artifacts
+tests/_test_output/
+tests/_test_output_*/
+tests/__pycache__/
+tests/_archive/
+/tmp/
+
+# Generated PPT outputs (transient demo HTML from generation runs)
+output_*/
+output_*
+output_*.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

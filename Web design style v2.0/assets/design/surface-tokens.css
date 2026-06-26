@@ -1,0 +1,76 @@
+/* ============================================
+   WebPPT Maker v3.19.2 · Surface Container Tokens (MD3 v0.192 REAL)
+   ============================================
+   真实开源出处 (curl 直连验证):
+   - @material/web@2.4.1 tokens/versions/v0_192/_md-sys-color.scss
+     5 surface-container + 2 surface variant (dim/bright) = 7 个 elevation level
+     用于卡片/对话框/侧栏的"色调"分层 (NOT shadow)
+
+   MD3 设计哲学: 用 5 级 surface 代替 6 级 shadow 作为 elevation 表达.
+   这是 MD3 vs Material 2 的核心差异 (Web 2026 趋势).
+
+   对应真实 token (light 模式, 从 _md-sys-color.scss 实测):
+     surface-dim             → neutral87  (最暗, 背景)
+     surface-bright          → neutral98  (最亮, 突出容器)
+     surface-container-lowest → neutral100 (最浅, page bg)
+     surface-container-low    → neutral96
+     surface-container        → neutral94
+     surface-container-high   → neutral92
+     surface-container-highest → neutral90 (最深, modal)
+
+   WebPPT 实现: OKLCH 简化版 (略偏离 MD3 调色, 但保留 5 级结构)
+     因为完整 MD3 需 primary/secondary/tertiary palette, 庞大.
+     5 surface-container 是核心, 其它可后续扩展.
+
+   ============================================ */
+
+:root,
+[data-theme="light"] {
+  /* === MD3 5 surface-container + 2 variant (light mode) ===
+     数值映射 MD3 neutral palette (4-100), 转为 OKLCH lightness. */
+  --surface-dim:                oklch(87% 0.005 250);  /* MD3 neutral87, page dim */
+  --surface-bright:             oklch(98% 0.005 250);  /* MD3 neutral98, bright bg */
+  --surface-container-lowest:   oklch(100% 0 0);        /* MD3 neutral100, paper */
+  --surface-container-low:      oklch(96% 0.005 250);  /* MD3 neutral96, sidebar */
+  --surface-container:          oklch(94% 0.005 250);  /* MD3 neutral94, card */
+  --surface-container-high:     oklch(92% 0.005 250);  /* MD3 neutral92, raised card */
+  --surface-container-highest:  oklch(90% 0.005 250);  /* MD3 neutral90, modal */
+}
+
+/* === Dark mode (MD3 v0.192 实测 dark palette) ===
+     surface-dim = neutral6, surface-bright = neutral24
+     5 container: 4/10/12/17/22 (从最低到最高) */
+[data-theme="dark"] {
+  --surface-dim:                oklch(6% 0.005 250);   /* MD3 dark neutral6 */
+  --surface-bright:             oklch(24% 0.005 250);  /* MD3 dark neutral24 */
+  --surface-container-lowest:   oklch(4% 0 0);         /* MD3 dark neutral4 */
+  --surface-container-low:      oklch(10% 0.005 250);  /* MD3 dark neutral10 */
+  --surface-container:          oklch(12% 0.005 250);  /* MD3 dark neutral12 */
+  --surface-container-high:     oklch(17% 0.005 250);  /* MD3 dark neutral17 */
+  --surface-container-highest:  oklch(22% 0.005 250);  /* MD3 dark neutral22 */
+}
+
+/* === MD3 utility classes (7 surface 等级) === */
+.surface-dim              { background-color: var(--surface-dim); }
+.surface-bright           { background-color: var(--surface-bright); }
+.surface-container-lowest { background-color: var(--surface-container-lowest); }
+.surface-container-low    { background-color: var(--surface-container-low); }
+.surface-container        { background-color: var(--surface-container); }
+.surface-container-high   { background-color: var(--surface-container-high); }
+.surface-container-highest { background-color: var(--surface-container-highest); }
+
+/* === MD3 典型组件 surface 分配 (Tailwind/MD3 推荐) ===
+     page          → surface-container-lowest (paper)
+     sidebar       → surface-container-low
+     card          → surface-container
+     card-raised   → surface-container-high
+     modal         → surface-container-highest
+     overlay-bg    → surface-dim (modal backdrop) */
+
+/* === 语义化 component utility (高层封装) === */
+.surface-page      { background-color: var(--surface-container-lowest); }
+.surface-sidebar   { background-color: var(--surface-container-low); }
+.surface-card      { background-color: var(--surface-container); }
+.surface-raised    { background-color: var(--surface-container-high); }
+.surface-modal     { background-color: var(--surface-container-highest); }
+.surface-overlay   { background-color: var(--surface-dim); }

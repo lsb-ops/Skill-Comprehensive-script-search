@@ -1,0 +1,102 @@
+/* ============================================
+   Layout: 瀑布 (waterfall) — 碎片堆叠 + 装饰
+   v3.4: 真瀑布感 (multi-item stack with offset)
+   ============================================ */
+
+.layout-waterfall {
+  align-items: stretch;
+  text-align: left;
+  gap: var(--space-md);
+}
+
+/* 头部: 大标题 + 装饰 */
+.layout-waterfall .title {
+  font-size: var(--font-size-h1);
+  margin-bottom: var(--space-sm);
+  position: relative;
+  z-index: 2;
+}
+
+.layout-waterfall .subtitle {
+  font-size: var(--font-size-body);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  position: relative;
+  z-index: 2;
+}
+
+/* v3.4: 真瀑布核心 — 多卡片堆叠,每张卡片略有偏移 */
+.layout-waterfall .waterfall-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+  max-width: 90%;
+  margin-top: var(--space-md);
+}
+
+.layout-waterfall .waterfall-item {
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  position: relative;
+  /* 错位偏移,营造瀑布流感 */
+  margin-left: 0;
+}
+
+.layout-waterfall .waterfall-item:nth-child(odd) {
+  margin-left: var(--space-sm);
+  background: var(--bg-primary);
+  border: 2px solid var(--border);
+}
+
+.layout-waterfall .waterfall-item:nth-child(even) {
+  margin-left: calc(var(--space-sm) * 2);
+}
+
+.layout-waterfall .waterfall-item::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: var(--space-md);
+  width: 32px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.layout-waterfall .waterfall-item .item-title {
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+  color: var(--text-primary);
+}
+
+.layout-waterfall .waterfall-item .item-body {
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* body 退化模式: 单卡片 */
+.layout-waterfall .body {
+  text-align: left;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  max-width: 90%;
+}
+
+.layout-waterfall[data-mode="landscape"] .waterfall-stack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  max-width: 1100px;
+}
+
+.layout-waterfall[data-mode="landscape"] .waterfall-item:nth-child(odd),
+.layout-waterfall[data-mode="landscape"] .waterfall-item:nth-child(even) {
+  margin-left: 0;
+}

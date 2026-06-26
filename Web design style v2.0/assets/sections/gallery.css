@@ -1,0 +1,95 @@
+/* ============================================
+   WebPPT Maker v3.16 · Section: Gallery (画廊)
+   ============================================
+   真实参考: Behance, Dribbble, Unsplash 风格
+   关键能力:
+   - 网格/瀑布流/轮播
+   - 鼠标悬停效果
+   - 可点开 lightbox
+   ============================================ */
+
+[data-section="gallery"] {
+  padding: var(--space-9, 96px) var(--space-5, 24px);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+[data-section="gallery"] .gallery-header {
+  margin-bottom: var(--space-7, 48px);
+}
+
+[data-section="gallery"] .gallery-title {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* 默认网格 (auto-fit) */
+[data-section="gallery"] .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4, 16px);
+}
+
+[data-section="gallery"] .gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  aspect-ratio: 4/3;
+}
+
+[data-section="gallery"] .gallery-item img,
+[data-section="gallery"] .gallery-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 500ms var(--ease-standard);
+}
+
+[data-section="gallery"] .gallery-item:hover img,
+[data-section="gallery"] .gallery-item:hover video {
+  transform: scale(1.05);
+}
+
+/* Masonry (瀑布流) */
+[data-section="gallery"][data-layout="masonry"] .gallery-grid {
+  display: block;
+  column-count: 3;
+  column-gap: var(--space-4, 16px);
+}
+
+[data-section="gallery"][data-layout="masonry"] .gallery-item {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: var(--space-4, 16px);
+  break-inside: avoid;
+  aspect-ratio: auto;
+}
+
+@media (max-width: 768px) {
+  [data-section="gallery"][data-layout="masonry"] .gallery-grid {
+    column-count: 2;
+  }
+}
+
+/* 轮播 (carousel) */
+[data-section="gallery"][data-layout="carousel"] .gallery-grid {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: var(--space-4, 16px);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+[data-section="gallery"][data-layout="carousel"] .gallery-grid::-webkit-scrollbar {
+  display: none;
+}
+
+[data-section="gallery"][data-layout="carousel"] .gallery-item {
+  flex: 0 0 min(80%, 400px);
+  scroll-snap-align: start;
+}

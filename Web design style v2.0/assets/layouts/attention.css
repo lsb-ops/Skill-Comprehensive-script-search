@@ -1,0 +1,361 @@
+/* ============================================
+   WebPPT Maker v3.6 · 4 个 Attention-Driven Layout
+   F-pattern / Z-pattern / Golden ratio / Focal point
+   利用经典阅读模式,真正抓住用户注意力
+   ============================================ */
+
+/* ============================================
+   Layout: F-pattern (适合文字密集内容)
+   阅读流: 顶部完整 → 右上角弱化 → 左侧缩进列表
+   ============================================ */
+.layout-f-pattern {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+  gap: var(--space-5);
+  text-align: left;
+  padding: var(--space-7);
+  width: 100%;
+  height: 100%;
+  align-content: start;
+  box-sizing: border-box;
+}
+.layout-f-pattern .f-headline {
+  font-size: var(--font-2xl);
+  font-weight: 900;
+  line-height: var(--lh-tight);
+  max-width: 90%;
+  /* F 的顶部横 */
+  border-bottom: 4px solid var(--accent);
+  padding-bottom: var(--space-4);
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.layout-f-pattern .f-top {
+  font-size: var(--font-md);
+  color: var(--text-secondary);
+  max-width: 80%;
+  /* F 的右上角 (弱化) */
+  align-self: end;
+  line-height: var(--lh-snug);
+}
+.layout-f-pattern .f-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 75%;
+  /* F 的左侧缩进 (核心) */
+  padding-left: var(--space-5);
+  border-left: 3px solid var(--accent);
+}
+.layout-f-pattern .f-item {
+  font-size: var(--font-base);
+  line-height: var(--lh-relaxed);
+  position: relative;
+  padding-left: var(--space-4);
+  color: var(--text-primary);
+}
+.layout-f-pattern .f-item::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+/* ============================================
+   Layout: Z-pattern (适合极简 hero)
+   阅读流: 左上 → 右上 → 左下 → 右下 (CTA)
+   ============================================ */
+.layout-z-pattern {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--space-6);
+  padding: var(--space-8);
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  box-sizing: border-box;
+}
+.layout-z-pattern .z-1 {
+  grid-area: 1 / 1;
+  font-size: var(--font-3xl);
+  font-weight: 900;
+  line-height: var(--lh-tight);
+  align-self: start;
+  /* Z 的左上起点 */
+  color: var(--text-primary);
+  padding-top: 0.04em;
+}
+.layout-z-pattern .z-2 {
+  grid-area: 1 / 2;
+  font-size: var(--font-md);
+  color: var(--text-secondary);
+  text-align: right;
+  align-self: start;
+  /* Z 的右上角 */
+  line-height: var(--lh-snug);
+}
+.layout-z-pattern .z-3 {
+  grid-area: 2 / 1;
+  font-size: var(--font-base);
+  color: var(--text-secondary);
+  align-self: end;
+  /* Z 的左下角 */
+  line-height: var(--lh-relaxed);
+  max-width: 80%;
+}
+.layout-z-pattern .z-cta {
+  grid-area: 2 / 2;
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--accent);
+  text-align: right;
+  align-self: end;
+  justify-self: end;
+  /* Z 的右下终点 (CTA) */
+  padding: var(--space-3) var(--space-6);
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  display: inline-block;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+.layout-z-pattern .z-cta:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 12px 32px rgba(255, 59, 48, 0.25);
+}
+
+/* ============================================
+   Layout: Golden ratio (1:1.618 分割)
+   焦点: 左侧大元素 (38.2%) + 右侧详细 (61.8%)
+   ============================================ */
+.layout-golden {
+  display: grid;
+  grid-template-columns: 38.2% 61.8%;   /* 黄金分割 φ = 1.618 */
+  gap: var(--space-7);
+  padding: var(--space-8);
+  text-align: left;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.layout-golden .golden-focus {
+  font-size: var(--font-display);
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  /* 焦点: 占小但显眼 */
+  color: var(--accent);
+  padding-top: 0.04em;
+  text-shadow: 0 8px 24px rgba(255, 59, 48, 0.15);
+  animation: number-glow 3s ease-in-out infinite;
+}
+.layout-golden .golden-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.layout-golden .golden-detail .golden-title {
+  font-size: var(--font-2xl);
+  font-weight: 800;
+  line-height: var(--lh-tight);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.layout-golden .golden-detail .golden-body {
+  font-size: var(--font-base);
+  line-height: var(--lh-relaxed);
+  color: var(--text-primary);
+  max-width: 100%;
+  margin: 0;
+}
+.layout-golden .golden-detail .golden-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.layout-golden .golden-tag {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-secondary);
+  border-radius: 999px;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+}
+.layout-golden .golden-tag:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* ============================================
+   Layout: Focal point (单一焦点 + 4 注释)
+   1 个超大焦点 + 周围 4 个小注释 (可选 6 角)
+   ============================================ */
+.layout-focal {
+  display: grid;
+  grid-template-areas:
+    "tl  center tr"
+    "ml  center mr"
+    "bl  center br";
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: var(--space-5);
+  padding: var(--space-7);
+  text-align: left;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.layout-focal .focal-center {
+  grid-area: center;
+  font-size: var(--font-hero);     /* 144px */
+  font-weight: 900;
+  line-height: 1;
+  color: var(--accent);
+  text-align: center;
+  /* 唯一焦点 */
+  text-shadow: 0 8px 32px rgba(255, 59, 48, 0.2);
+  animation: number-glow 3s ease-in-out infinite;
+  padding-top: 0.04em;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+.layout-focal .focal-unit {
+  grid-area: center;
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-align: center;
+  align-self: end;
+  justify-self: center;
+  margin-top: var(--space-7);
+}
+.layout-focal .focal-note {
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+  max-width: 200px;
+  line-height: var(--lh-snug);
+}
+.layout-focal .focal-note:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  background: var(--bg-primary);
+  border: 1px solid var(--accent);
+}
+.layout-focal .focal-tl { grid-area: tl; }
+.layout-focal .focal-tr { grid-area: tr; }
+.layout-focal .focal-ml { grid-area: ml; }
+.layout-focal .focal-mr { grid-area: mr; }
+.layout-focal .focal-bl { grid-area: bl; }
+.layout-focal .focal-br { grid-area: br; }
+
+/* portrait mode: focal-hero font 缩小 (避免溢出) */
+body[data-mode="portrait"] .layout-focal .focal-center { font-size: var(--font-display); }
+body[data-mode="portrait"] .layout-focal { padding: var(--space-5); }
+
+/* ============================================
+   v3.6 通用: data-focal hover lift 已移到 focal-point.css
+   ============================================ */
+/* ============================================
+   v3.8: Layout coverflow (3D 水平轮播)
+   像 Apple Coverflow / iTunes album art flow:
+   - 中间卡片正面突出 (translateZ: 0, scale: 1)
+   - 两侧卡片旋转 + 后退 (rotateY ±55°, translateZ -200px)
+   - 鼠标 hover 任意卡 → 该卡前进 (translateZ +60, scale 1.05)
+   ============================================ */
+.layout-coverflow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
+  padding: var(--space-7) var(--space-6);
+  gap: var(--space-5);
+  overflow: hidden;
+}
+.coverflow-item {
+  flex: 0 0 auto;
+  width: 220px;
+  height: 280px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease;
+  position: relative;
+  cursor: pointer;
+}
+/* 左侧卡片: 旋转 -55°, 后退 200px, 缩小 0.85 */
+.coverflow-item.cf-prev-1 {
+  transform: perspective(1800px) rotateY(55deg) translateZ(-200px) translateX(-40px) scale(0.85);
+  opacity: 0.7;
+}
+.coverflow-item.cf-prev-2 {
+  transform: perspective(1800px) rotateY(65deg) translateZ(-380px) translateX(-80px) scale(0.7);
+  opacity: 0.4;
+}
+.coverflow-item.cf-active {
+  transform: perspective(1800px) rotateY(0deg) translateZ(0) scale(1.05);
+  z-index: 10;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+.coverflow-item.cf-next-1 {
+  transform: perspective(1800px) rotateY(-55deg) translateZ(-200px) translateX(40px) scale(0.85);
+  opacity: 0.7;
+}
+.coverflow-item.cf-next-2 {
+  transform: perspective(1800px) rotateY(-65deg) translateZ(-380px) translateX(80px) scale(0.7);
+  opacity: 0.4;
+}
+/* hover 任何卡片: 提升到 active 位置 */
+.coverflow-item:hover {
+  transform: perspective(1800px) rotateY(0deg) translateZ(60px) scale(1.1);
+  z-index: 20;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  opacity: 1;
+}
+.coverflow-item .cf-icon {
+  font-size: 80px;
+  margin-bottom: var(--space-3);
+  line-height: 1;
+}
+.coverflow-item .cf-title {
+  font-size: var(--font-lg);
+  font-weight: 800;
+  line-height: var(--lh-tight);
+  margin-bottom: var(--space-2);
+}
+.coverflow-item .cf-body {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: var(--lh-normal);
+}
+
+/* portrait mode: coverflow 卡片更窄 */
+body[data-mode="portrait"] .coverflow-item { width: 160px; height: 220px; }
+body[data-mode="portrait"] .coverflow-item .cf-icon { font-size: 60px; }
+body[data-mode="portrait"] .coverflow-item .cf-title { font-size: var(--font-md); }

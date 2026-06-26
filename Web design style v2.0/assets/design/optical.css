@@ -1,0 +1,113 @@
+/* ============================================
+   WebPPT Maker v3.6 · 视觉对齐 (Optical Alignment)
+   大字号偏移修正 + 中英混排 + 标点悬挂
+   数学居中 → 视觉居中
+   ============================================ */
+
+/* === 大字号垂直偏移 (避免视觉下沉) === */
+/* 数学居中 → 视觉居中: 大字号 x-height 大,需要上移 2-3% */
+.t-3xl, .t-display, .t-hero,
+.layout-poster .big-text,
+.layout-numbers .big-number {
+  /* padding-top 比 transform 更安全 (不影响布局) */
+  padding-top: 0.04em;
+  /* 等价: transform: translateY(-0.02em); */
+}
+
+/* === 中英混排: 中文 letter-spacing 0.05em, 英文 -0.01em === */
+:lang(zh), [lang="zh"] {
+  letter-spacing: 0.05em;        /* 中文需要空气感 */
+}
+:lang(en), [lang="en"] {
+  letter-spacing: -0.01em;       /* 英文紧凑 */
+}
+/* 中英混排时,中文内 letter-spacing 仍生效,英文 span 单独覆盖 */
+:lang(zh) :lang(en), :lang(en) :lang(zh) {
+  letter-spacing: inherit;
+}
+
+/* === 中文标题: 不用负 letter-spacing (v3.4 已建立) === */
+.title:lang(zh), .title[lang="zh"] { letter-spacing: 0.05em; }
+.title:lang(en), .title[lang="en"] { letter-spacing: -0.01em; }
+.layout-poster .big-text:lang(zh) { letter-spacing: 0.05em; }
+.layout-poster .big-text:lang(en) { letter-spacing: -0.02em; }
+.layout-numbers .big-number:lang(zh) { letter-spacing: 0.02em; }
+.layout-numbers .big-number:lang(en) { letter-spacing: -0.04em; }
+
+/* === 数字 tabular-nums + lining-nums 强制 (count-up 不抖动) === */
+.num, .big-number, .t-num, [data-count], .count-up {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+/* === 中文标点悬挂 (CJK punctuation hanging) === */
+:lang(zh) .body,
+:lang(zh) .subtitle,
+:lang(zh) .title {
+  hanging-punctuation: allow-end;
+  text-justify: inter-ideograph;
+}
+
+/* === 段落首字下沉 === */
+.has-dropcap::first-letter {
+  font-size: 3em;
+  font-weight: 900;
+  float: left;
+  line-height: 0.85;
+  margin-right: 0.1em;
+  margin-top: 0.05em;
+  color: var(--accent);
+}
+
+/* === 大字号 kerning === */
+.t-3xl, .t-display, .t-hero, .big-text, .big-number {
+  font-kerning: normal;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+/* === Optical: 大字号上下 padding 不对称 (避免被吃) === */
+.page-cover .title,
+.page-cta .title,
+.layout-poster .big-text {
+  /* 大字号 baseline 更靠下,需要顶部 padding */
+  padding-top: 0.05em;
+  padding-bottom: 0;
+  margin-bottom: var(--space-4);
+}
+
+/* === 行高精细化 (中文 ≥ 1.7) === */
+:lang(zh) .body, [lang="zh"] .body {
+  line-height: var(--lh-relaxed);  /* 1.7 */
+}
+:lang(zh) .subtitle, [lang="zh"] .subtitle {
+  line-height: var(--lh-snug);     /* 1.25 */
+}
+:lang(en) .body, [lang="en"] .body {
+  line-height: var(--lh-normal);   /* 1.5 */
+}
+
+/* === Optical margin: 大字号后段距更大 === */
+.t-display + .body,
+.t-hero + .body,
+.t-3xl + .body,
+.big-text + .subtitle {
+  margin-top: var(--space-5);   /* 24px (大字号后需要空间) */
+}
+.t-h1 + .body { margin-top: var(--space-4); }
+.t-h2 + .body { margin-top: var(--space-3); }
+
+/* === 数字 right-align tabular (数字列对齐) === */
+.num-col { font-variant-numeric: tabular-nums; text-align: right; }
+
+/* === Small caps (西方文字用, 中文跳过) === */
+.small-caps {
+  font-variant-caps: small-caps;
+  letter-spacing: 0.05em;
+}
+:lang(zh) .small-caps {
+  /* 中文 small-caps 不自然,降级为大写 */
+  font-variant-caps: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85em;
+}

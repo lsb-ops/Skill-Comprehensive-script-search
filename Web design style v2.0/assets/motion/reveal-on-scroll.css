@@ -1,0 +1,26 @@
+/* ============================================
+   WebPPT Maker v3.5 · Reveal-on-scroll 样式
+   配合 engine.js IntersectionObserver
+   ============================================ */
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 数字宽度稳定,count-up 时不抖动 */
+.count-up {
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Reveal.js 嵌套 stagger-item (在 reveal-on-scroll 之上叠加) === */
+.reveal-on-scroll.stagger-item {
+  /* 两套动效兼容:reveal-on-scroll 控制 opacity/translate,stagger-item 控制 delay */
+  transition-delay: var(--stagger-delay, 0s);
+}

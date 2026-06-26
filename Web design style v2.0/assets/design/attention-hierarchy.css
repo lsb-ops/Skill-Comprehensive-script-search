@@ -1,0 +1,417 @@
+/* ============================================
+   WebPPT Maker v3.12 · 用户注意力引导系统
+   F/Z-pattern 读取流 + Attractor/Repeller + 单一焦点守则
+   整合 focal-point + weight scale + color-balance → 一套统一视觉规则
+   ============================================
+   参考: NN/g (Nielsen Norman) F-pattern 眼动研究
+         Material Design 3 emphasis system
+         Edward Tufte "The Visual Display of Quantitative Information"
+         Luke Wroblewski "Mobile First" reading flow
+
+   核心原则:
+   1. 每页/每屏 1 个 primary focal (数据)
+   2. ≤ 2 个 secondary focal (支撑证据)
+   3. decorative 元素必须降噪 (opacity ≤ 0.4)
+   4. accent 色面积 ≤ 15% (60-30-10 法则)
+   5. 视线可被「动」引导 (motion leads eye)
+*/
+
+/* ============================================
+   §1. Attention Level (5 级, 量化"该元素该被注意到多少")
+   critical > high > normal > low > deco
+   每个级别绑定: size + color + motion + weight
+   ============================================ */
+
+:root {
+  /* === 5 级 attention (与 weight scale 不同: attention 含 motion 维度) === */
+  --attn-critical-size: var(--font-3xl);    /* 64px hero */
+  --attn-critical-weight: 900;
+  --attn-critical-color: var(--text-primary);
+  --attn-critical-motion: 600ms;            /* 最长入场 */
+
+  --attn-high-size: var(--font-xl);          /* 36px */
+  --attn-high-weight: 700;
+  --attn-high-color: var(--text-primary);
+  --attn-high-motion: 400ms;
+
+  --attn-normal-size: var(--font-base);     /* 18px */
+  --attn-normal-weight: 500;
+  --attn-normal-color: var(--text-primary);
+  --attn-normal-motion: 250ms;
+
+  --attn-low-size: var(--font-sm);           /* 16px */
+  --attn-low-weight: 400;
+  --attn-low-color: var(--text-secondary);
+  --attn-low-motion: 150ms;
+
+  --attn-deco-opacity: 0.4;                  /* 装饰元素 */
+}
+
+/* === Attention utility (用法: <h1 data-attn="critical">) === */
+[data-attn="critical"] {
+  font-size: var(--attn-critical-size);
+  font-weight: var(--attn-critical-weight);
+  color: var(--attn-critical-color);
+  --enter-duration: var(--attn-critical-motion);
+}
+
+[data-attn="high"] {
+  font-size: var(--attn-high-size);
+  font-weight: var(--attn-high-weight);
+  color: var(--attn-high-color);
+  --enter-duration: var(--attn-high-motion);
+}
+
+[data-attn="normal"] {
+  font-size: var(--attn-normal-size);
+  font-weight: var(--attn-normal-weight);
+  color: var(--attn-normal-color);
+  --enter-duration: var(--attn-normal-motion);
+}
+
+[data-attn="low"] {
+  font-size: var(--attn-low-size);
+  font-weight: var(--attn-low-weight);
+  color: var(--attn-low-color);
+  --enter-duration: var(--attn-low-motion);
+}
+
+[data-attn="deco"] {
+  opacity: var(--attn-deco-opacity);
+  pointer-events: none;
+  --enter-duration: 0ms;                     /* 装饰无需入场 */
+}
+
+/* ============================================
+   §2. F-Pattern / Z-Pattern 读取流 utility
+   用户眼动遵循 Z (landscape) / F (dense text)
+   强焦点放右上 / 左上 / 中心 (Z 起点)
+   弱焦点放左下 / 右下 (Z 终点, 次要)
+   ============================================ */
+
+/* === Z-Pattern: 左上 → 右上 → 左下 → 右下 === */
+/* Z 起点 (左上) - 主焦点 */
+.flow-z-start { grid-area: 1 / 1; }    /* 左上 */
+.flow-z-peak { grid-area: 1 / 3; }     /* 右上 (peak) */
+.flow-z-turn { grid-area: 2 / 2; }     /* 中心 (turning point) */
+.flow-z-end { grid-area: 3 / 3; }      /* 右下 (end, CTA 位置) */
+
+/* === F-Pattern: 顶 → 左下 → 中左 → 底左 === */
+.flow-f-top { grid-area: 1 / 1 / 2 / -1; }       /* 顶栏通栏 */
+.flow-f-left-top { grid-area: 2 / 1 / 3 / 4; }   /* 左上正文 */
+.flow-f-left-mid { grid-area: 3 / 1 / 4 / 4; }   /* 左中正文 */
+.flow-f-left-bot { grid-area: 4 / 1 / 5 / 4; }   /* 左底正文 */
+
+/* === Reading flow container === */
+.flow-z {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: var(--space-5);
+  min-height: 100%;
+}
+
+.flow-f {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: auto auto 1fr;
+  gap: var(--space-4);
+}
+
+/* ============================================
+   §3. Attractor (吸睛元素强化)
+   视线引导: 大 + 动 + 唯一 + 对比
+   === 三件套: size + motion + color-anchor ===
+   ============================================ */
+
+/* === Attractor 容器: 应用后元素自动成为视觉焦点 === */
+.attractor {
+  position: relative;
+  isolation: isolate;
+}
+
+/* === Attractor 光晕 (radial gradient 烘托) === */
+.attractor::before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  background: radial-gradient(
+    ellipse at center,
+    oklch(60% 0.22 25 / 0.10) 0%,
+    transparent 65%
+  );
+  z-index: -1;
+  pointer-events: none;
+  animation: attractor-glow 4s ease-in-out infinite;
+}
+
+@keyframes attractor-glow {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* === Primary CTA 强化 (吸睛的最高级) === */
+.attractor-primary {
+  position: relative;
+  isolation: isolate;
+}
+.attractor-primary::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: var(--grad-aurora);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  filter: blur(8px);
+}
+.attractor-primary:hover::after { opacity: 0.6; }
+
+/* ============================================
+   §4. Repeller (装饰元素降噪)
+   不该被注意的元素: 背景纹理 / 分隔线 / 装饰图形
+   主动弱化 (opacity + grayscale + 远离动效)
+   ============================================ */
+
+.repeller {
+  opacity: 0.35;
+  filter: grayscale(0.5);
+  pointer-events: none;
+  /* 装饰元素: 不参与入场动画 */
+  --enter-duration: 0ms;
+}
+
+.repeller-bg {
+  /* 大面积背景装饰 (mesh / blob) */
+  opacity: 0.15;
+  filter: blur(40px);
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+/* === 分隔线 (separator 应该是 silence, 不是 noise) === */
+.sep {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  opacity: 0.4;
+  margin: var(--space-5) 0;
+}
+
+/* === Decorative blob (弱化背景装饰) === */
+.deco-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ============================================
+   §5. 单一焦点守则 (Single Focal Rule)
+   警告: 每屏 critical 元素 ≤ 1, high 元素 ≤ 2
+   CSS 端用 :has() 检测违反 → 自动降级
+   ============================================ */
+
+/* 防御: critical + critical 兄弟 → 第二个降为 high */
+[data-attn="critical"] ~ [data-attn="critical"] {
+  /* 多个 critical 自动降级, 保持视觉平衡 */
+  font-size: var(--attn-high-size);
+  font-weight: var(--attn-high-weight);
+}
+
+/* 防御: > 3 个 high → 第三个起降为 normal */
+[data-attn="high"]:nth-of-type(n+3) {
+  font-size: var(--attn-normal-size);
+  font-weight: var(--attn-normal-weight);
+}
+
+/* ============================================
+   §6. Eye Path Indicator (视线轨迹)
+   调试模式 (dev-only): 显示用户预期视线流
+   启用: <body data-eye-path="show">
+   ============================================ */
+
+body[data-eye-path="show"] .flow-z::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-tooltip);
+  background:
+    linear-gradient(to right, transparent 0%, oklch(70% 0.20 25 / 0.2) 50%, transparent 100%) 0 0 / 100% 4px no-repeat,
+    linear-gradient(to right, transparent 0%, oklch(70% 0.20 25 / 0.2) 50%, transparent 100%) 0 100% / 100% 4px no-repeat,
+    linear-gradient(to bottom right, transparent 0%, oklch(70% 0.20 25 / 0.2) 100%) 0 0 / 100% 100% no-repeat;
+}
+
+/* === 焦点编号 (调试用: 1 = 第一个注意到) === */
+body[data-eye-path="show"] [data-attn]::after {
+  content: attr(data-attn);
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--accent);
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-family: monospace;
+  z-index: var(--z-tooltip);
+}
+
+/* ============================================
+   §7. CTA 按钮 3 状态 (Button Hierarchy)
+   primary > secondary > tertiary
+   唯一吸睛 (CTA 通常就是 single focal)
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);  /* 12 / 32 */
+  font-size: var(--font-base);
+  font-weight: 600;
+  line-height: 1;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+  white-space: nowrap;
+  position: relative;
+  isolation: isolate;
+}
+
+/* === Primary: 强焦点 (唯一 CTA) === */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 12px oklch(60% 0.22 25 / 0.25),
+              0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px oklch(60% 0.22 25 / 0.35),
+              0 2px 6px rgba(0, 0, 0, 0.10);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* === Secondary: 中焦点 (次要操作) === */
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  background: oklch(95% 0.008 250);
+  border-color: var(--accent);
+}
+
+/* === Tertiary: 弱焦点 (链接式按钮) === */
+.btn-tertiary {
+  background: transparent;
+  color: var(--accent);
+  padding: var(--space-2) var(--space-3);
+}
+.btn-tertiary:hover {
+  background: oklch(60% 0.22 25 / 0.08);
+}
+
+/* === CTA Group (按钮组合, 间距规则) === */
+.cta-group {
+  display: inline-flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+/* === CTA 唯一性守则: 多个 primary → 警告 === */
+.btn-primary ~ .btn-primary {
+  /* 第二个 primary 自动降级为 secondary */
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+/* BUG-08 fix: opt-out (允许用户显式声明需要多 primary) */
+[data-cta-multi="true"] .btn-primary ~ .btn-primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 12px oklch(60% 0.22 25 / 0.25);
+}
+
+/* ============================================
+   §8. Reduced Motion (a11y)
+   prefers-reduced-motion: reduce → 关闭所有吸睛动效
+   仍保证焦点, 但不靠 motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .attractor::before {
+    animation: none;
+    opacity: 0.5;
+  }
+  .attractor-primary::after,
+  .btn-primary:hover,
+  [data-focal="primary"]:hover {
+    transform: none !important;
+    animation: none !important;
+  }
+  .btn { transition: opacity 0.1s linear; }
+  .btn:hover { opacity: 0.85; }
+}
+
+/* ============================================
+   §9. 视线流引导 (Lead Eye)
+   eye-lead: 元素入场后, 下一个焦点延迟更短 (让眼睛跟上)
+   即: 主焦点先入, 次焦点跟入
+   ============================================ */
+
+:root {
+  --enter-stagger-base: 80ms;   /* 元素间默认错位延迟 */
+  --enter-stagger-tight: 40ms;
+  --enter-stagger-loose: 160ms;
+}
+
+/* === Stagger 模式 (父子同步入场) === */
+[data-eye-stagger="tight"] > * {
+  --enter-stagger: var(--enter-stagger-tight);
+}
+[data-eye-stagger="normal"] > * {
+  --enter-stagger: var(--enter-stagger-base);
+}
+[data-eye-stagger="loose"] > * {
+  --enter-stagger: var(--enter-stagger-loose);
+}
+
+/* 子元素自动按 nth-child 延迟入场 (需 motion-attention.js 配合使用 --enter-delay) */
+[data-eye-stagger] > *:nth-child(1) { --enter-delay: 0ms; }
+[data-eye-stagger] > *:nth-child(2) { --enter-delay: calc(var(--enter-stagger) * 1); }
+[data-eye-stagger] > *:nth-child(3) { --enter-delay: calc(var(--enter-stagger) * 2); }
+[data-eye-stagger] > *:nth-child(4) { --enter-delay: calc(var(--enter-stagger) * 3); }
+[data-eye-stagger] > *:nth-child(5) { --enter-delay: calc(var(--enter-stagger) * 4); }
+[data-eye-stagger] > *:nth-child(6) { --enter-delay: calc(var(--enter-stagger) * 5); }
+[data-eye-stagger] > *:nth-child(7) { --enter-delay: calc(var(--enter-stagger) * 6); }
+[data-eye-stagger] > *:nth-child(8) { --enter-delay: calc(var(--enter-stagger) * 7); }
+
+/* ============================================
+   §10. 对比保证 (Contrast Guarantee)
+   焦点元素必须有 WCAG 4.5:1 (AA), 主焦点 7:1 (AAA)
+   ============================================ */
+
+/* === Attractor 元素强制 contrast === */
+.attractor, [data-attn="critical"], [data-attn="high"] {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);  /* 微底, 保证文字清晰 */
+}
+
+/* === Hover 时 contrast 增强 === */
+[data-attn="critical"]:hover {
+  text-shadow: 0 2px 8px oklch(60% 0.22 25 / 0.15);
+}

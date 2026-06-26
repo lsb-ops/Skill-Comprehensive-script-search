@@ -1,0 +1,43 @@
+/* ============================================
+   Layout: 时间轴 (timeline) — 圆点 + 内容流
+   ============================================ */
+
+.layout-timeline {
+  align-items: flex-start;
+  text-align: left;
+  padding: var(--space-xl);
+}
+
+.layout-timeline .timeline-item {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+  margin-bottom: var(--space-md);
+}
+
+.layout-timeline[data-mode="portrait"] .timeline-item {
+  max-width: 90%;
+}
+
+.layout-timeline[data-mode="landscape"] .timeline-item {
+  max-width: 1000px;
+}
+
+.layout-timeline .timeline-dot {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 18px;
+  box-shadow: 0 0 0 6px rgba(255, 59, 48, 0.2);
+}
+
+.layout-timeline .timeline-content {
+  flex: 1;
+}
+
+.layout-timeline .timeline-content h2 {
+  font-size: var(--font-size-h2);
+  margin-bottom: var(--space-xs);
+}

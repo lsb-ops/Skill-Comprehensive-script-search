@@ -1,0 +1,118 @@
+/* ============================================
+   WebPPT Maker v3.15 · Action-Title Archetype
+   ============================================
+   设计参考: McKinsey/HBR/BCG 报告风格
+   核心原则:
+   - 标题是完整句子, 不是名词短语
+   - 标题占 40% 视觉重量
+   - 证据/数据在下方支撑
+   - 这是 "sell the answer" 的页
+   ============================================ */
+
+/* === 基础: 左对齐 + 顶部标题 === */
+[data-archetype="action-title"] {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-7, 48px);
+  padding: var(--space-8, 64px) var(--space-8, 64px);
+  background: var(--arch-action-bg, oklch(99% 0.005 0));
+  color: var(--arch-action-text, oklch(15% 0.015 250));
+  text-align: left;
+  min-height: 100vh;
+}
+
+/* === 标题: 完整句子 + 大字号 === */
+[data-archetype="action-title"] .action-headline {
+  font-family: var(--font-serif, "Source Serif Pro", serif);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0;
+  /* 控制行宽: 标题不超过 2-3 行 */
+  max-width: 24ch;
+  color: var(--arch-action-text, oklch(15% 0.015 250));
+}
+
+/* === 标题下划线 (杂志风) === */
+[data-archetype="action-title"] .action-headline::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--arch-action-accent, oklch(45% 0.18 240));
+  margin-top: var(--space-5, 24px);
+}
+
+/* === 证据区: 3-4 列支撑 === */
+[data-archetype="action-title"] .action-evidence {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-6, 32px);
+  align-content: start;
+}
+
+[data-archetype="action-title"] .evidence-item {
+  border-top: 1px solid currentColor;
+  padding-top: var(--space-4, 16px);
+  opacity: 0.85;
+}
+
+[data-archetype="action-title"] .evidence-number {
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums lining-nums;
+  display: block;
+  margin-bottom: var(--space-2, 8px);
+  color: var(--arch-action-accent, oklch(45% 0.18 240));
+}
+
+[data-archetype="action-title"] .evidence-label {
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+/* === 元信息: 页眉/页脚 === */
+[data-archetype="action-title"] .action-meta {
+  position: absolute;
+  top: var(--space-5, 24px);
+  right: var(--space-7, 48px);
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* === 入场: 标题先入, 证据逐项入场 === */
+[data-archetype="action-title"] .action-headline {
+  animation: action-title-fade 800ms var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) forwards;
+}
+[data-archetype="action-title"] .evidence-item {
+  opacity: 0;
+  animation: action-evidence-in 600ms var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) forwards;
+}
+[data-archetype="action-title"] .evidence-item:nth-child(1) { animation-delay: 600ms; }
+[data-archetype="action-title"] .evidence-item:nth-child(2) { animation-delay: 800ms; }
+[data-archetype="action-title"] .evidence-item:nth-child(3) { animation-delay: 1000ms; }
+[data-archetype="action-title"] .evidence-item:nth-child(4) { animation-delay: 1200ms; }
+
+@keyframes action-title-fade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes action-evidence-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 0.85; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-archetype="action-title"] .action-headline,
+  [data-archetype="action-title"] .evidence-item {
+    animation: none;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,105 @@
+/* ============================================
+   WebPPT Maker v3.16 · Section: Hero (首屏)
+   ============================================
+   真实参考: Stripe.com 首页, Vercel.com 首页, Linear.app 首页
+   与 archetype/hero 的本质区别:
+   - 是网页 section, 不是幻灯片
+   - 通常 95-100vh
+   - 与 nav 紧密配合 (透明 nav over hero)
+   - 支持 scroll cue (向下滚动提示)
+   ============================================ */
+
+[data-section="hero"] {
+  position: relative;
+  min-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-9, 96px) var(--space-5, 24px) var(--space-7, 48px);
+  overflow: hidden;
+}
+
+[data-section="hero"] .hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: oklch(45% 0.015 250);
+  margin-bottom: var(--space-5, 24px);
+}
+
+[data-section="hero"] .hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0 0 var(--space-5, 24px);
+  max-width: 16ch;
+}
+
+[data-section="hero"] .hero-sub {
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  line-height: 1.5;
+  color: oklch(40% 0.015 250);
+  margin: 0 0 var(--space-7, 48px);
+  max-width: 50ch;
+}
+
+[data-section="hero"] .hero-actions {
+  display: inline-flex;
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+[data-section="hero"] .hero-visual {
+  /* 主视觉: 图片/视频/3D */
+  max-width: min(80%, 900px);
+  margin: var(--space-7, 48px) auto 0;
+}
+
+[data-section="hero"] .hero-visual img,
+[data-section="hero"] .hero-visual video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Scroll cue: 向下滚动提示 */
+[data-section="hero"] .hero-scroll-cue {
+  position: absolute;
+  bottom: var(--space-5, 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  animation: hero-scroll-bounce 2s ease-in-out infinite;
+}
+
+@keyframes hero-scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
+
+/* 渐变背景 (可选) */
+[data-section="hero"][data-bg="gradient"] {
+  background: linear-gradient(180deg,
+    oklch(99% 0.005 280) 0%,
+    oklch(96% 0.015 280) 100%);
+}
+
+/* 深色 hero */
+[data-section="hero"][data-bg="dark"] {
+  background: oklch(8% 0.005 0);
+  color: oklch(98% 0.005 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-section="hero"] .hero-scroll-cue { animation: none; }
+}

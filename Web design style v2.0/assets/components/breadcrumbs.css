@@ -1,0 +1,91 @@
+/* ============================================
+   WebPPT Maker v3.17 · Breadcrumbs (面包屑)
+   ============================================
+   真实参考: 所有文档/电商网站都有
+   关键能力:
+   - 多级路径
+   - 当前页 (不可点击)
+   - 移动端可截断
+   - Schema.org BreadcrumbList (SEO)
+   ============================================ */
+
+[data-component="breadcrumbs"] {
+  font-size: 0.875rem;
+  color: oklch(45% 0.015 250);
+}
+
+[data-component="breadcrumbs"] .breadcrumbs-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+[data-component="breadcrumbs"] .breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+[data-component="breadcrumbs"] .breadcrumb-link {
+  color: oklch(45% 0.015 250);
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color 150ms;
+}
+
+[data-component="breadcrumbs"] .breadcrumb-link:hover {
+  color: oklch(15% 0.015 250);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+[data-component="breadcrumbs"] .breadcrumb-current {
+  color: oklch(15% 0.015 250);
+  font-weight: 500;
+  padding: 4px 0;
+}
+
+[data-component="breadcrumbs"] .breadcrumb-separator {
+  margin: 0 var(--space-2, 8px);
+  color: oklch(70% 0.005 0);
+  user-select: none;
+}
+
+/* === 移动端: 折叠中间项 === */
+@media (max-width: 640px) {
+  [data-component="breadcrumbs"][data-collapsible="true"] .breadcrumb-item:nth-child(n+3):not(:last-child) {
+    display: none;
+  }
+  [data-component="breadcrumbs"][data-collapsible="true"][data-expanded="true"] .breadcrumb-item {
+    display: inline-flex;
+  }
+  [data-component="breadcrumbs"][data-collapsible="true"] .breadcrumb-expand {
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    color: oklch(45% 0.015 250);
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+  [data-component="breadcrumbs"][data-collapsible="true"][data-expanded="true"] .breadcrumb-expand {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  [data-component="breadcrumbs"] .breadcrumb-expand {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-component="breadcrumbs"] .breadcrumb-link,
+  [data-component="breadcrumbs"] .breadcrumb-expand {
+    transition: none;
+  }
+}

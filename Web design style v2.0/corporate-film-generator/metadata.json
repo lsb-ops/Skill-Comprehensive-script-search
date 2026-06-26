@@ -1,0 +1,503 @@
+{
+  "name": "企业宣传片生成器",
+  "name_en": "Corporate Film Generator",
+  "version": "3.0.0",
+  "schema_version": "3.0",
+  "description": "全球方法论融合的企业宣传片生成系统。整合AIAEST叙事框架、三幕式结构、精准记忆、经验纠错，通过自适应追问全面收集企业信息，生成打动人心的宣传片文案。",
+  "author": "企业宣传片Skill团队",
+  "created": "2026-05-28",
+  "updated": "2026-05-28",
+  "skill_type": "content-generation",
+  "entry_point": "SKILL.md",
+  "dependencies": [],
+  "permissions": [],
+  "input_schema": {
+    "enterprise_name": {
+      "type": "string",
+      "required": false,
+      "description": "企业名称（可选，如果用户未提供则通过追问收集）"
+    },
+    "user_intent": {
+      "type": "string",
+      "required": true,
+      "description": "用户意图：'开始'、'继续'、'生成'、'查看记忆'、'查看叙事'"
+    },
+    "user_message": {
+      "type": "string",
+      "required": false,
+      "description": "用户的具体输入内容"
+    }
+  },
+  "output_schema": {
+    "status": {
+      "type": "string",
+      "enum": ["init", "wave_1", "wave_2", "wave_3", "wave_4", "wave_5", "analyzing", "narrating", "generating", "refining", "complete", "error"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["question", "wave_summary", "script", "narrative", "memory_status", "analysis_report", "quality_check", "error"]
+        },
+        "wave": {
+          "type": "number",
+          "description": "当前波浪（1-5）"
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "当前波浪覆盖的维度"
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "当前轮次的问题列表"
+        },
+        "question_depth": {
+          "type": "string",
+          "description": "当前追问深度层级 L1-L5"
+        },
+        "completeness": {
+          "type": "object",
+          "properties": {
+            "basic": {
+              "type": "number",
+              "description": "基础维度完整度"
+            },
+            "enhanced": {
+              "type": "number",
+              "description": "增强维度完整度"
+            },
+            "total": {
+              "type": "number",
+              "description": "总体完整度"
+            }
+          }
+        },
+        "narrative_structure": {
+          "type": "object",
+          "description": "AIAEST和三幕式结构信息"
+        },
+        "quality_check": {
+          "type": "object",
+          "description": "质量自检结果"
+        }
+      }
+    },
+    "memory": {
+      "type": "object",
+      "description": "记忆系统对象"
+    }
+  },
+  "error_handling": {
+    "memory_not_found": {
+      "strategy": "create_new",
+      "message": "未找到记忆文档，将创建新的企业宣传片项目"
+    },
+    "memory_corrupted": {
+      "strategy": "backup_and_recreate",
+      "message": "记忆文档损坏，已备份并重新创建"
+    },
+    "incomplete_information": {
+      "strategy": "continue_gathering",
+      "message": "信息不完整，将继续追问收集"
+    },
+    "generation_failed": {
+      "strategy": "partial_output",
+      "message": "生成失败，输出已收集的信息供用户确认"
+    },
+    "sensitive_info_detected": {
+      "strategy": "mark_and_confirm",
+      "message": "检测到敏感信息，已标记并等待确认"
+    },
+    "quality_check_failed": {
+      "strategy": "refine_and_retry",
+      "message": "质量检查未通过，将进行优化后重新生成"
+    }
+  },
+  "compatibility": {
+    "min_claude_code_version": "3.0",
+    "platform": "all",
+    "agents": ["claude_code", "universal"]
+  },
+  "requires": {
+    "filesystem": true
+  },
+  "tags": [
+    "企业宣传片",
+    "宣传片文案",
+    "AIAEST叙事",
+    "三幕式结构",
+    "精准记忆",
+    "经验纠错",
+    "波浪式追问",
+    "苏格拉底法",
+    "STAR法则",
+    "叙事设计",
+    "情感曲线",
+    "内容生成"
+  ],
+  "license": "MIT",
+  "distributable": true,
+  "portable": true,
+  "methodologies": [
+    {
+      "name": "AIAEST叙事框架",
+      "description": "Attention注意 → Interest兴趣 → Action行动 → Emotion情感 → Satisfaction满足"
+    },
+    {
+      "name": "三幕式结构",
+      "description": "第一幕建置(25-30%) → 第二幕对抗(50-60%) → 第三幕解决(20-25%)"
+    },
+    {
+      "name": "波浪式提问",
+      "description": "每波2个维度，每轮最多3个问题，逐波推进"
+    },
+    {
+      "name": "苏格拉底法",
+      "description": "通过问题引导自我发现，不直接给答案"
+    },
+    {
+      "name": "分析透镜",
+      "description": "战略/系统/心理/挑战四维分析"
+    },
+    {
+      "name": "STAR法则",
+      "description": "情境-任务-行动-结果深度挖掘故事"
+    },
+    {
+      "name": "Pre-mortem",
+      "description": "假设失败，反向推导风险"
+    },
+    {
+      "name": "坎瓦尔情感曲线",
+      "description": "情感强度随时间的自然流动设计"
+    }
+  ],
+  "narrative_framework": {
+    "aiaest": {
+      "Attention": {
+        "emotional_goal": "好奇/兴趣",
+        "film_section": "序章",
+        "core_task": "开场钩子，悬念设置"
+      },
+      "Interest": {
+        "emotional_goal": "投入/好奇",
+        "film_section": "第一章",
+        "core_task": "痛点共鸣，价值展示"
+      },
+      "Action": {
+        "emotional_goal": "期待/认同",
+        "film_section": "第二章",
+        "core_task": "行动展示，能力证明"
+      },
+      "Emotion": {
+        "emotional_goal": "震撼/感动",
+        "film_section": "第三章",
+        "core_task": "情感故事，高光时刻"
+      },
+      "Satisfaction": {
+        "emotional_goal": "信任/行动",
+        "film_section": "终章",
+        "core_task": "信任背书，行动号召"
+      }
+    },
+    "three_act": {
+      "act1_setup": {
+        "duration_percentage": "25-30%",
+        "sections": ["序章", "第一章"],
+        "core_task": "建立主角，制造好奇"
+      },
+      "act2_confrontation": {
+        "duration_percentage": "50-60%",
+        "sections": ["第二章"],
+        "core_task": "展示能力，情感共鸣"
+      },
+      "act3_resolution": {
+        "duration_percentage": "20-25%",
+        "sections": ["第三章", "终章"],
+        "core_task": "价值确认，行动号召"
+      }
+    }
+  },
+  "question_depth_levels": {
+    "L1": {
+      "name": "事实层",
+      "trigger": "回答笼统",
+      "strategy": "具体化追问"
+    },
+    "L2": {
+      "name": "原因层",
+      "trigger": "回答表面",
+      "strategy": "追问原因"
+    },
+    "L3": {
+      "name": "意义层",
+      "trigger": "回答浅显",
+      "strategy": "追问意义"
+    },
+    "L4": {
+      "name": "例外层",
+      "trigger": "回答确定",
+      "strategy": "挑战绝对"
+    },
+    "L5": {
+      "name": "假设层",
+      "trigger": "回答完成",
+      "strategy": "假设追问"
+    }
+  },
+  "basic_dimensions": [
+    {
+      "id": "enterprise",
+      "name": "企业介绍",
+      "wave": 1,
+      "aiaest": "A-I",
+      "priority": 1,
+      "questions": [
+        "如果用一句话向完全不了解你们行业的人介绍公司，你会怎么说？",
+        "在客户眼中，贵公司与其他同行最大的不同是什么？",
+        "在行业中，贵公司处于什么位置？有没有具体数据？"
+      ]
+    },
+    {
+      "id": "products",
+      "name": "产品服务",
+      "wave": 1,
+      "aiaest": "I-A",
+      "priority": 2,
+      "questions": [
+        "客户在遇到什么问题时会第一时间想到你们？",
+        "你们具体是怎么解决这个问题的？",
+        "客户为什么会持续选择你们而不是换供应商？"
+      ]
+    },
+    {
+      "id": "team",
+      "name": "团队实力",
+      "wave": 2,
+      "aiaest": "E",
+      "priority": 3,
+      "questions": [
+        "创始人为什么选择做这件事？最初的梦想是什么？",
+        "如果用三个词来形容公司的团队氛围，会是哪三个？",
+        "团队中有没有什么特别厉害的人？他们的加入带来了什么改变？"
+      ]
+    },
+    {
+      "id": "history",
+      "name": "发展历程",
+      "wave": 2,
+      "aiaest": "E-S",
+      "priority": 4,
+      "questions": [
+        "回顾企业发展历程，哪个时刻最让你感到骄傲？",
+        "有没有遇到过差点过不去的坎？最后怎么过来的？",
+        "假设三年后这个企业宣传片失败了，您觉得最可能的原因是什么？"
+      ]
+    },
+    {
+      "id": "vision",
+      "name": "未来愿景",
+      "wave": 3,
+      "aiaest": "A-I",
+      "priority": 5,
+      "questions": [
+        "三到五年后，您希望公司成为什么样子？",
+        "除了商业成功，公司还想给世界带来什么改变？",
+        "实现这些目标，最大的挑战是什么？"
+      ]
+    },
+    {
+      "id": "cases",
+      "name": "合作案例",
+      "wave": 3,
+      "aiaest": "S",
+      "priority": 6,
+      "questions": [
+        "有没有一个客户案例，最能证明你们带来的价值？",
+        "客户为什么选择持续合作而不是换供应商？",
+        "行业內有什么权威认证或奖项能证明实力？"
+      ]
+    }
+  ],
+  "enhanced_dimensions": [
+    {
+      "id": "audience",
+      "name": "受众分析",
+      "wave": 4,
+      "aiaest": "A-E",
+      "priority": 7,
+      "questions": [
+        "这部宣传片主要是给谁看的？他们的年龄、职位、关注点是什么？",
+        "这些受众最关心什么？最担心什么？",
+        "观众看完宣传片后，您希望他们心里想的是什么？",
+        "您希望观众看完后做什么？"
+      ]
+    },
+    {
+      "id": "competition",
+      "name": "竞争分析",
+      "wave": 4,
+      "aiaest": "E",
+      "priority": 8,
+      "questions": [
+        "如果只能选一个最强的竞争对手，是谁？",
+        "客户选择你们而不是他们的理由是什么？",
+        "有什么护城河是对手短期难以复制的？",
+        "竞争对手最可能攻击你们哪一点？"
+      ]
+    },
+    {
+      "id": "risk",
+      "name": "风险识别",
+      "wave": 5,
+      "aiaest": "S",
+      "priority": 9,
+      "questions": [
+        "有什么话题或信息，最好不要在宣传片中提及？",
+        "在品牌规范或法律合规方面，有什么必须遵守的要求？",
+        "您最担心宣传片出来后，哪方面的反馈？"
+      ]
+    },
+    {
+      "id": "narrative",
+      "name": "叙事设计",
+      "wave": 5,
+      "aiaest": "All",
+      "priority": 10,
+      "questions": [
+        "如果用一句话概括企业的灵魂或精神，会是什么？",
+        "有没有一个故事，最能代表这家公司？",
+        "如果用一个画面或意象代表企业，会是什么？",
+        "您喜欢什么风格的宣传片？有没有参考案例？",
+        "如果只让观众记住一句话，您希望是什么？"
+      ]
+    }
+  ],
+  "memory_structure": {
+    "dimensions": [
+      "enterprise.md",
+      "products.md",
+      "team.md",
+      "history.md",
+      "vision.md",
+      "cases.md",
+      "audience.md",
+      "competition.md",
+      "risk.md",
+      "narrative.md",
+      "insights.md",
+      "registry.md"
+    ],
+    "learnings": [
+      "LEARNINGS.md",
+      "ERRORS.md",
+      "FEATURE_REQUESTS.md"
+    ],
+    "outputs": [
+      "scripts/",
+      "reports/"
+    ]
+  },
+  "output_versions": [
+    {
+      "name": "标准版",
+      "duration": "3-5分钟",
+      "description": "完整版，AIAEST结构完整"
+    },
+    {
+      "name": "情感优先版",
+      "duration": "3-5分钟",
+      "description": "强调故事和情感，减少数据展示"
+    },
+    {
+      "name": "数据优先版",
+      "duration": "3-5分钟",
+      "description": "强调实力和数据，简化情感叙事"
+    },
+    {
+      "name": "精华版",
+      "duration": "1分钟",
+      "description": "适用于短视频平台"
+    }
+  ],
+  "quality_checklist": {
+    "narrative": [
+      "是否有一条清晰的主线贯穿全片",
+      "是否在开头制造了好奇或悬念",
+      "是否有至少一个情感共鸣点",
+      "是否在高潮部分展示了独特的差异化",
+      "是否在结尾有明确的行动号召",
+      "是否避免了信息堆砌（核心信息≤3个）",
+      "是否避免了自说自话"
+    ],
+    "differentiation": [
+      "是否明确说明了为什么选你而不是竞争对手",
+      "差异化是否有具体的证据或数据支撑",
+      "差异化是否可感知",
+      "是否有竞争对手做不到、只有你们能做的事"
+    ],
+    "emotional_curve": [
+      "情感曲线是否合理（渐进而非突变）",
+      "是否有情感高点设置",
+      "是否避免了情感断崖"
+    ],
+    "sensitive": [
+      "无未经授权的第三方品牌",
+      "无虚假或无法核实的声明",
+      "无侵权内容",
+      "敏感话题已妥善处理"
+    ]
+  },
+  "triggers": [
+    "帮我写企业宣传片",
+    "生成宣传片文案",
+    "开始企业宣传片项目",
+    "继续宣传片",
+    "查看宣传片进度",
+    "查看叙事设计",
+    "检查质量"
+  ],
+  "changelog": [
+    {
+      "version": "3.0.0",
+      "date": "2026-05-28",
+      "changes": [
+        "整合AIAEST叙事框架：Attention→Interest→Action→Emotion→Satisfaction",
+        "整合三幕式结构：建置→对抗→解决",
+        "新增精准记忆系统：实体追踪+经验学习",
+        "新增经验教训系统：.learnings/持续进化",
+        "新增自适应询问：L1-L5追问深度层级",
+        "新增质量评估体系：叙事完整性+差异化+情感曲线",
+        "新增坎瓦尔情感曲线设计",
+        "状态机新增REFINING阶段"
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-05-28",
+      "changes": [
+        "新增4个增强维度：受众分析、竞争分析、风险识别、叙事设计",
+        "引入波浪式追问方法论",
+        "引入苏格拉底法追问",
+        "引入分析透镜（战略/系统/心理/挑战）",
+        "引入STAR法则深度挖掘",
+        "引入Pre-mortem风险预判",
+        "新增叙事设计和情感曲线模块"
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-05-28",
+      "changes": [
+        "初始版本，6个基础维度"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+/* ============================================
+   WebPPT Maker v3.15 · Visual Hierarchy (视觉层级)
+   ============================================
+   核心原则 (来自 DESIGN_PHILOSOPHY.md):
+   - ONE thing principle: 一页只能有一个视觉焦点
+   - 60/30/10 视觉重量分布
+   - 字号阶梯必须陡峭 (3x 起步, 不要 1.2x)
+   - 颜色对比通过 weight 表达, 不是 hex 调色
+
+   60% → 主元素 (ONE thing, 占主导)
+   30% → 次元素 (支撑, 不抢戏)
+   10% → 元信息 (页码/来源, 极弱)
+
+   来源: Edward Tufte (data-ink ratio), NN/g F-pattern, Material Design 3
+   ============================================ */
+
+/* === 视觉重量 token (4 级, 不用 10 级) === */
+:root {
+  /* 4 级 weight, 每级 2x 字号差距 (强制陡峭) */
+  --h-weight-primary:   100;   /* 主标题极轻 = 高端 */
+  --h-weight-secondary: 400;   /* 正文标准 */
+  --h-weight-tertiary:  300;   /* 副文轻 */
+  --h-weight-meta:      500;   /* 元信息等宽 */
+
+  /* 4 级字号, 2x 阶梯 (不是 1.25x) */
+  --h-size-primary:   clamp(48px, 6vw, 96px);    /* 主 */
+  --h-size-secondary: clamp(24px, 3vw, 40px);   /* 次 */
+  --h-size-tertiary:  clamp(14px, 1.4vw, 18px);  /* 副 */
+  --h-size-meta:      clamp(10px, 0.9vw, 12px);  /* 元 */
+}
+
+/* === ONE thing: 主元素自动占主导 === */
+[data-h-primary] {
+  font-size: var(--h-size-primary);
+  font-weight: var(--h-weight-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  /* 主元素占据 60% 视觉重量 = 必须大 */
+}
+
+/* === 次元素: 30% 重量 === */
+[data-h-secondary] {
+  font-size: var(--h-size-secondary);
+  font-weight: var(--h-weight-secondary);
+  line-height: 1.4;
+  opacity: 0.85;
+  margin: 0;
+}
+
+/* === 副元素: 10% 重量, 但不能消失 === */
+[data-h-tertiary] {
+  font-size: var(--h-size-tertiary);
+  font-weight: var(--h-weight-tertiary);
+  line-height: 1.5;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* === 元信息: 极弱, 不抢戏 === */
+[data-h-meta] {
+  font-size: var(--h-size-meta);
+  font-weight: var(--h-weight-meta);
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* === 60/30/10 自动权重分布 (data-weight="60|30|10") === */
+[data-weight="60"] {
+  /* 主元素: 占主导, 大字号 + 强对比 */
+  font-size: var(--h-size-primary);
+  font-weight: 600;
+  color: var(--h-text-strong, oklch(15% 0.015 250));
+  flex-basis: 60%;
+}
+
+[data-weight="30"] {
+  /* 次元素: 适中 */
+  font-size: var(--h-size-secondary);
+  font-weight: 400;
+  color: var(--h-text-base, oklch(35% 0.015 250));
+  opacity: 0.85;
+  flex-basis: 30%;
+}
+
+[data-weight="10"] {
+  /* 元信息: 极小 + 极淡 */
+  font-size: var(--h-size-meta);
+  font-weight: 500;
+  color: var(--h-text-weak, oklch(60% 0.015 250));
+  opacity: 0.6;
+  flex-basis: 10%;
+}
+
+/* === ONE thing 强制: 同一容器内多个 "60" 元素 → 自动降权 === */
+.weight-cluster [data-weight="60"]:nth-child(n+2) {
+  /* 第二个 60 元素自动降为 30, 避免冲突 */
+  font-size: var(--h-size-secondary);
+  font-weight: 400;
+  opacity: 0.7;
+  flex-basis: 30%;
+}
+
+/* === 阅读路径 (F-pattern, Z-pattern) === */
+[data-reading="f-pattern"] {
+  /* F 型: 左对齐 + 顶部强调 */
+  display: grid;
+  grid-template-areas:
+    "title    title    title"
+    "subtitle .       ."
+    "body     body     meta";
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--space-5, 24px);
+  text-align: left;
+}
+
+[data-reading="z-pattern"] {
+  /* Z 型: 适合对比/流程 */
+  display: grid;
+  grid-template-areas:
+    "tl   tr"
+    ".    ."
+    "bl   br";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-7, 48px);
+}
+
+/* === ONE thing 标记: 自动放大当前焦点 === */
+[data-focus="primary"] {
+  /* 当前焦点 */
+  z-index: 2;
+  position: relative;
+}
+
+[data-focus="primary"]::after {
+  /* 焦点指示: 极淡下划线 */
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+[data-focus="secondary"] {
+  /* 次级: 弱化但保留 */
+  opacity: 0.85;
+}
+
+[data-focus="tertiary"] {
+  /* 末级: 极弱 */
+  opacity: 0.5;
+}
+
+/* === 字号严禁同质化 (反 "全部 18px") === */
+.anti-same-size h1,
+.anti-same-size h2,
+.anti-same-size h3,
+.anti-same-size p {
+  /* 强制差距至少 1.5x */
+}
+.anti-same-size h1 { font-size: 48px; }
+.anti-same-size h2 { font-size: 28px; }   /* 1.7x 差距 */
+.anti-same-size h3 { font-size: 18px; }   /* 1.5x 差距 */
+.anti-same-size p  { font-size: 16px; }   /* 1.1x (允许接近) */

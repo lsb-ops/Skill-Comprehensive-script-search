@@ -1,0 +1,243 @@
+{
+  "design_meta": {
+    "source_m1": "/Users/lin/Desktop/霸道总裁/剧本/skill/examples/m1_e2e_demo/00_input_script.md",
+    "total_duration": 60.0,
+    "target_mirror_count": 8,
+    "actual_mirror_count": 8,
+    "style": "古早霸总",
+    "structure_type": "5幕"
+  },
+  "mirrors": [
+    {
+      "id": "M001",
+      "index": 1,
+      "duration_sec": 7.4,
+      "scene_id": "S01",
+      "structure_position": "建制",
+      "beat": "建制·第1镜",
+      "cue_index": 1,
+      "emotion_arc": "建制",
+      "shot_size": "远景",
+      "camera_movement": "缓推",
+      "action_summary": "远景·缓推：建立先拍场景三、五室内对话戏，演员状态最易控空间，- **镜头 6.4**登场",
+      "dialogue_summary": "（建制阶段对白，由 M3 LLM 扩展）"
+    },
+    {
+      "id": "M002",
+      "index": 2,
+      "duration_sec": 7.4,
+      "scene_id": "S01",
+      "structure_position": "建制",
+      "beat": "建制·第2镜",
+      "cue_index": 0,
+      "emotion_arc": "建制",
+      "shot_size": "远景",
+      "camera_movement": "缓推",
+      "action_summary": "远景·缓推：建立先拍场景三、五室内对话戏，演员状态最易控空间，- **镜头 6.4**登场",
+      "dialogue_summary": "（建制阶段对白，由 M3 LLM 扩展）"
+    },
+    {
+      "id": "M003",
+      "index": 3,
+      "duration_sec": 4.9,
+      "scene_id": "S02",
+      "structure_position": "触发",
+      "beat": "触发·第3镜",
+      "cue_index": 0,
+      "emotion_arc": "触发",
+      "shot_size": "全景",
+      "camera_movement": "固定",
+      "action_summary": "全景·固定：- **镜头 6.4**与| 6.7 | 字幕 | — | 1.0s | **字幕**首次对话，冲突伏笔",
+      "dialogue_summary": "（触发阶段对白，由 M3 LLM 扩展）"
+    },
+    {
+      "id": "M004",
+      "index": 4,
+      "duration_sec": 9.3,
+      "scene_id": "S03",
+      "structure_position": "转折1",
+      "beat": "转折1·第4镜",
+      "cue_index": 0,
+      "emotion_arc": "转折1",
+      "shot_size": "近景",
+      "camera_movement": "缓推+摇",
+      "action_summary": "近景·缓推+摇：- **镜头 6.4**情绪转折，关键对话或动作",
+      "dialogue_summary": "（转折1阶段对白，由 M3 LLM 扩展）"
+    },
+    {
+      "id": "M005",
+      "index": 5,
+      "duration_sec": 9.3,
+      "scene_id": "S04",
+      "structure_position": "转折2",
+      "beat": "转折2·第5镜",
+      "cue_index": 2,
+      "emotion_arc": "转折2",
+      "shot_size": "特写",
+      "camera_movement": "急推+手持",
+      "action_summary": "特写·急推+手持：高潮对决，- **镜头 6.4**与| 6.7 | 字幕 | — | 1.0s | **字幕**的对抗升级",
+      "dialogue_summary": "（转折2阶段对白，由 M3 LLM 扩展）"
+    },
+    {
+      "id": "M006",
+      "index": 6,
+      "duration_sec": 9.3,
+      "scene_id": "S04",
+      "structure_position": "转折2",
+      "beat": "转折2·第6镜",
+      "cue_index": 0,
+      "emotion_arc": "转折2",
+      "shot_size": "特写",
+      "camera_movement": "急推+手持",
+      "action_summary": "特写·急推+手持：高潮对决，- **镜头 6.4**与| 6.7 | 字幕 | — | 1.0s | **字幕**的对抗升级",
+      "dialogue_summary": "（转折2阶段对白，由 M3 LLM 扩展）"
+    },
+    {
+      "id": "M007",
+      "index": 7,
+      "duration_sec": 6.2,
+      "scene_id": "S05",
+      "structure_position": "收束",
+      "beat": "收束·第7镜",
+      "cue_index": 0,
+      "emotion_arc": "收束",
+      "shot_size": "中景",
+      "camera_movement": "缓拉",
+      "action_summary": "中景·缓拉：冲突收束，- **镜头 6.4**情感余韵",
+      "dialogue_summary": "（收束阶段对白，由 M3 LLM 扩展）"
+    },
+    {
+      "id": "M008",
+      "index": 8,
+      "duration_sec": 6.2,
+      "scene_id": "S06",
+      "structure_position": "收束",
+      "beat": "收束·第8镜",
+      "cue_index": 3,
+      "emotion_arc": "收束",
+      "shot_size": "中景",
+      "camera_movement": "缓拉",
+      "action_summary": "中景·缓拉：冲突收束，- **镜头 6.4**情感余韵",
+      "dialogue_summary": "（收束阶段对白，由 M3 LLM 扩展）"
+    }
+  ],
+  "scene_topology": [
+    {
+      "scene_id": "S01",
+      "mirror_ids": [
+        "M001",
+        "M002"
+      ],
+      "is_split": true,
+      "total_duration": 14.8
+    },
+    {
+      "scene_id": "S02",
+      "mirror_ids": [
+        "M003"
+      ],
+      "is_split": false,
+      "total_duration": 4.9
+    },
+    {
+      "scene_id": "S03",
+      "mirror_ids": [
+        "M004"
+      ],
+      "is_split": false,
+      "total_duration": 9.3
+    },
+    {
+      "scene_id": "S04",
+      "mirror_ids": [
+        "M005",
+        "M006"
+      ],
+      "is_split": true,
+      "total_duration": 18.6
+    },
+    {
+      "scene_id": "S05",
+      "mirror_ids": [
+        "M007"
+      ],
+      "is_split": false,
+      "total_duration": 6.2
+    },
+    {
+      "scene_id": "S06",
+      "mirror_ids": [
+        "M008"
+      ],
+      "is_split": false,
+      "total_duration": 6.2
+    }
+  ],
+  "cue_timeline": [
+    {
+      "cue_index": 1,
+      "cue_type": "开篇风格切换",
+      "mirror_id": "M001",
+      "position_sec": 3.7,
+      "position_ratio": 0.062
+    },
+    {
+      "cue_index": 2,
+      "cue_type": "中段教化升级",
+      "mirror_id": "M005",
+      "position_sec": 33.7,
+      "position_ratio": 0.561
+    },
+    {
+      "cue_index": 3,
+      "cue_type": "升华",
+      "mirror_id": "M008",
+      "position_sec": 56.9,
+      "position_ratio": 0.948
+    }
+  ],
+  "color_curve": [
+    {
+      "act": "第一幕",
+      "mirror_id": "M002",
+      "tone": "暖金·奢华大厅",
+      "saturation": 0.8,
+      "lighting": "顶光·柔光"
+    },
+    {
+      "act": "第二幕",
+      "mirror_id": "M004",
+      "tone": "冷蓝·办公室",
+      "saturation": 0.5,
+      "lighting": "侧光·冷调"
+    },
+    {
+      "act": "第三幕",
+      "mirror_id": "M005",
+      "tone": "血红·冲突",
+      "saturation": 0.9,
+      "lighting": "硬光·高对比"
+    },
+    {
+      "act": "第四幕",
+      "mirror_id": "M006",
+      "tone": "纯白·救赎",
+      "saturation": 0.3,
+      "lighting": "逆光·剪影"
+    },
+    {
+      "act": "第五幕",
+      "mirror_id": "M008",
+      "tone": "暖金·圆满",
+      "saturation": 0.7,
+      "lighting": "柔光·暖调"
+    }
+  ],
+  "pacing": {
+    "avg_duration": 7.5,
+    "min_duration": 4.9,
+    "max_duration": 9.3,
+    "std_dev": 1.58,
+    "rhythm_pattern": "渐进"
+  }
+}

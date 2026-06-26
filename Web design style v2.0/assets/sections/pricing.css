@@ -1,0 +1,177 @@
+/* ============================================
+   WebPPT Maker v3.16 · Section: Pricing (价格)
+   ============================================
+   真实参考: Stripe pricing, Vercel pricing, Linear pricing
+   关键能力:
+   - 3-4 个套餐卡片
+   - 月/年切换 toggle
+   - 推荐套餐高亮
+   - FAQ 链接 (常配合 faq section)
+   ============================================ */
+
+[data-section="pricing"] {
+  padding: var(--space-9, 96px) var(--space-5, 24px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+[data-section="pricing"] .pricing-header {
+  text-align: center;
+  margin-bottom: var(--space-8, 64px);
+}
+
+[data-section="pricing"] .pricing-title {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-4, 16px);
+}
+
+/* 周期切换 toggle */
+[data-section="pricing"] .pricing-toggle {
+  display: inline-flex;
+  background: oklch(95% 0.005 0);
+  padding: 4px;
+  border-radius: 999px;
+  margin-top: var(--space-5, 24px);
+}
+
+[data-section="pricing"] .pricing-toggle-option {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  color: oklch(45% 0.015 250);
+  transition: background 150ms, color 150ms;
+}
+
+[data-section="pricing"] .pricing-toggle-option[data-active="true"] {
+  background: oklch(99% 0.003 0);
+  color: oklch(15% 0.015 250);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* 套餐卡片网格 */
+[data-section="pricing"] .pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-5, 24px);
+  margin-bottom: var(--space-7, 48px);
+}
+
+[data-section="pricing"] .pricing-card {
+  padding: var(--space-6, 32px);
+  border: 1px solid oklch(92% 0.005 0);
+  border-radius: 12px;
+  background: oklch(99% 0.003 0);
+  display: flex;
+  flex-direction: column;
+  transition: transform 200ms var(--ease-standard);
+}
+
+[data-section="pricing"] .pricing-card[data-featured="true"] {
+  border-color: oklch(55% 0.22 280);
+  border-width: 2px;
+  position: relative;
+  transform: scale(1.02);
+}
+
+[data-section="pricing"] .pricing-card[data-featured="true"]::before {
+  content: "推荐";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  padding: 4px 12px;
+  background: oklch(55% 0.22 280);
+  color: oklch(98% 0.005 0);
+  border-radius: 4px;
+}
+
+[data-section="pricing"] .pricing-tier-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: var(--space-3, 12px);
+}
+
+[data-section="pricing"] .pricing-tier-desc {
+  font-size: 0.875rem;
+  color: oklch(45% 0.015 250);
+  margin-bottom: var(--space-5, 24px);
+  min-height: 3em;
+}
+
+[data-section="pricing"] .pricing-amount {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-2, 8px);
+}
+
+[data-section="pricing"] .pricing-currency {
+  font-size: 1.5rem;
+  vertical-align: top;
+  opacity: 0.6;
+}
+
+[data-section="pricing"] .pricing-period {
+  font-size: 0.875rem;
+  color: oklch(50% 0.015 250);
+  margin-bottom: var(--space-6, 32px);
+}
+
+[data-section="pricing"] .pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-6, 32px);
+  flex: 1;
+}
+
+[data-section="pricing"] .pricing-features li {
+  padding: var(--space-2, 8px) 0;
+  font-size: 0.9375rem;
+  display: flex;
+  gap: var(--space-3, 12px);
+  align-items: flex-start;
+}
+
+[data-section="pricing"] .pricing-features li::before {
+  content: "✓";
+  color: oklch(50% 0.18 145);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+[data-section="pricing"] .pricing-cta {
+  display: block;
+  width: 100%;
+  padding: var(--space-4, 16px);
+  text-align: center;
+  background: oklch(15% 0.015 250);
+  color: oklch(98% 0.005 0);
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 150ms;
+}
+
+[data-section="pricing"] .pricing-cta:hover { background: oklch(8% 0.005 0); }
+
+[data-section="pricing"] .pricing-card[data-featured="true"] .pricing-cta {
+  background: oklch(55% 0.22 280);
+}
+
+[data-section="pricing"] .pricing-card[data-featured="true"] .pricing-cta:hover {
+  background: oklch(45% 0.22 280);
+}

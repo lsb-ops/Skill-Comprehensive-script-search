@@ -1,0 +1,69 @@
+{
+  "topic": "每天喝咖啡的 5 个真相",
+  "content_points": [
+    {
+      "id": "p01",
+      "title": "真相 1：咖啡不会让你脱水",
+      "subtitle": "新研究颠覆 50 年认知",
+      "body": "2021 年《营养学杂志》meta 分析显示：每天 4 杯以内咖啡不会显著影响体液平衡。",
+      "visual_element": "💡",
+      "type": "大字报",
+      "narrative_role": "attention",
+      "data": {},
+      "fragment_class": "fragment-bounce"
+    },
+    {
+      "id": "p02",
+      "title": "真相 2：早上 9-11 点喝效果最好",
+      "subtitle": "皮质醇节律告诉你答案",
+      "body": "皮质醇 9-11 点处于下降通道，此时咖啡因补充效率最高，比 8 点提升 23%。",
+      "visual_element": "clock.svg",
+      "type": "数字",
+      "narrative_role": "interest",
+      "data": {"metric": "9-11", "unit": "点"},
+      "fragment_class": "fragment-zoom-in"
+    },
+    {
+      "id": "p03",
+      "title": "真相 3：超过 4 杯就会反向脱水",
+      "subtitle": "为什么周末头疼？",
+      "body": "咖啡因半衰期 5-6 小时，连喝 4 杯后累积剂量触发利尿效应。",
+      "visual_element": "chart.svg",
+      "type": "对比",
+      "narrative_role": "action",
+      "data": {"before": "≤ 4 杯 · 水分平衡", "after": "> 4 杯 · 脱水 30%"},
+      "fragment_class": "fragment-slide-left"
+    },
+    {
+      "id": "p04",
+      "title": "真相 4：周末比工作日更想喝",
+      "subtitle": "依赖性不是错觉",
+      "body": "73% 周末咖啡因摄入量不降反升，咖啡成为情绪补偿。",
+      "visual_element": "heart.svg",
+      "type": "故事线",
+      "narrative_role": "emotion",
+      "data": {"metric": "73", "unit": "%"},
+      "fragment_class": "fragment-fade-up"
+    },
+    {
+      "id": "p05",
+      "title": "真相 5：减半不减效的 3 个方法",
+      "subtitle": "从今天开始更健康",
+      "body": "① 选低因咖啡 ② 加肉桂 ③ 配牛奶延长释放。下周告诉我效果！",
+      "visual_element": "target.svg",
+      "type": "问答",
+      "narrative_role": "satisfaction",
+      "data": {},
+      "fragment_class": "fragment-slide-right"
+    }
+  ],
+  "style": "知识科普",
+  "color_scheme": "深海蓝",
+  "layout": "auto",
+  "mode": "dual",
+  "variance": 9,
+  "motion": 9,
+  "density": 5,
+  "target_duration_sec": 45,
+  "output_dir": "./output"
+}

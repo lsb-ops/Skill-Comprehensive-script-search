@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-type="docs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Flow API · 文档</title>
+  <meta name="description" content="Flow REST API 完整参考文档" />
+
+  <link rel="stylesheet" href="../../assets/design/color-tokens.css" />
+  <link rel="stylesheet" href="../../assets/design/grid-system.css" />
+  <link rel="stylesheet" href="../../assets/motion/easing-tokens.css" />
+
+  <link rel="stylesheet" href="../../assets/pages/docs.css" />
+  <link rel="stylesheet" href="../../assets/sections/nav.css" />
+  <link rel="stylesheet" href="../../assets/components/breadcrumbs.css" />
+  <link rel="stylesheet" href="../../assets/components/tabs.css" />
+  <link rel="stylesheet" href="../../assets/components/carousel.css" />
+  <link rel="stylesheet" href="../../assets/sections/footer.css" />
+
+  <link rel="stylesheet" href="../../assets/scroll/scroll-reveal.css" />
+  <link rel="stylesheet" href="../../assets/responsive/breakpoints.css" />
+  <link rel="stylesheet" href="../../assets/interaction/states.css" />
+  <link rel="stylesheet" href="../../assets/interaction/touch.css" />
+</head>
+<body>
+
+  <!-- 顶部导航 -->
+  <nav class="nav" data-scroll-aware>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <span class="nav-logo-mark">⌘</span>
+        <span class="nav-logo-text">Flow</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link-active">文档</a></li>
+        <li><a href="#">API 参考</a></li>
+        <li><a href="#">SDK</a></li>
+        <li><a href="#">更新日志</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-cta">获取 API Key</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 面包屑 -->
+  <div data-component="breadcrumbs" data-collapsible="true" data-expanded="false"
+       class="docs-breadcrumbs" aria-label="面包屑导航">
+    <ol class="breadcrumbs-list">
+      <li class="breadcrumb-item">
+        <a class="breadcrumb-link" href="#">首页</a>
+      </li>
+      <li class="breadcrumb-item" aria-hidden="true">
+        <span class="breadcrumb-separator">/</span>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="breadcrumb-link" href="#">文档</a>
+      </li>
+      <li class="breadcrumb-item" aria-hidden="true">
+        <span class="breadcrumb-separator">/</span>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="breadcrumb-link" href="#">API</a>
+      </li>
+      <li class="breadcrumb-item" aria-hidden="true">
+        <span class="breadcrumb-separator">/</span>
+      </li>
+      <li class="breadcrumb-item">
+        <button class="breadcrumb-expand" data-breadcrumbs-expand aria-label="展开中间路径">…</button>
+      </li>
+      <li class="breadcrumb-item" aria-hidden="true">
+        <span class="breadcrumb-separator">/</span>
+      </li>
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-current" aria-current="page">Tasks</span>
+      </li>
+    </ol>
+  </div>
+
+  <!-- 文档 3 列布局 -->
+  <div class="docs-layout">
+
+    <!-- 左侧: 侧边栏 -->
+    <aside class="docs-sidebar" data-scroll-aware>
+      <nav aria-label="文档导航">
+        <h4 class="docs-sidebar-title">入门</h4>
+        <ul>
+          <li><a href="#">快速开始</a></li>
+          <li><a href="#">认证</a></li>
+          <li><a href="#">速率限制</a></li>
+        </ul>
+
+        <h4 class="docs-sidebar-title">核心资源</h4>
+        <ul>
+          <li><a href="#" class="docs-sidebar-active">Tasks</a></li>
+          <li><a href="#">Projects</a></li>
+          <li><a href="#">Labels</a></li>
+          <li><a href="#">Focus Sessions</a></li>
+        </ul>
+
+        <h4 class="docs-sidebar-title">高级</h4>
+        <ul>
+          <li><a href="#">Webhooks</a></li>
+          <li><a href="#">批量操作</a></li>
+          <li><a href="#">错误码</a></li>
+        </ul>
+
+        <h4 class="docs-sidebar-title">SDK</h4>
+        <ul>
+          <li><a href="#">JavaScript / TypeScript</a></li>
+          <li><a href="#">Python</a></li>
+          <li><a href="#">Swift</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- 中间: 主内容 -->
+    <main class="docs-content" data-scroll-progress>
+
+      <article class="docs-article">
+
+        <h1 class="docs-title">Tasks API</h1>
+        <p class="docs-lead">
+          Tasks 是 Flow 的核心资源, 表示用户的一个待办事项。
+          通过 Tasks API 你可以创建、查询、更新、删除任务, 以及批量操作。
+        </p>
+
+        <!-- 基础信息 -->
+        <section data-reveal>
+          <h2 id="overview">概览</h2>
+          <p>每个 Task 包含以下字段:</p>
+
+          <!-- Tabs: 不同语言展示代码 -->
+          <div data-component="tabs" data-hash-sync="true" class="docs-code-tabs">
+            <div class="tabs-list" role="tablist">
+              <button role="tab" data-tab-trigger="schema" aria-selected="true">JSON Schema</button>
+              <button role="tab" data-tab-trigger="example" aria-selected="false">示例</button>
+              <button role="tab" data-tab-trigger="fields" aria-selected="false">字段说明</button>
+            </div>
+
+            <div role="tabpanel" data-tab-panel="schema" aria-hidden="false">
+              <pre class="docs-code"><code>{
+  "id": "tsk_01HXYZ...",
+  "title": "完成 Q2 OKR 评审",
+  "description": "准备 5 张幻灯片, 邀请 8 人",
+  "priority": "high",
+  "status": "todo",
+  "due_at": "2026-06-30T17:00:00Z",
+  "project_id": "prj_01H...",
+  "labels": ["urgent", "review"],
+  "ai_confidence": 0.94,
+  "created_at": "2026-06-25T08:30:00Z",
+  "updated_at": "2026-06-26T03:15:00Z"
+}</code></pre>
+            </div>
+
+            <div role="tabpanel" data-tab-panel="example" aria-hidden="true">
+              <pre class="docs-code"><code>// 创建任务
+const task = await fetch('https://api.flow.app/v1/tasks', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer ' + API_KEY,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    title: '完成 Q2 OKR 评审',
+    priority: 'high',
+    due_at: '2026-06-30T17:00:00Z'
+  })
+}).then(r =&gt; r.json());
+
+console.log(task.id); // tsk_01HXYZ...</code></pre>
+            </div>
+
+            <div role="tabpanel" data-tab-panel="fields" aria-hidden="true">
+              <div class="docs-field-table">
+                <div class="docs-field-row">
+                  <div class="docs-field-name"><code>id</code></div>
+                  <div class="docs-field-type">string</div>
+                  <div class="docs-field-desc">任务唯一 ID, 格式 <code>tsk_</code> 开头</div>
+                </div>
+                <div class="docs-field-row">
+                  <div class="docs-field-name"><code>title</code></div>
+                  <div class="docs-field-type">string</div>
+                  <div class="docs-field-desc">任务标题, 1-200 字符</div>
+                </div>
+                <div class="docs-field-row">
+                  <div class="docs-field-name"><code>priority</code></div>
+                  <div class="docs-field-type">enum</div>
+                  <div class="docs-field-desc"><code>low</code> / <code>medium</code> / <code>high</code> / <code>urgent</code></div>
+                </div>
+                <div class="docs-field-row">
+                  <div class="docs-field-name"><code>ai_confidence</code></div>
+                  <div class="docs-field-type">float</div>
+                  <div class="docs-field-desc">AI 自动分类置信度 (0-1), ≥0.8 视为可靠</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 端点列表 -->
+        <section data-reveal>
+          <h2 id="endpoints">端点</h2>
+          <p>所有 Tasks 端点都在 <code>https://api.flow.app/v1/tasks</code> 下。</p>
+
+          <h3 id="list">列出任务</h3>
+          <p><code>GET /v1/tasks</code></p>
+
+          <!-- 响应示例 carousel: 不同状态码 -->
+          <div data-component="carousel" data-slides-per-view="1" data-loop="false" class="docs-response-carousel">
+            <button data-carousel-arrow="prev" aria-label="上一个" disabled>‹</button>
+            <div class="carousel-track" data-carousel-track>
+              <article class="carousel-slide docs-response docs-response-200">
+                <div class="docs-response-status">200 OK</div>
+                <pre class="docs-code"><code>{
+  "data": [
+    { "id": "tsk_01A", "title": "...", "priority": "high" },
+    { "id": "tsk_01B", "title": "...", "priority": "medium" }
+  ],
+  "next_cursor": "eyJpZCI6...",
+  "has_more": true
+}</code></pre>
+              </article>
+              <article class="carousel-slide docs-response docs-response-401">
+                <div class="docs-response-status">401 Unauthorized</div>
+                <pre class="docs-code"><code>{
+  "error": {
+    "code": "invalid_api_key",
+    "message": "API key 已过期或无效"
+  }
+}</code></pre>
+              </article>
+              <article class="carousel-slide docs-response docs-response-429">
+                <div class="docs-response-status">429 Too Many Requests</div>
+                <pre class="docs-code"><code>{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "每分钟最多 60 次请求"
+  },
+  "retry_after": 23
+}</code></pre>
+              </article>
+            </div>
+            <button data-carousel-arrow="next" aria-label="下一个">›</button>
+            <div class="carousel-dots">
+              <button data-carousel-dot="0" aria-current="true"></button>
+              <button data-carousel-dot="1" aria-current="false"></button>
+              <button data-carousel-dot="2" aria-current="false"></button>
+            </div>
+          </div>
+
+          <h3 id="create">创建任务</h3>
+          <p><code>POST /v1/tasks</code></p>
+          <p>请求体同上方 <a href="#fields">字段说明</a>。</p>
+
+          <h3 id="update">更新任务</h3>
+          <p><code>PATCH /v1/tasks/{id}</code></p>
+          <p>只需传要修改的字段。</p>
+
+          <h3 id="delete">删除任务</h3>
+          <p><code>DELETE /v1/tasks/{id}</code></p>
+          <p>返回 <code>204 No Content</code>。</p>
+        </section>
+
+        <!-- 错误处理 -->
+        <section data-reveal>
+          <h2 id="errors">错误处理</h2>
+          <p>Flow API 使用标准 HTTP 状态码, 详细错误信息在响应体的 <code>error</code> 字段中。</p>
+
+          <div data-component="tabs" data-orientation="vertical" class="docs-error-tabs">
+            <div class="tabs-list" role="tablist">
+              <button role="tab" data-tab-trigger="4xx" aria-selected="true">4xx 客户端错误</button>
+              <button role="tab" data-tab-trigger="5xx" aria-selected="false">5xx 服务端错误</button>
+              <button role="tab" data-tab-trigger="retry" aria-selected="false">重试策略</button>
+            </div>
+
+            <div role="tabpanel" data-tab-panel="4xx" aria-hidden="false">
+              <ul>
+                <li><code>400</code> <code>invalid_request</code> — 参数缺失或格式错误</li>
+                <li><code>401</code> <code>invalid_api_key</code> — API key 无效</li>
+                <li><code>403</code> <code>forbidden</code> — 无权访问该资源</li>
+                <li><code>404</code> <code>not_found</code> — 任务不存在</li>
+                <li><code>429</code> <code>rate_limit_exceeded</code> — 触发速率限制</li>
+              </ul>
+            </div>
+
+            <div role="tabpanel" data-tab-panel="5xx" aria-hidden="true">
+              <ul>
+                <li><code>500</code> <code>internal_error</code> — 服务异常, 可安全重试</li>
+                <li><code>503</code> <code>service_unavailable</code> — 服务暂时不可用</li>
+              </ul>
+            </div>
+
+            <div role="tabpanel" data-tab-panel="retry" aria-hidden="true">
+              <p>建议使用指数退避:</p>
+              <pre class="docs-code"><code>async function withRetry(fn, maxRetries = 3) {
+  for (let i = 0; i &lt; maxRetries; i++) {
+    try { return await fn(); }
+    catch (e) {
+      if (!e.retryable || i === maxRetries - 1) throw e;
+      await new Promise(r =&gt;
+        setTimeout(r, Math.pow(2, i) * 1000)
+      );
+    }
+  }
+}</code></pre>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </main>
+
+    <!-- 右侧: TOC -->
+    <aside class="docs-toc">
+      <p class="docs-toc-title">本页目录</p>
+      <nav aria-label="目录">
+        <ol>
+          <li><a href="#overview">概览</a></li>
+          <li>
+            <a href="#endpoints">端点</a>
+            <ol>
+              <li><a href="#list">列出任务</a></li>
+              <li><a href="#create">创建任务</a></li>
+              <li><a href="#update">更新任务</a></li>
+              <li><a href="#delete">删除任务</a></li>
+            </ol>
+          </li>
+          <li><a href="#errors">错误处理</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>© 2026 Flow Inc. · API v1.0 · <a href="#">状态</a> · <a href="#">GitHub</a></p>
+    </div>
+  </footer>
+
+  <!-- Toast 容器 -->
+  <div data-component="toast-container" data-position="bottom-right"></div>
+
+  <script src="../../assets/motion/_utils/scroll-observer.js"></script>
+  <script src="../../assets/components/_utils/component-engine.js"></script>
+  <script>
+    // 演示: 点击"获取 API Key"弹出 toast
+    document.querySelector('.nav-cta')?.addEventListener('click', function () {
+      window.showToast && window.showToast({
+        type: 'info',
+        title: 'API Key 已生成',
+        message: '请检查你的注册邮箱 (demo 不发送实际邮件)。',
+        duration: 5000
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+/* ============================================
+   WebPPT Maker v3.15 · Comparison Archetype
+   ============================================
+   设计参考: Stripe Blog, A/B test reports, 改版前后
+   核心原则:
+   - 左右严格对称
+   - 中间分隔线 (实或虚)
+   - 对比强烈 (一个深一个浅)
+   - 用视觉重量说 "变化"
+   ============================================ */
+
+/* === 基础: 二分屏幕 === */
+[data-archetype="comparison"] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  background: var(--arch-comp-bg, oklch(99% 0.005 0));
+  color: var(--arch-comp-text, oklch(15% 0.015 250));
+  position: relative;
+}
+
+/* === 左右两栏 === */
+[data-archetype="comparison"] .comp-side {
+  padding: var(--space-8, 64px) var(--space-7, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+/* === 左侧 (Before) === */
+[data-archetype="comparison"] .comp-side[data-position="before"] {
+  background: var(--arch-comp-before-bg, oklch(96% 0.008 250));
+  color: var(--arch-comp-before-text, oklch(45% 0.015 250));
+}
+[data-archetype="comparison"] .comp-side[data-position="before"] .comp-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: var(--space-5, 24px);
+}
+
+/* === 右侧 (After) === */
+[data-archetype="comparison"] .comp-side[data-position="after"] {
+  background: var(--arch-comp-after-bg, oklch(15% 0.015 250));
+  color: var(--arch-comp-after-text, oklch(98% 0.005 0));
+}
+[data-archetype="comparison"] .comp-side[data-position="after"] .comp-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: var(--space-5, 24px);
+}
+
+/* === 内容: 主标题 + 副信息 === */
+[data-archetype="comparison"] .comp-headline {
+  font-family: var(--font-serif, "Source Serif Pro", serif);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-5, 24px);
+  max-width: 16ch;
+}
+
+[data-archetype="comparison"] .comp-detail {
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.85;
+  max-width: 32ch;
+}
+
+[data-archetype="comparison"] .comp-figure {
+  font-family: var(--font-display, serif);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 100;
+  line-height: 1;
+  margin: 0 0 var(--space-5, 24px);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* === 中间分隔 (视觉强化对比) === */
+[data-archetype="comparison"] .comp-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: currentColor;
+  opacity: 0.3;
+  z-index: 2;
+}
+
+/* === 箭头: 从 before 指向 after === */
+[data-archetype="comparison"] .comp-arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: oklch(98% 0.005 0);
+  color: oklch(15% 0.015 250);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  z-index: 3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* === 入场: 左右先后入场 === */
+[data-archetype="comparison"] .comp-side[data-position="before"] {
+  animation: comp-slide-left 800ms var(--ease-emphasized-decelerate) forwards;
+}
+[data-archetype="comparison"] .comp-side[data-position="after"] {
+  animation: comp-slide-right 800ms var(--ease-emphasized-decelerate) 200ms forwards;
+  opacity: 0;
+}
+
+@keyframes comp-slide-left {
+  from { transform: translateX(-30px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes comp-slide-right {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-archetype="comparison"] .comp-side {
+    animation: none;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,29 @@
+/* ============================================
+   Layout: 图标 (icon) — 中央大 icon + 文字
+   ============================================ */
+
+.layout-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-md);
+}
+
+.layout-icon .big-emoji {
+  line-height: 1;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.15));
+}
+
+/* 9:16 竖屏 */
+.layout-icon[data-mode="portrait"] .big-emoji {
+  font-size: 140px;
+  margin-bottom: var(--space-sm);
+}
+
+/* 16:9 横屏 */
+.layout-icon[data-mode="landscape"] .big-emoji {
+  font-size: 200px;
+  margin-bottom: var(--space-md);
+}

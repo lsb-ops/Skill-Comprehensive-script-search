@@ -1,0 +1,334 @@
+#!/usr/bin/env python3
+"""
+m6_stitch.py — M6 视频拼接模块（v1.0 工程化）
+
+输入：M5 输出的 N 个视频文件 + M2 输出的 CUE 时间轴
+输出：1 个完整 mp4（拼接 + 字幕 + BGM）
+
+用法:
+    python3 m6_stitch.py <M5_DIR> <M2_JSON> <output.mp4>
+    python3 m6_stitch.py <M5_DIR> <M2_JSON> <output.mp4> --bgm bgm.mp3
+    python3 m6_stitch.py <M5_DIR> <M2_JSON> <output.mp4> --no-ffmpeg   # mock 模式
+
+设计哲学：
+1. 端到端：M5 视频 → M6 拼接 → 最终 mp4
+2. 双模式：有 ffmpeg 走真实，无 ffmpeg 走 mock（生成 ffmpeg 命令脚本）
+3. 字幕：自动从 M3 txt 提取对白 + 舞台指示
+4. BGM：可选附加（用 ffmpeg -filter_complex 混音）
+5. CUE 转场：按 M2 cue_timeline 在指定时间点插入硬切标记
+
+Why: M5 输出是离散视频片段，用户无法直接发抖音。
+     M6 把"中间产物"变成"最终交付物"——这才叫端到端。
+"""
+
+import sys
+import json
+import argparse
+import re
+import subprocess
+from pathlib import Path
+from typing import Dict, List, Any, Optional
+from datetime import datetime
+
+
+# === 字幕提取（从 M3 txt） ===
+
+def extract_subtitles_from_m3(m3_dir: Path, mirror_order: List[str]) -> List[Dict]:
+    """从 M3 txt 提取字幕
+
+    返回：[{"start": 0.0, "end": 5.0, "text": "...", "mirror": "镜001"}, ...]
+    """
+    subtitles = []
+    cumulative = 0.0
+
+    for mirror_id in mirror_order:
+        # 找对应 txt
+        txt_files = list(m3_dir.glob(f"{mirror_id}*.txt"))
+        if not txt_files:
+            continue
+        txt_path = txt_files[0]
+        content = txt_path.read_text(encoding="utf-8")
+
+        # 解析时长
+        first_line = content.split('\n')[0].strip()
+        m = re.match(r'镜\d+\s+.+?\s+(\d+(?:\.\d+)?)\s*秒', first_line)
+        duration = float(m.group(1)) if m else 5.0
+
+        # 提取"画面描述"段中的对白（启发式：引号内文字）
+        desc_match = re.search(r'画面描述\s*\n(.+?)(?=\n\n|\n光影|\n技术|\Z)', content, re.DOTALL)
+        if desc_match:
+            desc_text = desc_match.group(1)
+            # 提取多种引号内的对白：「」"" " " ‘’
+            dialogues = re.findall(r'[「""\'\']{1,2}(.+?)[」""\'\']{1,2}', desc_text)
+            # 过滤：长度合理（>1 字，< 50 字）
+            dialogues = [d for d in dialogues if 1 < len(d) < 50]
+            if dialogues:
+                # 把对白按时间分段
+                per_dlg_duration = duration / max(len(dialogues), 1)
+                for i, dlg in enumerate(dialogues):
+                    start = cumulative + i * per_dlg_duration
+                    end = start + per_dlg_duration
+                    subtitles.append({
+                        "start": round(start, 2),
+                        "end": round(end, 2),
+                        "text": dlg,
+                        "mirror": mirror_id,
+                    })
+
+        cumulative += duration
+
+    return subtitles
+
+
+def write_srt(subtitles: List[Dict], srt_path: Path) -> None:
+    """写 SRT 字幕文件"""
+    srt_content = []
+    for i, sub in enumerate(subtitles, 1):
+        srt_content.append(f"{i}")
+        srt_content.append(f"{format_srt_time(sub['start'])} --> {format_srt_time(sub['end'])}")
+        srt_content.append(sub["text"])
+        srt_content.append("")
+
+    srt_path.write_text("\n".join(srt_content), encoding="utf-8")
+
+
+def format_srt_time(seconds: float) -> str:
+    """秒 → SRT 时间格式 HH:MM:SS,mmm"""
+    h = int(seconds // 3600)
+    m = int((seconds % 3600) // 60)
+    s = int(seconds % 60)
+    ms = int((seconds * 1000) % 1000)
+    return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
+
+
+# === 拼接 ===
+
+def find_video_files(m5_dir: Path) -> List[Path]:
+    """找 M5 输出的视频文件"""
+    # 真实模式：找 .mp4
+    real_videos = sorted(m5_dir.glob("镜*.mp4"))
+    if real_videos:
+        return real_videos
+    # Mock 模式：找 .mp4.mock（视为占位）
+    mock_videos = sorted(m5_dir.glob("镜*.mp4.mock"))
+    return mock_videos
+
+
+def find_real_videos(m5_dir: Path) -> List[Path]:
+    """只找真实视频（用于真实拼接）"""
+    return sorted(m5_dir.glob("镜*.mp4"))
+
+
+def get_mirror_order_from_m2(m2_json: Path) -> List[str]:
+    """从 M2 JSON 提取镜号顺序"""
+    data = json.loads(m2_json.read_text(encoding="utf-8"))
+    mirrors = data.get("mirrors", [])
+    return [f"镜{m['index']:03d}" for m in mirrors]
+
+
+# === Mock 模式（无 ffmpeg）===
+
+def generate_ffmpeg_command(video_files: List[Path], output_path: Path,
+                            srt_path: Optional[Path], bgm_path: Optional[Path],
+                            m2_data: Dict) -> str:
+    """生成 ffmpeg 命令脚本"""
+    # 拼接列表
+    concat_file = output_path.with_suffix('.concat.txt')
+    with open(concat_file, 'w') as f:
+        for vf in video_files:
+            f.write(f"file '{vf.absolute()}'\n")
+
+    cmd_parts = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_file)]
+
+    # 字幕
+    if srt_path and srt_path.exists():
+        cmd_parts.extend(["-vf", f"subtitles={srt_path}"])
+
+    # BGM
+    if bgm_path and bgm_path.exists():
+        cmd_parts.extend(["-i", str(bgm_path), "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=first", "-c:a", "aac"])
+
+    cmd_parts.append(str(output_path))
+
+    cmd = " ".join(f'"{p}"' if " " in p else p for p in cmd_parts)
+    script_path = output_path.with_suffix('.ffmpeg.sh')
+    script_path.write_text(f"#!/usr/bin/env bash\n# Auto-generated by m6_stitch.py\n{cmd}\n", encoding="utf-8")
+    script_path.chmod(0o755)
+
+    return str(script_path)
+
+
+def stitch_mock(video_files: List[Path], output_path: Path,
+                srt_path: Optional[Path], bgm_path: Optional[Path],
+                m2_data: Dict) -> Dict:
+    """Mock 拼接：生成 ffmpeg 脚本 + 字幕文件 + 拼接清单"""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # 生成 ffmpeg 命令
+    ffmpeg_script = generate_ffmpeg_command(video_files, output_path, srt_path, bgm_path, m2_data)
+
+    # 生成 manifest
+    manifest = {
+        "mode": "mock",
+        "output_path": str(output_path),
+        "video_count": len(video_files),
+        "video_files": [str(v) for v in video_files],
+        "ffmpeg_script": ffmpeg_script,
+        "srt_path": str(srt_path) if srt_path else None,
+        "bgm_path": str(bgm_path) if bgm_path else None,
+        "total_duration": sum_m2_durations(m2_data),
+        "cue_count": len(m2_data.get("cue_timeline", [])),
+        "generated_at": datetime.now().isoformat(),
+    }
+
+    manifest_path = output_path.with_suffix('.stitch.manifest.json')
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    return {
+        "status": "mock_ok",
+        "manifest_path": str(manifest_path),
+        "ffmpeg_script": ffmpeg_script,
+    }
+
+
+def sum_m2_durations(m2_data: Dict) -> float:
+    """计算 M2 总时长"""
+    return sum(m.get("duration_sec", 0) for m in m2_data.get("mirrors", []))
+
+
+# === 真实模式（有 ffmpeg）===
+
+def check_ffmpeg() -> bool:
+    """检查 ffmpeg 是否可用"""
+    try:
+        subprocess.run(["ffmpeg", "-version"], capture_output=True, timeout=5, check=True)
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+        return False
+
+
+def stitch_real(video_files: List[Path], output_path: Path,
+                srt_path: Optional[Path], bgm_path: Optional[Path],
+                m2_data: Dict) -> Dict:
+    """真实拼接（调用 ffmpeg）"""
+    if not check_ffmpeg():
+        return {
+            "status": "error",
+            "error": "ffmpeg 未安装。请运行: brew install ffmpeg",
+        }
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # 拼接清单
+    concat_file = output_path.with_suffix('.concat.txt')
+    with open(concat_file, 'w') as f:
+        for vf in video_files:
+            f.write(f"file '{vf.absolute()}'\n")
+
+    # 构建命令
+    cmd = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_file)]
+
+    if srt_path and srt_path.exists():
+        # 烧字幕（用 libass）
+        cmd.extend(["-vf", f"subtitles={srt_path}"])
+
+    if bgm_path and bgm_path.exists():
+        cmd.extend(["-i", str(bgm_path), "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=first", "-c:a", "aac"])
+
+    cmd.append(str(output_path))
+
+    try:
+        result = subprocess.run(cmd, capture_output=True, timeout=300)
+        if result.returncode != 0:
+            return {
+                "status": "error",
+                "error": f"ffmpeg 失败: {result.stderr.decode()[:500]}",
+            }
+    except subprocess.TimeoutExpired:
+        return {"status": "error", "error": "ffmpeg 超时（>300s）"}
+
+    return {
+        "status": "real_ok",
+        "output_path": str(output_path),
+        "size_bytes": output_path.stat().st_size,
+    }
+
+
+# === Main ===
+
+def main():
+    parser = argparse.ArgumentParser(description="M6 视频拼接（v1.0 工程化）")
+    parser.add_argument("m5_dir", help="M5 输出目录（镜*.mp4 或 .mp4.mock）")
+    parser.add_argument("m2_json", help="M2 JSON 文件（用于获取 CUE 时长）")
+    parser.add_argument("output", help="输出 mp4 路径")
+    parser.add_argument("--m3-dir", help="M3 目录（用于字幕提取）")
+    parser.add_argument("--bgm", help="BGM 音频文件路径（可选）")
+    parser.add_argument("--no-ffmpeg", action="store_true", help="强制 mock 模式（不调用 ffmpeg）")
+    args = parser.parse_args()
+
+    m5_dir = Path(args.m5_dir)
+    m2_json = Path(args.m2_json)
+    output_path = Path(args.output)
+
+    if not m5_dir.exists():
+        print(f"❌ M5 目录不存在: {m5_dir}", file=sys.stderr)
+        sys.exit(1)
+    if not m2_json.exists():
+        print(f"❌ M2 JSON 不存在: {m2_json}", file=sys.stderr)
+        sys.exit(1)
+
+    # 读 M2
+    m2_data = json.loads(m2_json.read_text(encoding="utf-8"))
+
+    # 找视频文件
+    video_files = find_video_files(m5_dir)
+    if not video_files:
+        print(f"❌ M5 目录无视频文件: {m5_dir}", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"📦 找到 {len(video_files)} 个视频片段", file=sys.stderr)
+
+    # 提取字幕
+    srt_path = None
+    if args.m3_dir:
+        m3_dir = Path(args.m3_dir)
+        if m3_dir.exists():
+            mirror_order = get_mirror_order_from_m2(m2_json)
+            subtitles = extract_subtitles_from_m3(m3_dir, mirror_order)
+            if subtitles:
+                srt_path = output_path.with_suffix('.srt')
+                write_srt(subtitles, srt_path)
+                print(f"📝 生成字幕: {len(subtitles)} 条 → {srt_path}", file=sys.stderr)
+
+    # BGM
+    bgm_path = Path(args.bgm) if args.bgm else None
+    if bgm_path and not bgm_path.exists():
+        print(f"⚠ BGM 文件不存在: {bgm_path}，跳过", file=sys.stderr)
+        bgm_path = None
+
+    # 选择模式
+    if args.no_ffmpeg or not check_ffmpeg():
+        if not args.no_ffmpeg:
+            print("⚠ 未检测到 ffmpeg，自动降级到 mock 模式", file=sys.stderr)
+        result = stitch_mock(video_files, output_path, srt_path, bgm_path, m2_data)
+    else:
+        result = stitch_real(video_files, output_path, srt_path, bgm_path, m2_data)
+
+    # 总结
+    print(f"\n═══════════════════════════════════════", file=sys.stderr)
+    print(f"📊 M6 拼接总结", file=sys.stderr)
+    print(f"═══════════════════════════════════════", file=sys.stderr)
+    if result["status"] == "mock_ok":
+        print(f"  模式: mock", file=sys.stderr)
+        print(f"  ffmpeg 脚本: {result['ffmpeg_script']}", file=sys.stderr)
+        print(f"  手动运行: bash {result['ffmpeg_script']}", file=sys.stderr)
+    elif result["status"] == "real_ok":
+        print(f"  模式: real", file=sys.stderr)
+        print(f"  输出: {result['output_path']} ({result.get('size_bytes', '?')} bytes)", file=sys.stderr)
+    else:
+        print(f"  ❌ 错误: {result.get('error')}", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,119 @@
+/* ============================================
+   WebPPT Maker v3.16 · Section: Testimonial (证言)
+   ============================================
+   真实参考: Stripe customer quotes, Linear testimonials, Notion 客户案例
+   关键能力:
+   - 客户头像 + 引用 + 公司
+   - 1 个大 testimonial 或 3 个网格
+   - 可带客户 logo 墙 (logos strip)
+   ============================================ */
+
+[data-section="testimonial"] {
+  padding: var(--space-9, 96px) var(--space-5, 24px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Logo 墙 */
+[data-section="testimonial"] .logos-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-7, 48px);
+  padding: var(--space-7, 48px) 0;
+  border-bottom: 1px solid oklch(94% 0.005 0);
+  margin-bottom: var(--space-8, 64px);
+  opacity: 0.6;
+}
+
+[data-section="testimonial"] .logo-item {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: oklch(30% 0.015 250);
+}
+
+/* 单个 testimonial (大) */
+[data-section="testimonial"] .testimonial-featured {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+[data-section="testimonial"] .testimonial-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-7, 48px);
+  color: oklch(15% 0.015 250);
+}
+
+[data-section="testimonial"] .testimonial-quote::before {
+  content: """;
+  display: block;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 0.5;
+  color: oklch(70% 0.015 280);
+  margin-bottom: var(--space-4, 16px);
+}
+
+[data-section="testimonial"] .testimonial-author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3, 12px);
+}
+
+[data-section="testimonial"] .testimonial-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+[data-section="testimonial"] .testimonial-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+[data-section="testimonial"] .testimonial-role {
+  font-size: 0.875rem;
+  color: oklch(50% 0.015 250);
+}
+
+/* 网格 testimonial */
+[data-section="testimonial"] .testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-5, 24px);
+}
+
+[data-section="testimonial"] .testimonial-card {
+  padding: var(--space-5, 24px);
+  border: 1px solid oklch(94% 0.005 0);
+  border-radius: 8px;
+  background: oklch(99% 0.003 0);
+}
+
+[data-section="testimonial"] .testimonial-card-quote {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 var(--space-5, 24px);
+}
+
+[data-section="testimonial"] .testimonial-card-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  font-size: 0.875rem;
+}
+
+[data-section="testimonial"] .testimonial-card-author img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}

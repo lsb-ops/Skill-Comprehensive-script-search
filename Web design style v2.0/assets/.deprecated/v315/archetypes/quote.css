@@ -1,0 +1,119 @@
+/* ============================================
+   WebPPT Maker v3.15 · Quote Archetype
+   ============================================
+   设计参考: Vogue pull quotes, TED quote slides, Stripe testimonial
+   核心原则:
+   - 字号极大 (60-80px), 极致排版
+   - 引号是装饰, 不是符号
+   - 留白 70%, 让文字呼吸
+   - 来源/出处是元数据, 极小
+   ============================================ */
+
+/* === 基础: 居中 + 极简 === */
+[data-archetype="quote"] {
+  display: grid;
+  place-items: center;
+  padding: var(--space-9, 96px) var(--space-8, 64px);
+  background: var(--arch-quote-bg, oklch(99% 0.005 0));
+  color: var(--arch-quote-text, oklch(8% 0.005 0));
+  min-height: 100vh;
+  text-align: center;
+  position: relative;
+}
+
+/* === 大引号 (装饰元素) === */
+[data-archetype="quote"] .quote-mark {
+  position: absolute;
+  top: var(--space-7, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(120px, 18vw, 240px);
+  font-weight: 100;
+  line-height: 1;
+  color: currentColor;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* === 主引用文字 === */
+[data-archetype="quote"] .quote-text {
+  font-family: var(--font-serif, "Source Serif Pro", serif);
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0;
+  max-width: 22ch;
+  position: relative;
+  z-index: 1;
+  font-style: italic;
+}
+
+/* === 来源: 极小 + 元数据风格 === */
+[data-archetype="quote"] .quote-attribution {
+  margin-top: var(--space-7, 48px);
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+[data-archetype="quote"] .quote-attribution::before {
+  content: "— ";
+  margin-right: 4px;
+}
+
+/* === 引用语境 (来自哪里/关于什么) === */
+[data-archetype="quote"] .quote-context {
+  margin-top: var(--space-4, 16px);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.4;
+}
+
+/* === 反向 (深色, 杂志感) === */
+[data-archetype="quote"][data-tone="dark"] {
+  background: oklch(8% 0.005 0);
+  color: oklch(98% 0.005 0);
+}
+
+/* === 入场: 文字逐字 (打字机效果) === */
+[data-archetype="quote"] .quote-text {
+  opacity: 0;
+  animation: quote-fade 1200ms var(--ease-emphasized-decelerate) forwards;
+}
+[data-archetype="quote"] .quote-attribution {
+  opacity: 0;
+  animation: quote-meta-in 600ms var(--ease-standard) 1000ms forwards;
+}
+[data-archetype="quote"] .quote-mark {
+  animation: quote-mark-in 1500ms var(--ease-emphasized-decelerate) forwards;
+  opacity: 0;
+}
+
+@keyframes quote-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes quote-meta-in {
+  to { opacity: 0.6; }
+}
+@keyframes quote-mark-in {
+  to { opacity: 0.08; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-archetype="quote"] .quote-text,
+  [data-archetype="quote"] .quote-attribution,
+  [data-archetype="quote"] .quote-mark {
+    animation: none;
+    opacity: 1;
+  }
+  [data-archetype="quote"] .quote-mark { opacity: 0.08; }
+}

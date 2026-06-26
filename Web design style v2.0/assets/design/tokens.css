@@ -1,0 +1,91 @@
+/* ============================================
+   WebPPT Maker v3.6 · 设计 Token 中心
+   Modular Scale (1.25 ratio) + 8px spacing + 5 级 line-height
+   ============================================ */
+
+:root {
+  /* === 字号阶梯 (1.25 ratio) === */
+  /* 中文专用 (更保守): 14/16/18/22/28/36/48/64 */
+  --font-xs: 14px;       /* caption, badge */
+  --font-sm: 16px;       /* small body */
+  --font-base: 18px;     /* body default */
+  --font-md: 22px;       /* subtitle */
+  --font-lg: 28px;       /* small title (h3) */
+  --font-xl: 36px;       /* h2 */
+  --font-2xl: 48px;      /* h1 */
+  --font-3xl: 64px;      /* display */
+  --font-display: 96px;  /* hero */
+  --font-hero: 144px;    /* poster max */
+
+  /* 兼容旧 var 名 (--font-size-*) */
+  --font-size-caption: var(--font-xs);
+  --font-size-body: var(--font-base);
+  --font-size-base: var(--font-base);
+  --font-size-h2: var(--font-xl);
+  --font-size-h1: var(--font-2xl);
+
+  /* === 间距阶梯 (8px baseline) === */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* 兼容旧 var 名 (--space-xs/sm/md/lg/xl) */
+  --space-xs: var(--space-3);
+  --space-sm: var(--space-4);
+  --space-md: var(--space-5);
+  --space-lg: var(--space-7);
+  --space-xl: var(--space-8);
+
+  /* === 行高 (line-height ratio, 无单位) === */
+  --lh-tight: 1.1;       /* 大标题 (避免行间空白) */
+  --lh-snug: 1.25;       /* 小标题 */
+  --lh-normal: 1.5;      /* body 英文 */
+  --lh-relaxed: 1.7;     /* body 中文 (中文需更松) */
+  --lh-loose: 1.9;       /* 引用 / 列表 */
+
+  /* === 字体权重层级 (4 级) === */
+  --fw-regular: 400;     /* body */
+  --fw-medium: 500;      /* subtitle, label */
+  --fw-bold: 700;        /* title bold */
+  --fw-black: 900;       /* display, hero */
+
+  /* === 圆角 (4 级) === */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* 兼容旧 */
+  --radius-sm-old: var(--radius-sm);
+  --radius-md-old: var(--radius-md);
+  --radius-lg-old: var(--radius-lg);
+}
+
+/* === 字号层次使用类 (utility) === */
+.t-caption { font-size: var(--font-xs); line-height: var(--lh-snug); }
+.t-small   { font-size: var(--font-sm); line-height: var(--lh-normal); }
+.t-body    { font-size: var(--font-base); line-height: var(--lh-relaxed); }
+.t-sub     { font-size: var(--font-md); line-height: var(--lh-snug); }
+.t-h3      { font-size: var(--font-lg); line-height: var(--lh-snug); }
+.t-h2      { font-size: var(--font-xl); line-height: var(--lh-snug); }
+.t-h1      { font-size: var(--font-2xl); line-height: var(--lh-tight); }
+.t-display { font-size: var(--font-3xl); line-height: var(--lh-tight); }
+.t-hero    { font-size: var(--font-display); line-height: var(--lh-tight); }
+
+/* === 行宽控制 (中文 25-40 字, 英文 45-75 字符) === */
+.t-read-narrow { max-width: 540px; margin-left: auto; margin-right: auto; }
+.t-read-base   { max-width: 720px; margin-left: auto; margin-right: auto; }
+.t-read-wide   { max-width: 900px; margin-left: auto; margin-right: auto; }
+
+/* === 字体权重 utility === */
+.fw-medium { font-weight: var(--fw-medium); }
+.fw-bold   { font-weight: var(--fw-bold); }
+.fw-black  { font-weight: var(--fw-black); }

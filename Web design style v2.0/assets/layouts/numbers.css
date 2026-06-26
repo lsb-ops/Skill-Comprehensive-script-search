@@ -1,0 +1,46 @@
+/* ============================================
+   Layout: 数字 (numbers) — 大数字 + 解释
+   ============================================ */
+
+.layout-numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.layout-numbers .big-number {
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -4px;
+  text-shadow: 0 4px 20px rgba(255, 59, 48, 0.2);
+}
+
+/* 9:16 竖屏 */
+.layout-numbers[data-mode="portrait"] .big-number {
+  font-size: 140px;
+  margin-bottom: var(--space-md);
+}
+
+/* 16:9 横屏 */
+.layout-numbers[data-mode="landscape"] .big-number {
+  font-size: 200px;
+  margin-bottom: var(--space-lg);
+}
+
+.layout-numbers .unit {
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.layout-numbers[data-mode="portrait"] .unit {
+  font-size: 48px;
+  margin-left: 12px;
+}
+
+.layout-numbers[data-mode="landscape"] .unit {
+  font-size: 80px;
+  margin-left: 16px;
+}

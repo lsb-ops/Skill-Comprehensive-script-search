@@ -1,0 +1,156 @@
+{
+  "name": "分镜头脚本优化器",
+  "name_en": "Storyboard Shot Optimizer",
+  "version": "1.1.0",
+  "schema_version": "1.0",
+  "description": "AI驱动的分镜头脚本优化工具箱，支持景别优化、人物表情优化、动作优化、镜头完善。本工具基于影视创作最佳实践，提供专业的分镜头脚本优化建议。",
+  "core_capabilities": [
+    "景别优化（远景/中景/近景/特写智能选择）",
+    "人物表情优化（情绪细节丰富化）",
+    "动作设计优化（动作描写精细化）",
+    "镜头完善（运动/角度/转场优化）",
+    "16个搜索引擎调研支持",
+    "中英文双语支持"
+  ],
+  "key_features": {
+    "shot_optimization": {
+      "enabled": true,
+      "description": "基于叙事节奏的景别智能优化"
+    },
+    "expression_optimization": {
+      "enabled": true,
+      "description": "人物表情细节丰富和情绪层次优化"
+    },
+    "action_optimization": {
+      "enabled": true,
+      "description": "动作描写从模糊到具体的优化"
+    },
+    "camera_completion": {
+      "enabled": true,
+      "description": "镜头运动、角度、转场的完善建议"
+    },
+    "search_engine": {
+      "enabled": true,
+      "engines": 16,
+      "domestic": 7,
+      "international": 9,
+      "description": "16个搜索引擎模板用于调研"
+    }
+  },
+  "input_validation": {
+    "input": {
+      "type": "string",
+      "required": true,
+      "min_length": 10,
+      "max_length": 50000,
+      "description": "分镜头脚本内容"
+    },
+    "optimize": {
+      "type": "string",
+      "required": false,
+      "default": "all",
+      "enum": ["all", "shot", "expression", "action"]
+    },
+    "style": {
+      "type": "string",
+      "required": false,
+      "default": "cinematic",
+      "enum": ["cinematic", "documentary", "commercial", "anime"]
+    }
+  },
+  "output_sections": [
+    "optimized_shots",
+    "shot_analysis",
+    "expression_analysis",
+    "action_analysis",
+    "summary"
+  ],
+  "applicable_scenarios": [
+    "剧本创作阶段",
+    "分镜头脚本撰写",
+    "视频制作前期策划",
+    "影视教学演示",
+    "广告分镜头设计"
+  ],
+  "agent_workflow": {
+    "supported_patterns": ["sequential_chain", "parallel_optimization"],
+    "steps": [
+      {
+        "step": 1,
+        "name": "解析输入",
+        "description": "识别镜头数量和结构，提取现有描述"
+      },
+      {
+        "step": 2,
+        "name": "景别分析",
+        "description": "评估景别是否适合叙事节奏"
+      },
+      {
+        "step": 3,
+        "name": "表情优化",
+        "description": "分析情绪弧线，丰富表情细节"
+      },
+      {
+        "step": 4,
+        "name": "动作优化",
+        "description": "补充动作细节，增强与情绪关联"
+      },
+      {
+        "step": 5,
+        "name": "镜头完善",
+        "description": "补充镜头运动、转场、角度"
+      },
+      {
+        "step": 6,
+        "name": "输出报告",
+        "description": "生成结构化优化报告"
+      }
+    ]
+  },
+  "error_handling": {
+    "invalid_input": {
+      "strategy": "error_message",
+      "message": "输入格式不正确，请按照示例格式提供分镜头脚本"
+    },
+    "execution_failure": {
+      "strategy": "retry",
+      "max_retries": 2,
+      "message": "优化执行失败，将重试"
+    },
+    "empty_input": {
+      "strategy": "prompt",
+      "message": "请提供分镜头脚本内容"
+    }
+  },
+  "security_checks": {
+    "supply_chain_risk": "pass",
+    "command_execution_risk": "pass",
+    "network_data_exfiltration": "pass",
+    "file_operation_sensitive_paths": "pass",
+    "prompt_injection_risk": "pass",
+    "remote_script_execution": "pass",
+    "suspicious_encoding": "pass",
+    "other_security_risks": "pass"
+  },
+  "trace_evaluation": {
+    "trust_score": 4.8,
+    "reliability_score": 4.5,
+    "adaptability_score": 4.3,
+    "convention_score": 4.2,
+    "effectiveness_score": 4.5
+  },
+  "update_history": [
+    {
+      "version": "1.1.0",
+      "date": "2026-06-01",
+      "changes": [
+        "初始版本发布",
+        "景别优化功能",
+        "表情优化功能",
+        "动作优化功能",
+        "镜头完善功能",
+        "16个搜索引擎集成"
+      ]
+    }
+  ]
+}

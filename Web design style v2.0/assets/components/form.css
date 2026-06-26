@@ -1,0 +1,232 @@
+/* ============================================
+   WebPPT Maker v3.17 · Form Components
+   ============================================
+   真实参考: Stripe Elements, Linear forms, Vercel forms
+   关键能力:
+   - Label + input + help/error 完整结构
+   - 验证状态 (valid/invalid/pending)
+   - 字符计数
+   - 必填标记
+   - 浮动 label (可选)
+   ============================================ */
+
+/* === Form 容器 === */
+[data-component="form"] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5, 24px);
+  max-width: 480px;
+}
+
+[data-component="form"] .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4, 16px);
+}
+
+@media (max-width: 640px) {
+  [data-component="form"] .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === Field 容器 === */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: oklch(15% 0.015 250);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.form-required {
+  color: oklch(55% 0.22 25);
+  font-weight: 600;
+}
+
+/* === Input (基础样式已在 states.css, 这里扩展) === */
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px 14px;
+  border: 1px solid oklch(85% 0.005 0);
+  border-radius: 6px;
+  background: oklch(99% 0.003 0);
+  color: oklch(15% 0.015 250);
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.form-textarea {
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-input:hover,
+.form-textarea:hover,
+.form-select:hover {
+  border-color: oklch(70% 0.005 0);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-color: oklch(55% 0.22 280);
+  box-shadow: 0 0 0 3px oklch(55% 0.22 280 / 0.15);
+  outline: none;
+}
+
+/* === 验证状态 === */
+.form-field[data-state="valid"] .form-input,
+.form-field[data-state="valid"] .form-textarea,
+.form-field[data-state="valid"] .form-select {
+  border-color: oklch(50% 0.18 145);
+}
+
+.form-field[data-state="valid"] .form-input:focus,
+.form-field[data-state="valid"] .form-textarea:focus,
+.form-field[data-state="valid"] .form-select:focus {
+  box-shadow: 0 0 0 3px oklch(50% 0.18 145 / 0.15);
+}
+
+.form-field[data-state="invalid"] .form-input,
+.form-field[data-state="invalid"] .form-textarea,
+.form-field[data-state="invalid"] .form-select {
+  border-color: oklch(55% 0.22 25);
+}
+
+.form-field[data-state="invalid"] .form-input:focus,
+.form-field[data-state="invalid"] .form-textarea:focus,
+.form-field[data-state="invalid"] .form-select:focus {
+  box-shadow: 0 0 0 3px oklch(55% 0.22 25 / 0.15);
+}
+
+/* === Help + Error 文本 === */
+.form-help {
+  font-size: 0.8125rem;
+  color: oklch(50% 0.015 250);
+  margin: 0;
+}
+
+.form-error {
+  font-size: 0.8125rem;
+  color: oklch(55% 0.22 25);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.form-error::before {
+  content: "⚠";
+  flex-shrink: 0;
+}
+
+/* === 字符计数 === */
+.form-counter {
+  font-size: 0.75rem;
+  color: oklch(55% 0.015 250);
+  text-align: right;
+  font-family: var(--font-mono, monospace);
+}
+
+.form-counter[data-over-limit="true"] {
+  color: oklch(55% 0.22 25);
+  font-weight: 600;
+}
+
+/* === Checkbox + Radio === */
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3, 12px);
+  cursor: pointer;
+  user-select: none;
+}
+
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+  margin-top: 2px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: oklch(55% 0.22 280);
+}
+
+.form-check-label {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: oklch(20% 0.015 250);
+}
+
+/* === 提交按钮 === */
+.form-submit {
+  width: 100%;
+  padding: var(--space-4, 16px);
+  background: oklch(15% 0.015 250);
+  color: oklch(98% 0.005 0);
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.form-submit:hover {
+  background: oklch(8% 0.005 0);
+}
+
+.form-submit:disabled {
+  background: oklch(70% 0.005 0);
+  cursor: not-allowed;
+}
+
+/* === 浮动 label (floating label) === */
+.form-field-floating {
+  position: relative;
+}
+
+.form-field-floating .form-input {
+  padding-top: 20px;
+  padding-bottom: 4px;
+}
+
+.form-field-floating .form-label {
+  position: absolute;
+  top: 16px;
+  left: 14px;
+  font-size: 1rem;
+  color: oklch(55% 0.015 250);
+  pointer-events: none;
+  transform-origin: 0 0;
+  transition: transform 150ms, color 150ms, font-size 150ms;
+}
+
+.form-field-floating .form-input:focus + .form-label,
+.form-field-floating .form-input:not(:placeholder-shown) + .form-label {
+  transform: translateY(-12px) scale(0.85);
+  color: oklch(15% 0.015 250);
+}
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  .form-input,
+  .form-textarea,
+  .form-select,
+  .form-submit,
+  .form-field-floating .form-label {
+    transition: none;
+  }
+}

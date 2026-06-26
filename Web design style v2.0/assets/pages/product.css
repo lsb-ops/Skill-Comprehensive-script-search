@@ -1,0 +1,90 @@
+/* ============================================
+   WebPPT Maker v3.16 · Page Type: Product
+   ============================================
+   真实参考: Apple.com/product, Tesla.com, DJI.com
+   特征:
+   - 产品视觉占主导
+   - 多角度展示
+   - 技术规格表
+   - 购买/咨询 CTA
+   - 沉浸感强
+   ============================================ */
+
+[data-page-type="product"] {
+  --product-bg: oklch(99% 0.003 0);
+  --product-text: oklch(8% 0.005 0);
+}
+
+[data-page-type="product"] .page-nav {
+  /* Product nav: 透明覆盖在 hero 上 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: transparent;
+  color: var(--product-text);
+  padding: var(--space-4, 16px) var(--space-5, 24px);
+}
+
+[data-page-type="product"] .page-hero {
+  /* Product hero: 极简, 产品图占主导 */
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: var(--product-bg);
+  padding: var(--space-9, 96px) var(--space-5, 24px);
+}
+
+[data-page-type="product"] .page-hero-product-image {
+  max-width: min(80%, 800px);
+  height: auto;
+  margin: 0 auto var(--space-7, 48px);
+}
+
+[data-page-type="product"] .page-hero-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-3, 12px);
+}
+
+[data-page-type="product"] .page-hero-tagline {
+  font-size: 1.5rem;
+  color: oklch(45% 0.015 250);
+  margin: 0 0 var(--space-6, 32px);
+}
+
+[data-page-type="product"] .page-hero-price {
+  font-size: 1rem;
+  color: oklch(40% 0.015 250);
+  margin-bottom: var(--space-5, 24px);
+}
+
+[data-page-type="product"] .page-section {
+  /* 每个 section 沉浸式 */
+  padding: var(--space-9, 96px) var(--space-5, 24px);
+  border-top: 1px solid oklch(95% 0.005 0);
+}
+
+[data-page-type="product"] .page-specs-table {
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+[data-page-type="product"] .page-specs-table th,
+[data-page-type="product"] .page-specs-table td {
+  text-align: left;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  border-bottom: 1px solid oklch(92% 0.005 0);
+}
+
+[data-page-type="product"] .page-specs-table th {
+  font-weight: 500;
+  color: oklch(45% 0.015 250);
+  width: 40%;
+}

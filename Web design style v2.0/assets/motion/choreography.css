@@ -1,0 +1,144 @@
+/* ============================================
+   WebPPT Maker v3.5 · 9 Layout 差异化入场编排
+   每个 layout 专属 entry pattern,不是统一 fade
+   ============================================ */
+
+/* === 通用:section 内的子元素 cascade 入场 === */
+.reveal .slides section .stagger-item {
+  opacity: 0;
+  animation: stagger-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.reveal .slides section .stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.reveal .slides section .stagger-item:nth-child(2) { animation-delay: 0.25s; }
+.reveal .slides section .stagger-item:nth-child(3) { animation-delay: 0.4s; }
+.reveal .slides section .stagger-item:nth-child(4) { animation-delay: 0.55s; }
+.reveal .slides section .stagger-item:nth-child(5) { animation-delay: 0.7s; }
+.reveal .slides section .stagger-item:nth-child(6) { animation-delay: 0.85s; }
+
+/* === Layout: card (弹跳入场) === */
+.layout-card .card {
+  animation: split-from-center 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.layout-card .card .number {
+  animation: rotate-in-3d 0.8s ease 0.2s both;
+}
+.layout-card .card .title {
+  animation: stagger-up 0.5s ease 0.4s both;
+}
+.layout-card .card .body {
+  animation: stagger-up 0.5s ease 0.6s both;
+}
+
+/* === Layout: poster (mask-wipe 大字) === */
+.layout-poster .big-text {
+  animation: mask-wipe-left 1s ease both;
+}
+.layout-poster .sub-text {
+  animation: stagger-up 0.5s ease 0.5s both;
+}
+.layout-poster .body {
+  animation: stagger-up 0.5s ease 0.7s both;
+}
+
+/* === Layout: timeline (序列 + dot 脉冲) === */
+.layout-timeline .timeline-item:nth-child(1) .timeline-dot {
+  animation: glow-pulse 2s ease infinite;
+}
+.layout-timeline .timeline-item:nth-child(odd) {
+  animation: stagger-up 0.5s ease both;
+}
+.layout-timeline .timeline-item:nth-child(even) {
+  animation: stagger-down 0.5s ease 0.1s both;
+}
+.layout-timeline .timeline-item .timeline-content {
+  animation: stagger-up 0.5s ease 0.2s both;
+}
+
+/* === Layout: numbers (大数字居中放大) === */
+.layout-numbers .big-number {
+  animation: split-from-center 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.layout-numbers .title {
+  animation: stagger-up 0.5s ease 0.4s both;
+}
+.layout-numbers .body {
+  animation: stagger-up 0.5s ease 0.6s both;
+}
+
+/* === Layout: compare (左右顺序 + 箭头) === */
+.layout-compare .compare-card.before {
+  animation: stagger-up 0.6s ease both;
+}
+.layout-compare .compare-arrow {
+  animation: stagger-up 0.4s ease 0.3s both;
+}
+.layout-compare .compare-card.after {
+  animation: stagger-up 0.6s ease 0.4s both;
+}
+.layout-compare .title {
+  animation: stagger-up 0.5s ease 0.6s both;
+}
+
+/* === Layout: icon (3D 旋转大 emoji) === */
+.layout-icon .big-emoji {
+  animation: rotate-in-3d 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.layout-icon .title {
+  animation: stagger-up 0.5s ease 0.4s both;
+}
+.layout-icon .body {
+  animation: stagger-up 0.5s ease 0.6s both;
+}
+
+/* === Layout: storyline (shimmer 步进条) === */
+.layout-storyline .story-step {
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+.layout-storyline .title {
+  animation: stagger-up 0.5s ease 0.2s both;
+}
+.layout-storyline .body {
+  animation: stagger-up 0.5s ease 0.4s both;
+}
+
+/* === Layout: qa (Q-A 顺序) === */
+.layout-qa .qa-question {
+  animation: stagger-up 0.5s ease both;
+}
+.layout-qa .qa-answer {
+  animation: stagger-up 0.5s ease 0.3s both;
+}
+
+/* === Layout: waterfall (奇偶错开) === */
+.layout-waterfall .waterfall-item:nth-child(odd) {
+  animation: stagger-up 0.5s ease both;
+}
+.layout-waterfall .waterfall-item:nth-child(even) {
+  animation: stagger-up 0.5s ease 0.15s both;
+}
+.layout-waterfall .title {
+  animation: stagger-up 0.5s ease both;
+}
+
+/* === Page cover: 大标题 mask-wipe === */
+.page-cover .title {
+  animation: mask-wipe-left 1.2s ease both;
+}
+.page-cover .subtitle {
+  animation: stagger-up 0.5s ease 0.6s both;
+}
+.page-cover .emoji {
+  animation: rotate-in-3d 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* === Page CTA: 3D 翻转 + 主题强动效 === */
+.page-cta .title {
+  animation: rotate-in-3d 1s ease both;
+}
+.page-cta .body {
+  animation: stagger-up 0.5s ease 0.4s both;
+}
+.page-cta .emoji {
+  animation: float-y 3s ease-in-out infinite;
+}

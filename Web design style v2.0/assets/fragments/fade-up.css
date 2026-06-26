@@ -1,0 +1,15 @@
+/* ============================================
+   Fragment: fade-up — 渐显 + 上滑 (默认)
+   对应 taste-skill MOTION=4-6
+   ============================================ */
+
+.reveal .slides section .fragment-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal .slides section.visible .fragment-fade-up {
+  opacity: 1;
+  transform: translateY(0);
+}

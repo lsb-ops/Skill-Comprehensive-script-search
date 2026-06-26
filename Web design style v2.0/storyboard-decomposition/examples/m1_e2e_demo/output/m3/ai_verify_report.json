@@ -1,0 +1,153 @@
+{
+  "threshold": 0.7,
+  "total": 8,
+  "pass": 8,
+  "fail": 0,
+  "avg_score": 0.755,
+  "results": [
+    {
+      "mirror": "镜001_CUE1_分镜1",
+      "scores": {
+        "text_consistency": {
+          "score": 0.5,
+          "matched": 0,
+          "total": 0,
+          "found": [],
+          "note": "no_must_keep_features"
+        },
+        "no_meta": 1.0,
+        "section_complete": 1.0,
+        "asset_ref": 0.7,
+        "tech_keywords": 1.0
+      },
+      "total_score": 0.755,
+      "needs_redo": false
+    },
+    {
+      "mirror": "镜002_分镜2",
+      "scores": {
+        "text_consistency": {
+          "score": 0.5,
+          "matched": 0,
+          "total": 0,
+          "found": [],
+          "note": "no_must_keep_features"
+        },
+        "no_meta": 1.0,
+        "section_complete": 1.0,
+        "asset_ref": 0.7,
+        "tech_keywords": 1.0
+      },
+      "total_score": 0.755,
+      "needs_redo": false
+    },
+    {
+      "mirror": "镜003_分镜3",
+      "scores": {
+        "text_consistency": {
+          "score": 0.5,
+          "matched": 0,
+          "total": 0,
+          "found": [],
+          "note": "no_must_keep_features"
+        },
+        "no_meta": 1.0,
+        "section_complete": 1.0,
+        "asset_ref": 0.7,
+        "tech_keywords": 1.0
+      },
+      "total_score": 0.755,
+      "needs_redo": false
+    },
+    {
+      "mirror": "镜004_分镜4",
+      "scores": {
+        "text_consistency": {
+          "score": 0.5,
+          "matched": 0,
+          "total": 0,
+          "found": [],
+          "note": "no_must_keep_features"
+        },
+        "no_meta": 1.0,
+        "section_complete": 1.0,
+        "asset_ref": 0.7,
+        "tech_keywords": 1.0
+      },
+      "total_score": 0.755,
+      "needs_redo": false
+    },
+    {
+      "mirror": "镜005_CUE2_分镜5",
+      "scores": {
+        "text_consistency": {
+          "score": 0.5,
+          "matched": 0,
+          "total": 0,
+          "found": [],
+          "note": "no_must_keep_features"
+        },
+        "no_meta": 1.0,
+        "section_complete": 1.0,
+        "asset_ref": 0.7,
+        "tech_keywords": 1.0
+      },
+      "total_score": 0.755,
+      "needs_redo": false
+    },
+    {
+      "mirror": "镜006_分镜6",
+      "scores": {
+        "text_consistency": {
+          "score": 0.5,
+          "matched": 0,
+          "total": 0,
+          "found": [],
+          "note": "no_must_keep_features"
+        },
+        "no_meta": 1.0,
+        "section_complete": 1.0,
+        "asset_ref": 0.7,
+        "tech_keywords": 1.0
+      },
+      "total_score": 0.755,
+      "needs_redo": false
+    },
+    {
+      "mirror": "镜007_分镜7",
+      "scores": {
+        "text_consistency": {
+          "score": 0.5,
+          "matched": 0,
+          "total": 0,
+          "found": [],
+          "note": "no_must_keep_features"
+        },
+        "no_meta": 1.0,
+        "section_complete": 1.0,
+        "asset_ref": 0.7,
+        "tech_keywords": 1.0
+      },
+      "total_score": 0.755,
+      "needs_redo": false
+    },
+    {
+      "mirror": "镜008_CUE3_分镜8",
+      "scores": {
+        "text_consistency": {
+          "score": 0.5,
+          "matched": 0,
+          "total": 0,
+          "found": [],
+          "note": "no_must_keep_features"
+        },
+        "no_meta": 1.0,
+        "section_complete": 1.0,
+        "asset_ref": 0.7,
+        "tech_keywords": 1.0
+      },
+      "total_score": 0.755,
+      "needs_redo": false
+    }
+  ]
+}

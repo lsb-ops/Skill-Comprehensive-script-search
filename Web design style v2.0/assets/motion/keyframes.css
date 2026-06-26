@@ -1,0 +1,203 @@
+/* ============================================
+   WebPPT Maker v3.5 · @keyframes 原子库
+   4 类 15 个 keyframe,为所有动效提供底层
+   ============================================ */
+
+/* === 环境呼吸类 (4) === */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes drift-slow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(8px, -6px); }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes drift-bg {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+}
+
+/* === 入场编排类 (5) === */
+@keyframes stagger-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes stagger-down {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes split-from-center {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes rotate-in-3d {
+  from { opacity: 0; transform: perspective(800px) rotateY(-25deg); }
+  to { opacity: 1; transform: perspective(800px) rotateY(0); }
+}
+
+@keyframes mask-wipe-left {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+/* === 微交互类 (3) === */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent); }
+  50% { box-shadow: 0 0 0 12px transparent; }
+}
+
+@keyframes ripple {
+  from { transform: scale(0); opacity: 0.6; }
+  to { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* === 数字/数据类 (3) === */
+@keyframes odometer-flip {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes progress-fill {
+  from { width: 0; }
+  to { width: var(--target-width, 100%); }
+}
+
+@keyframes number-glow {
+  0%, 100% { text-shadow: 0 0 0 transparent; }
+  50% { text-shadow: 0 0 24px var(--accent); }
+}
+
+/* ============================================
+   WebPPT Maker v3.7 · 3D keyframes 扩展 (10+)
+   ============================================ */
+
+/* === 1. tilt-float: 持续 3D 浮动 (轻微 rotateX/Y 摆动) === */
+@keyframes tilt-float {
+  0%, 100% { transform: perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0); }
+  25%      { transform: perspective(1200px) rotateX(2deg) rotateY(-2deg) translateY(-4px); }
+  50%      { transform: perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(-6px); }
+  75%      { transform: perspective(1200px) rotateX(-2deg) rotateY(2deg) translateY(-4px); }
+}
+
+/* === 2. flip-in-X: rotateX(-90deg) → 0 (3D 翻转入场) === */
+@keyframes flip-in-X {
+  from { opacity: 0; transform: perspective(1000px) rotateX(-90deg); transform-origin: center bottom; }
+  to   { opacity: 1; transform: perspective(1000px) rotateX(0deg); }
+}
+
+/* === 3. flip-in-Y: rotateY(-90deg) → 0 (侧翻入场) === */
+@keyframes flip-in-Y {
+  from { opacity: 0; transform: perspective(1000px) rotateY(-90deg); }
+  to   { opacity: 1; transform: perspective(1000px) rotateY(0deg); }
+}
+
+/* === 4. cube-rotate: 360° rotateY 立方体旋转 === */
+@keyframes cube-rotate {
+  0%   { transform: perspective(1200px) rotateY(0deg); }
+  100% { transform: perspective(1200px) rotateY(360deg); }
+}
+
+/* === 5. parallax-tilt: 鼠标驱动的视差倾斜 (CSS 静态版) === */
+@keyframes parallax-tilt-l {
+  0%, 100% { transform: perspective(800px) rotateY(-6deg) rotateX(2deg); }
+  50%      { transform: perspective(800px) rotateY(-3deg) rotateX(0deg); }
+}
+@keyframes parallax-tilt-r {
+  0%, 100% { transform: perspective(800px) rotateY(6deg) rotateX(-2deg); }
+  50%      { transform: perspective(800px) rotateY(3deg) rotateX(0deg); }
+}
+
+/* === 6. zoom-3d-pop: scale + rotateX 3D 弹出 === */
+@keyframes zoom-3d-pop {
+  from { opacity: 0; transform: perspective(800px) scale(0.3) rotateX(-30deg); }
+  to   { opacity: 1; transform: perspective(800px) scale(1) rotateX(0deg); }
+}
+
+/* === 7. page-curl: 角落卷曲效果 (右上角) === */
+@keyframes page-curl {
+  0%, 100% { transform: perspective(800px) rotateY(0deg) rotateX(0deg); clip-path: inset(0 0 0 0); }
+  50%      { transform: perspective(800px) rotateY(8deg) rotateX(-4deg); clip-path: inset(0 0 8% 0); }
+}
+
+/* === 8. magnetic-pull: 元素被"吸"向观察者 === */
+@keyframes magnetic-pull {
+  0%, 100% { transform: perspective(1000px) translateZ(0px) scale(1); }
+  50%      { transform: perspective(1000px) translateZ(40px) scale(1.05); }
+}
+
+/* === 9. depth-rise: translateZ 上升 (深度感) === */
+@keyframes depth-rise {
+  from { opacity: 0; transform: perspective(800px) translateZ(-200px) translateY(40px); }
+  to   { opacity: 1; transform: perspective(800px) translateZ(0px) translateY(0); }
+}
+
+/* === 10. layer-drift: 多层视差漂移 (前景快/背景慢) === */
+@keyframes layer-drift-fg {
+  from { transform: translate3d(0, 40px, 0); opacity: 0; }
+  to   { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+@keyframes layer-drift-bg {
+  from { transform: translate3d(0, -20px, -40px) scale(1.1); opacity: 0; }
+  to   { transform: translate3d(0, 0, -40px) scale(1.1); opacity: 0.5; }
+}
+
+/* === 11. card-stack-in: 3D 卡片堆叠入场 === */
+@keyframes card-stack-in {
+  from { opacity: 0; transform: perspective(1200px) translateZ(-100px) rotateX(20deg) translateY(60px); }
+  to   { opacity: 1; transform: perspective(1200px) translateZ(0) rotateX(0) translateY(0); }
+}
+
+/* === 12. dome-rotate: 穹顶旋转 (focal 元素) === */
+@keyframes dome-rotate {
+  0%   { transform: perspective(800px) rotateX(0deg) rotateY(0deg); }
+  100% { transform: perspective(800px) rotateX(360deg) rotateY(180deg); }
+}
+
+/* === 13. door-open-left: 3D 左开门 === */
+@keyframes door-open-left {
+  from { transform: perspective(1000px) rotateY(0deg); transform-origin: right center; }
+  to   { transform: perspective(1000px) rotateY(-30deg); transform-origin: right center; }
+}
+
+/* === 14. door-open-right: 3D 右开门 === */
+@keyframes door-open-right {
+  from { transform: perspective(1000px) rotateY(0deg); transform-origin: left center; }
+  to   { transform: perspective(1000px) rotateY(30deg); transform-origin: left center; }
+}
+
+/* === 15. text-extrude: 文字 3D 挤出 (stacked text-shadow) === */
+@keyframes text-extrude-in {
+  from { opacity: 0; text-shadow: 0 0 0 var(--accent), 0 0 0 var(--accent); }
+  to   { opacity: 1; text-shadow: 1px 1px 0 var(--accent), 2px 2px 0 var(--accent), 3px 3px 0 var(--accent); }
+}
+
+/* === reduced-motion: a11y 守护 === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

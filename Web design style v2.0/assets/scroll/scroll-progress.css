@@ -1,0 +1,70 @@
+/* ============================================
+   WebPPT Maker v3.16 · Scroll Progress (滚动进度)
+   ============================================
+   应用:
+   - 顶部进度条 (阅读进度)
+   - nav scroll-aware (滚动后变色)
+   - scroll spy (nav 高亮当前 section)
+   ============================================ */
+
+/* === 顶部进度条 === */
+[data-scroll-progress] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: var(--scroll-progress, 0%);
+  background: var(--scroll-progress-color, oklch(55% 0.22 280));
+  z-index: 9999;
+  pointer-events: none;
+  transition: width 100ms linear;
+}
+
+/* === Scroll-aware nav === */
+[data-scroll-aware] {
+  /* 默认透明 */
+  transition: background 250ms var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+              box-shadow 250ms var(--ease-standard),
+              border-color 250ms var(--ease-standard);
+}
+
+[data-scroll-aware][data-scrolled="true"] {
+  /* 滚动后实色 + 阴影 */
+  background: oklch(99% 0.003 0 / 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid oklch(92% 0.005 0);
+}
+
+/* === Scroll snap (可选, 慎用) === */
+[data-scroll-snap="y"] {
+  scroll-snap-type: y proximity;
+}
+
+[data-scroll-snap="y"] > section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* === 视差 (性能敏感, 默认禁用) === */
+[data-parallax] {
+  /* 容器 */
+  position: relative;
+  overflow: hidden;
+}
+
+[data-parallax-layer] {
+  /* 层级, 由 JS 控制 transform: translateY() */
+  will-change: transform;
+}
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-progress] {
+    transition: none;
+  }
+  [data-scroll-aware] {
+    transition: none;
+  }
+}

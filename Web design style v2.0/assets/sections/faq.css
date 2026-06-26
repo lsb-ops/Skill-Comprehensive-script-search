@@ -1,0 +1,100 @@
+/* ============================================
+   WebPPT Maker v3.16 · Section: FAQ (常见问题)
+   ============================================
+   真实参考: Stripe FAQ, Linear FAQ, Vercel FAQ
+   关键能力:
+   - 手风琴 (accordion) 展开/收起
+   - 键盘可访问 (Enter/Space)
+   - 搜索友好 (SEO 结构化数据)
+   ============================================ */
+
+[data-section="faq"] {
+  padding: var(--space-9, 96px) var(--space-5, 24px);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+[data-section="faq"] .faq-header {
+  text-align: center;
+  margin-bottom: var(--space-8, 64px);
+}
+
+[data-section="faq"] .faq-title {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-4, 16px);
+}
+
+[data-section="faq"] .faq-sub {
+  color: oklch(45% 0.015 250);
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+[data-section="faq"] .faq-list {
+  /* 每项之间分隔线 */
+  border-top: 1px solid oklch(92% 0.005 0);
+}
+
+[data-section="faq"] .faq-item {
+  border-bottom: 1px solid oklch(92% 0.005 0);
+}
+
+[data-section="faq"] .faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: var(--space-5, 24px) 0;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: oklch(15% 0.015 250);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4, 16px);
+  transition: color 150ms;
+}
+
+[data-section="faq"] .faq-question:hover {
+  color: oklch(35% 0.18 280);
+}
+
+[data-section="faq"] .faq-question::after {
+  content: "+";
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: transform 200ms var(--ease-standard);
+  flex-shrink: 0;
+}
+
+[data-section="faq"] .faq-item[data-open="true"] .faq-question::after {
+  content: "−";
+}
+
+[data-section="faq"] .faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 300ms var(--ease-standard);
+}
+
+[data-section="faq"] .faq-item[data-open="true"] .faq-answer {
+  max-height: 800px;  /* 足够大 */
+}
+
+[data-section="faq"] .faq-answer-content {
+  padding: 0 0 var(--space-5, 24px);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: oklch(40% 0.015 250);
+}
+
+/* 焦点环 (a11y) */
+[data-section="faq"] .faq-question:focus-visible {
+  outline: 2px solid oklch(55% 0.22 280);
+  outline-offset: 4px;
+  border-radius: 4px;
+}

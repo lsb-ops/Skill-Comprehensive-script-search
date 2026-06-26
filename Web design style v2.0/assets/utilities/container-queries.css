@@ -1,0 +1,81 @@
+/* ============================================
+   WebPPT Maker v3.19.2 · Container Queries (CSS @container)
+   ============================================
+   真实开源出处:
+   - CSS @container 规范: w3.org/TR/css-contain-3/ (Baseline 2023, 94% 支持)
+   - Tailwind v4 @container 语法: @md: @lg: (v4 新前缀)
+   - shadcn v4 globals.css: 不使用 @container, 而用 3xl:max-w-screen-2xl 断点
+     (这是 shadcn 真实选择; 但 @container 仍是组件级响应式首选)
+
+   何时用 @container vs @media:
+   - @container: 组件级 (sidebar 缩放时, 内部 grid 重排)
+   - @media: viewport 级 (整个页面布局变化)
+
+   ============================================ */
+
+/* === 容器类型 (让元素成为 query container) === */
+.container-type-size     { container-type: inline-size; container-name: size; }
+.container-type-card     { container-type: inline-size; container-name: card; }
+.container-type-sidebar  { container-type: inline-size; container-name: sidebar; }
+.container-type-main     { container-type: inline-size; container-name: main; }
+
+/* === 语义化 container (shadcn 风格的 .container-card 等) === */
+@utility container-card {
+  container-type: inline-size;
+  container-name: card;
+}
+
+@utility container-sidebar {
+  container-type: inline-size;
+  container-name: sidebar;
+}
+
+@utility container-main {
+  container-type: inline-size;
+  container-name: main;
+}
+
+/* === 通用 @container queries (基于 container-name 响应) === */
+
+/* 卡片: < 300px 单列, >= 300px 双列 */
+@container card (min-width: 300px) {
+  .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container card (min-width: 500px) {
+  .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@container card (min-width: 800px) {
+  .card-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* 侧栏: < 200px 折叠, >= 200px 展开, >= 400px 双列 */
+@container sidebar (min-width: 200px) {
+  .sidebar-content { padding: var(--space-4, 16px); }
+}
+@container sidebar (min-width: 400px) {
+  .sidebar-content { padding: var(--space-5, 24px); display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+}
+
+/* 主区: < 600px 单列, >= 600px 双列, >= 900px 三列 */
+@container main (min-width: 600px) {
+  .main-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container main (min-width: 900px) {
+  .main-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* === 通用 @container size (无命名 container) === */
+@container (min-width: 400px) {
+  .responsive-cols-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+}
+@container (min-width: 700px) {
+  .responsive-cols-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+}
+
+/* === Demo: 响应式卡片 === */
+.card-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 16px;
+}

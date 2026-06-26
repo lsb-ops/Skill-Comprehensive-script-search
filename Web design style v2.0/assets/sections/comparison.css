@@ -1,0 +1,93 @@
+/* ============================================
+   WebPPT Maker v3.16 · Section: Comparison (对比)
+   ============================================
+   真实参考: Stripe pricing compare, Vercel pricing, Linear vs others
+   关键能力:
+   - 通常是表格 (vs 单页对称布局)
+   - 响应式 (移动端可横向滚动)
+   - 高亮某列 (推荐)
+   ============================================ */
+
+[data-section="comparison"] {
+  padding: var(--space-9, 96px) var(--space-5, 24px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+[data-section="comparison"] .comparison-header {
+  text-align: center;
+  margin-bottom: var(--space-8, 64px);
+}
+
+[data-section="comparison"] .comparison-title {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-4, 16px);
+}
+
+/* 表格容器: 移动端横向滚动 */
+[data-section="comparison"] .comparison-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-section="comparison"] .comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+[data-section="comparison"] .comparison-table thead {
+  border-bottom: 2px solid oklch(85% 0.005 0);
+}
+
+[data-section="comparison"] .comparison-table th {
+  padding: var(--space-4, 16px) var(--space-5, 24px);
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  vertical-align: bottom;
+}
+
+[data-section="comparison"] .comparison-table th[data-highlight="true"] {
+  background: oklch(96% 0.015 280);
+  position: relative;
+}
+
+[data-section="comparison"] .comparison-table th[data-highlight="true"]::before {
+  content: "推荐";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  background: oklch(55% 0.22 280);
+  color: oklch(98% 0.005 0);
+  border-radius: 4px;
+}
+
+[data-section="comparison"] .comparison-table td {
+  padding: var(--space-4, 16px) var(--space-5, 24px);
+  border-bottom: 1px solid oklch(95% 0.005 0);
+  font-size: 0.9375rem;
+  color: oklch(35% 0.015 250);
+}
+
+[data-section="comparison"] .comparison-table td[data-highlight="true"] {
+  background: oklch(98% 0.008 280);
+  font-weight: 500;
+}
+
+[data-section="comparison"] .check {
+  color: oklch(50% 0.18 145);
+  font-weight: 600;
+}
+
+[data-section="comparison"] .cross {
+  color: oklch(60% 0.015 0);
+  opacity: 0.4;
+}

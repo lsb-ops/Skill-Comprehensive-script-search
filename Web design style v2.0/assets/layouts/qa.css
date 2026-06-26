@@ -1,0 +1,68 @@
+/* ============================================
+   Layout: 问答 (qa) — Q + A 上下排列
+   ============================================ */
+
+.layout-qa {
+  align-items: stretch;
+  text-align: left;
+  gap: var(--space-md);
+}
+
+.layout-qa .qa-question,
+.layout-qa .qa-answer {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+}
+
+.layout-qa[data-mode="portrait"] .qa-question,
+.layout-qa[data-mode="portrait"] .qa-answer {
+  width: 90%;
+}
+
+.layout-qa[data-mode="landscape"] .qa-question,
+.layout-qa[data-mode="landscape"] .qa-answer {
+  width: 80%;
+  max-width: 1000px;
+}
+
+.layout-qa .qa-question {
+  background: var(--bg-secondary);
+}
+
+.layout-qa .qa-answer {
+  background: rgba(255, 59, 48, 0.08);
+}
+
+.layout-qa .qa-tag {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 56px;
+  height: 56px;
+  line-height: 56px;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.layout-qa .qa-answer .qa-tag {
+  background: var(--text-secondary);
+}
+
+.layout-qa .qa-question .title {
+  font-size: var(--font-size-h2);
+  flex: 1;
+  text-align: left;
+  margin: 0;
+}
+
+.layout-qa .qa-answer .body {
+  flex: 1;
+  margin: 0;
+  text-align: left;
+}

@@ -1,0 +1,188 @@
+{
+  "schemes": {
+    "极简黑白": {
+      "name_zh": "极简黑白",
+      "name_en": "Minimal Black & White",
+      "bg_primary": "#FFFFFF",
+      "bg_secondary": "#F5F5F5",
+      "text_primary": "#000000",
+      "text_secondary": "#666666",
+      "accent": "#FF3B30",
+      "border": "#E5E5E5",
+      "shadow": "0 4px 12px rgba(0,0,0,0.08)",
+      "适用风格": [
+        "现代简约",
+        "知识科普"
+      ],
+      "mood": "clean, professional, minimal",
+      "description": "经典黑白红配色，干净专业，适合通用场景"
+    },
+    "莫兰迪": {
+      "name_zh": "莫兰迪",
+      "name_en": "Morandi",
+      "bg_primary": "#FAF6F0",
+      "bg_secondary": "#E8DDD3",
+      "text_primary": "#3D3D3D",
+      "text_secondary": "#7D7468",
+      "accent": "#D67D7D",
+      "border": "#D4C9BC",
+      "shadow": "0 4px 12px rgba(181,168,154,0.15)",
+      "适用风格": [
+        "温暖治愈",
+        "故事叙述"
+      ],
+      "mood": "warm, soft, healing",
+      "description": "低饱和度暖色系，适合情感/故事类内容"
+    },
+    "赛博朋克": {
+      "name_zh": "赛博朋克",
+      "name_en": "Cyberpunk",
+      "bg_primary": "#0F0F23",
+      "bg_secondary": "#1A1A3E",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#A0A0C0",
+      "accent": "#00F0FF",
+      "border": "#2A2A5E",
+      "shadow": "0 4px 16px rgba(0,240,255,0.3)",
+      "适用风格": [
+        "科技未来",
+        "AI/数码"
+      ],
+      "mood": "futuristic, neon, tech",
+      "description": "黑底霓虹色，适合科技/AI/数码内容"
+    },
+    "暖阳橙": {
+      "name_zh": "暖阳橙",
+      "name_en": "Warm Orange",
+      "bg_primary": "#FFF8F0",
+      "bg_secondary": "#F7C59F",
+      "text_primary": "#3D2817",
+      "text_secondary": "#7D5C3D",
+      "accent": "#FF6B35",
+      "border": "#F0DCC0",
+      "shadow": "0 4px 12px rgba(255,107,53,0.15)",
+      "适用风格": [
+        "故事叙述",
+        "温暖治愈"
+      ],
+      "mood": "warm, energetic, narrative",
+      "description": "阳光橙色系，适合个人叙事/励志内容"
+    },
+    "深海蓝": {
+      "name_zh": "深海蓝",
+      "name_en": "Deep Sea",
+      "bg_primary": "#F6F9FC",
+      "bg_secondary": "#E1ECF4",
+      "text_primary": "#0A2540",
+      "text_secondary": "#4A6B8A",
+      "accent": "#00A4EF",
+      "border": "#C5D5E5",
+      "shadow": "0 4px 12px rgba(10,37,64,0.12)",
+      "适用风格": [
+        "知识科普",
+        "教育"
+      ],
+      "mood": "professional, educational, calm",
+      "description": "深蓝浅底，专业感强，适合知识科普"
+    },
+    "森林绿": {
+      "name_zh": "森林绿",
+      "name_en": "Forest Green",
+      "bg_primary": "#F4F1DE",
+      "bg_secondary": "#E5E2C9",
+      "text_primary": "#1A4D3A",
+      "text_secondary": "#5A7A65",
+      "accent": "#FFB627",
+      "border": "#D4D2BA",
+      "shadow": "0 4px 12px rgba(26,77,58,0.15)",
+      "适用风格": [
+        "产品介绍",
+        "生活方式"
+      ],
+      "mood": "natural, organic, premium",
+      "description": "森林绿 + 金色，自然高级感，适合产品/种草"
+    },
+    "高对比暗色": {
+      "name_zh": "高对比暗色",
+      "name_en": "High Contrast Dark",
+      "bg_primary": "#0F1419",
+      "bg_secondary": "#1A1F2E",
+      "text_primary": "#F5F5F5",
+      "text_secondary": "#A0A0B0",
+      "accent": "#FF6B5B",
+      "border": "#2A2F3E",
+      "shadow": "0 4px 16px rgba(0,0,0,0.5)",
+      "适用风格": [
+        "现代极简",
+        "专业演示"
+      ],
+      "mood": "dark, professional, focus",
+      "description": "深色高对比，适合演示场景和 OLED 屏幕"
+    },
+    "樱花粉": {
+      "name_zh": "樱花粉",
+      "name_en": "Cherry Blossom",
+      "bg_primary": "#FFF5F7",
+      "bg_secondary": "#FFE0E6",
+      "text_primary": "#5C3A4A",
+      "text_secondary": "#8B6A78",
+      "accent": "#E91E63",
+      "border": "#F5C9D2",
+      "shadow": "0 4px 12px rgba(233,30,99,0.15)",
+      "适用风格": [
+        "生活方式",
+        "女性主题"
+      ],
+      "mood": "soft, romantic, gentle",
+      "description": "樱花柔粉，温柔女性化，适合生活美妆内容"
+    },
+    "莫兰迪II": {
+      "name_zh": "莫兰迪II",
+      "name_en": "Morandi II (Sage)",
+      "bg_primary": "#F2F4F0",
+      "bg_secondary": "#DDE3D8",
+      "text_primary": "#3D4A40",
+      "text_secondary": "#7A8478",
+      "accent": "#A8B89E",
+      "border": "#C5CFC0",
+      "shadow": "0 4px 12px rgba(168,184,158,0.18)",
+      "适用风格": [
+        "自然平静",
+        "生活美学"
+      ],
+      "mood": "sage, calm, balanced",
+      "description": "莫兰迪绿系, 自然平静, 适合健康/养生"
+    },
+    "商务深蓝": {
+      "name_zh": "商务深蓝",
+      "name_en": "Business Navy",
+      "bg_primary": "#FFFFFF",
+      "bg_secondary": "#F0F4F8",
+      "text_primary": "#0A1929",
+      "text_secondary": "#4A5568",
+      "accent": "#1A365D",
+      "border": "#CBD5E0",
+      "shadow": "0 4px 12px rgba(10,25,41,0.15)",
+      "适用风格": [
+        "商业汇报",
+        "金融数据"
+      ],
+      "mood": "corporate, navy, serious",
+      "description": "商务深蓝, 专业严谨, 适合企业/年报"
+    }
+  },
+  "auto_match": {
+    "现代简约": "极简黑白",
+    "温暖治愈": "莫兰迪",
+    "科技未来": "赛博朋克",
+    "故事叙述": "暖阳橙",
+    "知识科普": "深海蓝",
+    "产品介绍": "森林绿",
+    "现代极简": "高对比暗色",
+    "生活方式": "樱花粉",
+    "自然平静": "莫兰迪II",
+    "商业汇报": "商务深蓝",
+    "金融数据": "商务深蓝",
+    "企业汇报": "商务深蓝"
+  }
+}

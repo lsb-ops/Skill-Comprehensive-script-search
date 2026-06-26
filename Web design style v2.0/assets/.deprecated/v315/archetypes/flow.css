@@ -1,0 +1,162 @@
+/* ============================================
+   WebPPT Maker v3.15 · Flow Archetype
+   ============================================
+   设计参考: Linear changelog, Vercel docs, Stripe onboarding
+   核心原则:
+   - 步骤是序列, 不是平铺
+   - 视觉重量沿时间轴分布
+   - 当前步骤高亮, 其余弱化
+   - 进度暗示 (已完成/进行中/未开始)
+   ============================================ */
+
+/* === 基础: 时间轴容器 === */
+[data-archetype="flow"] {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-8, 64px) var(--space-7, 48px);
+  background: var(--arch-flow-bg, oklch(99% 0.005 0));
+  color: var(--arch-flow-text, oklch(15% 0.015 250));
+  min-height: 100vh;
+}
+
+/* === 标题 === */
+[data-archetype="flow"] .flow-title {
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin: 0 0 var(--space-7, 48px);
+}
+
+/* === 时间轴线 (贯穿) === */
+[data-archetype="flow"] .flow-track {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: start;
+  gap: var(--space-5, 24px);
+}
+
+[data-archetype="flow"] .flow-track::before {
+  /* 横线 */
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.15;
+}
+
+/* === 单个步骤 === */
+[data-archetype="flow"] .flow-step {
+  position: relative;
+  padding-top: var(--space-7, 48px);
+}
+
+/* === 步骤编号 (圆点) === */
+[data-archetype="flow"] .flow-step::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: oklch(98% 0.005 0);
+  border: 2px solid currentColor;
+  opacity: 0.3;
+}
+
+/* === 已完成: 实心圆点 === */
+[data-archetype="flow"] .flow-step[data-state="done"]::before {
+  background: currentColor;
+  opacity: 1;
+}
+
+/* === 进行中: 脉冲圆点 === */
+[data-archetype="flow"] .flow-step[data-state="active"]::before {
+  background: var(--arch-flow-accent, oklch(55% 0.22 280));
+  border-color: var(--arch-flow-accent, oklch(55% 0.22 280));
+  opacity: 1;
+  box-shadow: 0 0 0 6px oklch(55% 0.22 280 / 0.15);
+  animation: flow-pulse 2000ms ease-in-out infinite;
+}
+
+@keyframes flow-pulse {
+  0%, 100% { box-shadow: 0 0 0 6px oklch(55% 0.22 280 / 0.15); }
+  50%      { box-shadow: 0 0 0 12px oklch(55% 0.22 280 / 0.05); }
+}
+
+/* === 步骤序号 === */
+[data-archetype="flow"] .flow-step-number {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
+  display: block;
+  margin-bottom: var(--space-3, 12px);
+}
+
+/* === 步骤标题 === */
+[data-archetype="flow"] .flow-step-title {
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 var(--space-3, 12px);
+  color: inherit;
+}
+
+[data-archetype="flow"] .flow-step[data-state="upcoming"] .flow-step-title {
+  opacity: 0.4;
+}
+
+[data-archetype="flow"] .flow-step[data-state="active"] .flow-step-title {
+  font-weight: 600;
+}
+
+/* === 步骤描述 === */
+[data-archetype="flow"] .flow-step-desc {
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.6;
+  max-width: 28ch;
+}
+
+[data-archetype="flow"] .flow-step[data-state="upcoming"] .flow-step-desc {
+  opacity: 0.3;
+}
+
+/* === 入场: 步骤依次出现 === */
+[data-archetype="flow"] .flow-step {
+  opacity: 0;
+  animation: flow-step-in 600ms var(--ease-emphasized-decelerate) forwards;
+}
+[data-archetype="flow"] .flow-step:nth-child(1) { animation-delay: 100ms; }
+[data-archetype="flow"] .flow-step:nth-child(2) { animation-delay: 250ms; }
+[data-archetype="flow"] .flow-step:nth-child(3) { animation-delay: 400ms; }
+[data-archetype="flow"] .flow-step:nth-child(4) { animation-delay: 550ms; }
+[data-archetype="flow"] .flow-step:nth-child(5) { animation-delay: 700ms; }
+[data-archetype="flow"] .flow-step:nth-child(6) { animation-delay: 850ms; }
+
+@keyframes flow-step-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-archetype="flow"] .flow-step {
+    animation: none;
+    opacity: 1;
+  }
+  [data-archetype="flow"] .flow-step[data-state="upcoming"] { opacity: 0.5; }
+  [data-archetype="flow"] .flow-step[data-state="active"]::before { animation: none; }
+}

@@ -1,0 +1,55 @@
+# 通用分镜头提示词生成 Skill - 默认配置
+
+# 基础配置
+skill:
+  version: "1.0"
+  language: "zh-CN"
+
+# 输入配置
+input:
+  script_path: ""            # 剧本文件路径
+  style: "auto"              # auto=自动检测 | 古早霸总/都市情感/古装江湖/科幻未来等
+  ep: "EP01"                 # 集数
+  output_dir: "./skill-output"  # 输出目录
+
+# 输出配置
+output:
+  prompt_min_chars: 2000     # 最小字数
+  prompt_max_chars: 2400     # 最大字数
+  prompt_target_chars: 2200  # 目标字数
+  create_readme: true        # 是否生成 README
+  create_continuity_report: true  # 是否生成校验报告
+
+# 视频参数
+video:
+  aspect_ratio: "9:16"       # 9:16/16:9/1:1
+  total_duration: 80         # 总时长（秒）
+  mirror_min_duration: 5     # 单镜最小时长
+  mirror_max_duration: 12    # 单镜最大时长
+  fps: 24                    # 帧率
+
+# AI 平台
+platform:
+  name: "即梦"               # 即梦/可灵/Sora/Runway
+  single_clip_max: 10        # 单次生成最大秒数
+
+# 风格自动检测
+style_detection:
+  enabled: true
+  fallback_style: "古早霸总"  # 未识别时使用
+
+# CUE 配置
+cue:
+  count: 3                   # 戏剧断点数量
+  types:                     # CUE 类型
+    - "开篇风格切换"
+    - "中段教化升级"
+    - "升华"
+
+# 校验
+validation:
+  check_continuity: true     # 检查站位/道具
+  check_word_count: true     # 检查字数
+  check_cue: true            # 检查 CUE
+  check_style_consistency: true  # 检查风格一致性
+  strict: false              # 严格模式（发现问题立即终止）

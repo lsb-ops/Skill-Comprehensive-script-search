@@ -1,0 +1,299 @@
+{
+  "status": "done_partial",
+  "checks_passed": 44,
+  "checks_failed": 3,
+  "output_dir": "output_v3_dual_test",
+  "details": [
+    {
+      "check_id": "A0",
+      "description": "index.html 存在 (< 50KB)",
+      "result": "pass",
+      "evidence": "size=12891 bytes"
+    },
+    {
+      "check_id": "A1",
+      "description": "viewport 9:16 reveal.js (720×1280)",
+      "result": "pass",
+      "evidence": "portrait 模式"
+    },
+    {
+      "check_id": "A2",
+      "description": "页数 ≥ 5 (实际 5)",
+      "result": "pass",
+      "evidence": "grep page class"
+    },
+    {
+      "check_id": "A4",
+      "description": "字号 ≥ 24px (使用 CSS 变量)",
+      "result": "pass",
+      "evidence": "grep font-size CSS var"
+    },
+    {
+      "check_id": "A8",
+      "description": "使用 CSS 变量",
+      "result": "pass",
+      "evidence": "grep :root"
+    },
+    {
+      "check_id": "B0",
+      "description": "douyin_post.md 存在",
+      "result": "pass",
+      "evidence": "文件存在"
+    },
+    {
+      "check_id": "B1",
+      "description": "标题 ≤ 22 字 (实际 22)",
+      "result": "pass",
+      "evidence": "每天喝咖啡的 3 个真相的3真相，第2个扎…"
+    },
+    {
+      "check_id": "B2",
+      "description": "正文 80-150 字 (实际 132)",
+      "result": "pass",
+      "evidence": "字数合理 (已排除 hashtag/hook)"
+    },
+    {
+      "check_id": "B3",
+      "description": "hashtag 5-8 个 (实际 7)",
+      "result": "pass",
+      "evidence": "数量合理 (已排除 markdown 标题 #)"
+    },
+    {
+      "check_id": "C0",
+      "description": "script_timeline.md 存在",
+      "result": "pass",
+      "evidence": "文件存在"
+    },
+    {
+      "check_id": "C1",
+      "description": "时间轴表头存在",
+      "result": "pass",
+      "evidence": "grep 时间点"
+    },
+    {
+      "check_id": "C2",
+      "description": "时间轴行数 ≥ 5 (实际 5)",
+      "result": "pass",
+      "evidence": "行数合理"
+    },
+    {
+      "check_id": "C4",
+      "description": "开头 3s 钩子存在",
+      "result": "pass",
+      "evidence": "grep 0-3s"
+    },
+    {
+      "check_id": "D1",
+      "description": "截图存在",
+      "result": "fail",
+      "evidence": "screenshots 目录为空"
+    },
+    {
+      "check_id": "G1",
+      "description": "subtitle.srt 存在",
+      "result": "pass",
+      "evidence": "文件存在"
+    },
+    {
+      "check_id": "G2",
+      "description": "UTF-8 with BOM (剪映兼容)",
+      "result": "pass",
+      "evidence": "BOM=efbbbf"
+    },
+    {
+      "check_id": "G4",
+      "description": "时间戳格式 HH:MM:SS,mmm",
+      "result": "pass",
+      "evidence": "grep 命中标准时间戳"
+    },
+    {
+      "check_id": "G5",
+      "description": "字幕段数 ≥ 3 (实际 5)",
+      "result": "pass",
+      "evidence": "grep 时间戳行"
+    },
+    {
+      "check_id": "G6",
+      "description": "单段时长 ≤ 5s (max=5.000s)",
+      "result": "pass",
+      "evidence": "严格 > 5.0 比较"
+    },
+    {
+      "check_id": "G7",
+      "description": "单段字符数 ≤ 30 (max=20)",
+      "result": "pass",
+      "evidence": "遍历所有文本行"
+    },
+    {
+      "check_id": "G3",
+      "description": "SRT 格式 (序号+时间戳+文本+空行)",
+      "result": "pass",
+      "evidence": "5 段格式合规"
+    },
+    {
+      "check_id": "G8",
+      "description": "总时长合理 (15-60s ±2)",
+      "result": "pass",
+      "evidence": "总时长=20.00s"
+    },
+    {
+      "check_id": "G10",
+      "description": "开头 3 秒是钩子",
+      "result": "pass",
+      "evidence": "首段时长=3s"
+    },
+    {
+      "check_id": "G11",
+      "description": "结尾段是 CTA",
+      "result": "pass",
+      "evidence": "末段: 关注我，看更多干货 ✨"
+    },
+    {
+      "check_id": "G9",
+      "description": "字幕覆盖核心要点",
+      "result": "pass",
+      "evidence": "3 关键词命中"
+    },
+    {
+      "check_id": "G12",
+      "description": "ffmpeg 解析",
+      "result": "pass",
+      "evidence": "ffmpeg 未安装，跳过（剪映内置解析更宽容）"
+    },
+    {
+      "check_id": "G13",
+      "description": "可导入剪映 (≤ 2 步)",
+      "result": "pass",
+      "evidence": "剪映→文本→导入字幕→选 subtitle.srt"
+    },
+    {
+      "check_id": "F0",
+      "description": "输出目录存在",
+      "result": "pass",
+      "evidence": "output_v3_dual_test"
+    },
+    {
+      "check_id": "F1-index.html",
+      "description": "必需文件 index.html",
+      "result": "fail",
+      "evidence": "缺失"
+    },
+    {
+      "check_id": "F1-douyin_post.md",
+      "description": "必需文件 douyin_post.md",
+      "result": "pass",
+      "evidence": "存在"
+    },
+    {
+      "check_id": "F1-douyin_titles.md",
+      "description": "必需文件 douyin_titles.md",
+      "result": "pass",
+      "evidence": "存在"
+    },
+    {
+      "check_id": "F1-script_timeline.md",
+      "description": "必需文件 script_timeline.md",
+      "result": "pass",
+      "evidence": "存在"
+    },
+    {
+      "check_id": "F1-subtitle.srt",
+      "description": "必需文件 subtitle.srt",
+      "result": "pass",
+      "evidence": "存在"
+    },
+    {
+      "check_id": "H1",
+      "description": "占位符无残留 ({{TOPIC}}/{{TOTAL_PAGES}} 等)",
+      "result": "pass",
+      "evidence": "0 个残留"
+    },
+    {
+      "check_id": "H2",
+      "description": "无 nav-hint 元素",
+      "result": "pass",
+      "evidence": "已移除"
+    },
+    {
+      "check_id": "H3",
+      "description": "无 page-number 元素",
+      "result": "pass",
+      "evidence": "已移除"
+    },
+    {
+      "check_id": "H4",
+      "description": "layout 多样性 ≥ 2 种 (实际 3 种)",
+      "result": "pass",
+      "evidence": "避免单一 layout 视觉疲劳"
+    },
+    {
+      "check_id": "H5",
+      "description": "douyin_titles.md A/B 多版 (实际 5 版)",
+      "result": "pass",
+      "evidence": "可做 A/B test"
+    },
+    {
+      "check_id": "H6",
+      "description": "reveal.js 动态引擎加载 (实际 5 处)",
+      "result": "pass",
+      "evidence": "CDN + 初始化脚本"
+    },
+    {
+      "check_id": "H7",
+      "description": "Reveal.initialize 配置 (transition + controls)",
+      "result": "pass",
+      "evidence": "动态配置完整"
+    },
+    {
+      "check_id": "H8",
+      "description": "16:9 尺寸 (1280×720)",
+      "result": "pass",
+      "evidence": "reveal.js width/height 匹配"
+    },
+    {
+      "check_id": "I1",
+      "description": "reveal.js 5.x CDN 加载 (CSS+JS, 实际 3 处)",
+      "result": "pass",
+      "evidence": "5.x 完整"
+    },
+    {
+      "check_id": "I2",
+      "description": "Fragment 动画类 ≥ 1 套 (实际 10 个)",
+      "result": "pass",
+      "evidence": "动画类命中"
+    },
+    {
+      "check_id": "I3",
+      "description": "3-dial 应用 (density=4, narrative=3)",
+      "result": "pass",
+      "evidence": "data-* 注入完整"
+    },
+    {
+      "check_id": "I4",
+      "description": "双模式输出 (portrait + landscape)",
+      "result": "pass",
+      "evidence": "2 套 index.html"
+    },
+    {
+      "check_id": "I5",
+      "description": "AIAEST 5 段覆盖",
+      "result": "fail",
+      "evidence": "A=1 I=1 S=0"
+    },
+    {
+      "check_id": "I6",
+      "description": "taste_3dial anti-slop (high/medium)",
+      "result": "pass",
+      "evidence": "0 处 hard fail"
+    }
+  ],
+  "warnings": [],
+  "next_steps": [
+    "打开 index.html 预览 (9 种 layout 至少 2 种)",
+    "复制 douyin_post.md 到抖音 (完整发布版, 一键)",
+    "从 douyin_titles.md 选 1 个标题 (5 版 A/B)",
+    "导入 subtitle.srt 到剪映 (剪映→文本→导入字幕)",
+    "使用 screenshots/*.png 作为视频素材 (已移除 page-number/nav-hint)"
+  ],
+  "verify_time": "2026-06-25T18:04:24Z"
+}

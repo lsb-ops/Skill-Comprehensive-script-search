@@ -1,0 +1,64 @@
+# WebPPT Maker · Test Suite CI
+# Runs all 6 active test suites on push to main and PRs.
+# Expected: 210/210 PASS (v3.16 + v3.17 + v3.18 + v3.19.1 + v3.19.2 + v3.19.3)
+
+name: test
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Python Test Suites (6 × ~30 tests = 210)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache Python deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Run v3.16 (Advanced Templates · 50 tests)
+        run: |
+          python3 tests/test_v316.py
+
+      - name: Run v3.17 (Modal Component · 42 tests)
+        run: |
+          python3 tests/test_v317.py
+
+      - name: Run v3.18 (Portal · 36 tests)
+        run: |
+          python3 tests/test_v318.py
+
+      - name: Run v3.19.1 (MD3 Modal Dimensions · 26 tests)
+        run: |
+          python3 tests/test_v319.py
+
+      - name: Run v3.19.2 (State Variants · 31 tests)
+        run: |
+          python3 tests/test_v3192.py
+
+      - name: Run v3.19.3 (Modal A11y · 25 tests)
+        run: |
+          python3 tests/test_v3193.py
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "All 6 suites must report PASS=210/210."
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "Commit: ${{ github.sha }}"

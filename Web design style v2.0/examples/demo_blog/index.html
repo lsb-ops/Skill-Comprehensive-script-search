@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-type="blog">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>为什么我们重新设计了 Flow 的任务流 · Flow Blog</title>
+  <meta name="description" content="从工具到操作系统的演化: Flow 团队如何用 6 个月重塑任务流的体验。" />
+  <meta property="og:title" content="为什么我们重新设计了 Flow 的任务流" />
+  <meta property="og:description" content="从工具到操作系统的演化" />
+  <meta property="og:type" content="article" />
+
+  <link rel="stylesheet" href="../../assets/design/color-tokens.css" />
+  <link rel="stylesheet" href="../../assets/design/grid-system.css" />
+  <link rel="stylesheet" href="../../assets/motion/easing-tokens.css" />
+
+  <link rel="stylesheet" href="../../assets/pages/blog.css" />
+  <link rel="stylesheet" href="../../assets/sections/nav.css" />
+  <link rel="stylesheet" href="../../assets/sections/footer.css" />
+  <link rel="stylesheet" href="../../assets/components/breadcrumbs.css" />
+  <link rel="stylesheet" href="../../assets/components/carousel.css" />
+  <link rel="stylesheet" href="../../assets/components/toast.css" />
+  <link rel="stylesheet" href="../../assets/components/form.css" />
+
+  <link rel="stylesheet" href="../../assets/scroll/scroll-reveal.css" />
+  <link rel="stylesheet" href="../../assets/scroll/scroll-progress.css" />
+  <link rel="stylesheet" href="../../assets/scroll/sticky.css" />
+  <link rel="stylesheet" href="../../assets/responsive/breakpoints.css" />
+  <link rel="stylesheet" href="../../assets/interaction/states.css" />
+  <link rel="stylesheet" href="../../assets/interaction/touch.css" />
+</head>
+<body>
+
+  <!-- 阅读进度条 -->
+  <div data-scroll-progress class="blog-progress" aria-hidden="true"></div>
+
+  <!-- 顶部导航 -->
+  <nav class="nav" data-scroll-aware>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <span class="nav-logo-mark">⌘</span>
+        <span class="nav-logo-text">Flow Blog</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link-active">设计</a></li>
+        <li><a href="#">工程</a></li>
+        <li><a href="#">AI 研究</a></li>
+        <li><a href="#">团队</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="nav-link-secondary" href="#">订阅</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 面包屑 -->
+  <div data-component="breadcrumbs" data-collapsible="true" data-expanded="false"
+       class="blog-breadcrumbs" aria-label="面包屑">
+    <ol class="breadcrumbs-list">
+      <li class="breadcrumb-item"><a class="breadcrumb-link" href="#">首页</a></li>
+      <li class="breadcrumb-item" aria-hidden="true"><span class="breadcrumb-separator">/</span></li>
+      <li class="breadcrumb-item"><a class="breadcrumb-link" href="#">博客</a></li>
+      <li class="breadcrumb-item" aria-hidden="true"><span class="breadcrumb-separator">/</span></li>
+      <li class="breadcrumb-item"><a class="breadcrumb-link" href="#">设计</a></li>
+      <li class="breadcrumb-item" aria-hidden="true"><span class="breadcrumb-separator">/</span></li>
+      <li class="breadcrumb-item">
+        <button class="breadcrumb-expand" data-breadcrumbs-expand aria-label="展开">…</button>
+      </li>
+      <li class="breadcrumb-item" aria-hidden="true"><span class="breadcrumb-separator">/</span></li>
+      <li class="breadcrumb-item">
+        <span class="breadcrumb-current" aria-current="page">重新设计任务流</span>
+      </li>
+    </ol>
+  </div>
+
+  <article class="blog-article">
+
+    <!-- Header -->
+    <header class="blog-header" data-reveal>
+      <p class="blog-eyebrow">设计 · 6 分钟阅读 · 2026-06-20</p>
+      <h1 class="blog-title">为什么我们重新设计了 Flow 的任务流</h1>
+      <p class="blog-lead">
+        6 个月前, 我们决定把 Flow 从"工具"重做成"操作系统"。
+        这篇文章讲讲我们走过的弯路、最终的设计, 以及为什么"减少用户的决策"比"增加功能"重要 100 倍。
+      </p>
+
+      <footer class="blog-byline">
+        <div class="blog-author">
+          <div class="blog-avatar" aria-hidden="true">Z</div>
+          <div>
+            <div class="blog-author-name">张琪</div>
+            <div class="blog-author-role">设计主管 · Flow</div>
+          </div>
+        </div>
+        <div class="blog-share">
+          <button class="blog-share-btn" data-share="twitter" aria-label="分享到 Twitter">𝕏</button>
+          <button class="blog-share-btn" data-share="linkedin" aria-label="分享到 LinkedIn">in</button>
+          <button class="blog-share-btn" data-share="copy" aria-label="复制链接">🔗</button>
+        </div>
+      </footer>
+    </header>
+
+    <!-- 封面图占位 -->
+    <figure class="blog-cover" data-reveal>
+      <div class="blog-cover-placeholder" aria-hidden="true">
+        <span>封面图占位 · 建议 1200×600</span>
+      </div>
+    </figure>
+
+    <!-- 正文 -->
+    <div class="blog-body">
+
+      <section data-reveal>
+        <h2>起点: 我们做错了什么</h2>
+        <p>
+          2025 年初, Flow 1.0 上线。我们做了所有"正确的事": 鲜艳的色彩、流畅的动画、
+          7 种主题、几十个设置项。用户反馈很好——"看起来很专业"。
+        </p>
+        <p>
+          但 3 个月后, 数据让我们沉默: <strong>30 天留存只有 18%</strong>。
+          用户来了, 注册了, 然后消失了。
+        </p>
+        <blockquote class="blog-quote">
+          "我打开 Flow, 看到 47 个任务, 然后关闭了, 继续刷小红书。"
+          <cite>—— 用户访谈, 2025 年 3 月</cite>
+        </blockquote>
+        <p>
+          我们意识到: <strong>我们做了一个让人有压力、但不能减轻压力的产品</strong>。
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2>新的设计原则</h2>
+        <p>我们关起门来, 用了 2 周, 只讨论"不做什么"。最终定下 4 条原则:</p>
+
+        <ol class="blog-list">
+          <li><strong>隐藏比展示重要</strong> — 默认只显示今日 Top 3, 其他全部折叠。</li>
+          <li><strong>AI 做决策, 人做执行</strong> — 分类、优先级、提醒, 全部交给系统。</li>
+          <li><strong>完成的反馈要可见</strong> — 成长树、连续天数、统计图表。</li>
+          <li><strong>零设置即可上手</strong> — 注册即用, 设置项藏在二级菜单。</li>
+        </ol>
+      </section>
+
+      <section data-reveal>
+        <h2>关键的 3 个交互</h2>
+
+        <h3>1. 全局快捷键捕获 (⌘+Shift+A)</h3>
+        <p>
+          旧版本要点击右上角 "+" 按钮, 弹出 modal。新版本: 任何应用下按快捷键,
+          屏幕顶部滑下一条输入框, 输完回车即归档, 0.8 秒完成。
+        </p>
+
+        <h3>2. 专注模式 (Focus Mode)</h3>
+        <p>
+          不是番茄钟。是一个"什么都不显示"的界面: 大字号显示你现在的任务,
+          周围全黑, 没有时间、没有通知、没有干扰。90 分钟后, 树长高一截。
+        </p>
+
+        <h3>3. 周日自动周报</h3>
+        <p>
+          不是让你填的周报, 是我们自动生成的: 你这周深度工作了多少小时、
+          完成了哪些项目、哪些任务拖延了。最重要的是: <em>下周的 3 个建议</em>。
+        </p>
+      </section>
+
+      <!-- 数据图表占位 -->
+      <section data-reveal>
+        <h2>数据: 留存从 18% 到 64%</h2>
+        <p>新版本上线 3 个月后的数据:</p>
+
+        <figure class="blog-chart-placeholder">
+          <div class="blog-chart-bar">
+            <div class="blog-chart-bar-fill" style="--value: 18%; --label: '1.0';"></div>
+            <div class="blog-chart-label">v1.0 · 18%</div>
+          </div>
+          <div class="blog-chart-bar">
+            <div class="blog-chart-bar-fill blog-chart-bar-success" style="--value: 64%; --label: '2.0';"></div>
+            <div class="blog-chart-label">v2.0 · 64%</div>
+          </div>
+          <div class="blog-chart-axis">30 天留存率 (%)</div>
+        </figure>
+
+        <p>
+          不是因为新功能更多, 是因为用户终于能完成他们想完成的事。
+          完成 → 反馈 → 成就感 → 第二天再打开。这就是飞轮。
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2>学到了什么</h2>
+        <p>给所有做效率工具的团队 3 个建议:</p>
+        <ol>
+          <li><strong>先砍功能</strong>, 再加功能。80% 的功能只有 5% 的用户用。</li>
+          <li><strong>默认配置就是最好的配置</strong>。不要相信用户会改设置。</li>
+          <li><strong>完成比开始重要 100 倍</strong>。奖励完成, 而不是开始。</li>
+        </ol>
+        <p>
+          如果你也在做类似的产品, 欢迎交流。我们的设计文档 (内部 wiki) 已经开源了一部分:
+          <a href="#">flow.app/design-system</a>。
+        </p>
+      </section>
+
+      <!-- 作者行动区 -->
+      <section class="blog-cta-block" data-reveal>
+        <h2>想试试 Flow?</h2>
+        <p>14 天免费试用, 无需信用卡, 30 秒上手。</p>
+        <button class="btn-primary" data-modal-open="#subscribe-modal">免费开始</button>
+      </section>
+
+    </div>
+
+    <!-- 标签 -->
+    <footer class="blog-tags" data-reveal>
+      <span class="blog-tag-label">标签:</span>
+      <a class="blog-tag" href="#">#产品设计</a>
+      <a class="blog-tag" href="#">#效率工具</a>
+      <a class="blog-tag" href="#">#用户体验</a>
+      <a class="blog-tag" href="#">#Flow 团队</a>
+    </footer>
+
+  </article>
+
+  <!-- 相关文章 carousel -->
+  <section class="blog-related" data-reveal>
+    <h2 class="blog-related-title">相关文章</h2>
+
+    <div data-component="carousel"
+         data-slides-per-view="3"
+         data-loop="true"
+         class="blog-related-carousel">
+      <button data-carousel-arrow="prev" aria-label="上一篇">‹</button>
+      <div class="carousel-track" data-carousel-track>
+
+        <article class="carousel-slide blog-related-card">
+          <div class="blog-related-cover" aria-hidden="true">📐</div>
+          <p class="blog-related-eyebrow">设计</p>
+          <h3 class="blog-related-headline">设计系统 v3 上线: OKLCH + 暗色模式</h3>
+          <p class="blog-related-meta">5 分钟阅读 · 2026-06-15</p>
+        </article>
+
+        <article class="carousel-slide blog-related-card">
+          <div class="blog-related-cover" aria-hidden="true">🤖</div>
+          <p class="blog-related-eyebrow">AI 研究</p>
+          <h3 class="blog-related-headline">本地 LLaMA 3 替代云端 GPT-4: 隐私 vs 准确率</h3>
+          <p class="blog-related-meta">8 分钟阅读 · 2026-06-10</p>
+        </article>
+
+        <article class="carousel-slide blog-related-card">
+          <div class="blog-related-cover" aria-hidden="true">⚡</div>
+          <p class="blog-related-eyebrow">工程</p>
+          <h3 class="blog-related-headline">从 React 回到原生 JS: 我们节省了 200KB</h3>
+          <p class="blog-related-meta">10 分钟阅读 · 2026-06-05</p>
+        </article>
+
+        <article class="carousel-slide blog-related-card">
+          <div class="blog-related-cover" aria-hidden="true">🌱</div>
+          <p class="blog-related-eyebrow">团队</p>
+          <h3 class="blog-related-headline">远程团队的 4 个工作流原则</h3>
+          <p class="blog-related-meta">6 分钟阅读 · 2026-05-28</p>
+        </article>
+
+      </div>
+      <button data-carousel-arrow="next" aria-label="下一篇">›</button>
+    </div>
+  </section>
+
+  <!-- 订阅 newsletter -->
+  <section class="blog-newsletter" data-reveal>
+    <h2>订阅我们的 Newsletter</h2>
+    <p>每月 1 封, 只讲设计、工程、AI 的真实经验。无营销。</p>
+
+    <form data-component="form" class="blog-newsletter-form" novalidate>
+      <div class="form-row" style="grid-template-columns: 1fr auto; gap: 12px;">
+        <div class="form-field" style="margin: 0;">
+          <input class="form-input" type="email" name="email"
+                 placeholder="your@email.com" required data-max-length="120" />
+        </div>
+        <button type="submit" class="form-submit" style="width: auto; padding: 10px 24px;">订阅</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="nav-logo-mark">⌘</span>
+        <span>Flow Blog</span>
+        <p class="footer-tagline">讲真话的设计 + 工程博客。</p>
+      </div>
+      <div class="footer-col">
+        <h4>分类</h4>
+        <ul>
+          <li><a href="#">设计</a></li>
+          <li><a href="#">工程</a></li>
+          <li><a href="#">AI 研究</a></li>
+          <li><a href="#">团队</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>关于</h4>
+        <ul>
+          <li><a href="#">关于博客</a></li>
+          <li><a href="#">RSS</a></li>
+          <li><a href="#">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Flow Inc. · 用 <span aria-hidden="true">♥</span> 在杭州制作</p>
+    </div>
+  </footer>
+
+  <!-- Toast 容器 -->
+  <div data-component="toast-container" data-position="bottom-center"></div>
+
+  <!-- Subscribe modal -->
+  <div data-component="modal" id="subscribe-modal" data-dismiss="true" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <button class="modal-close" data-modal-close aria-label="关闭">×</button>
+      <h2 class="modal-title">订阅 Flow</h2>
+      <p class="modal-subtitle">14 天免费, 无需信用卡。</p>
+      <form data-component="form" novalidate>
+        <div class="form-field">
+          <label class="form-label">邮箱 <span class="form-required">*</span></label>
+          <input class="form-input" type="email" name="email" required data-max-length="120" />
+        </div>
+        <button type="submit" class="form-submit">开始试用</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="../../assets/motion/_utils/scroll-observer.js"></script>
+  <script src="../../assets/components/_utils/component-engine.js"></script>
+  <script>
+    // 演示: 分享按钮 + 表单提交
+    document.querySelectorAll('.blog-share-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var type = btn.getAttribute('data-share');
+        var msg = type === 'copy' ? '链接已复制' : '已分享到 ' + type;
+        window.showToast && window.showToast({
+          type: 'success',
+          message: msg,
+          duration: 3000
+        });
+      });
+    });
+
+    document.addEventListener('submit', function (e) {
+      var form = e.target.closest('[data-component="form"]');
+      if (!form) return;
+      setTimeout(function () {
+        if (window.showToast) {
+          window.showToast({
+            type: 'success',
+            title: '订阅成功!',
+            message: '我们会在每月 1 号发送 newsletter。'
+          });
+          var modal = form.closest('[data-component="modal"]');
+          if (modal) window.WebPPTComponent.closeModal(modal);
+          form.reset();
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>

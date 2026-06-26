@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-mode="landscape">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>每天喝咖啡的 5 个真相</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+  <style>
+    /* ============================================
+       WebPPT Maker v3.0 · 16:9 Landscape reveal.js
+       ============================================ */
+    :root {
+      --slide-width: 1280px;
+      --slide-height: 720px;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F5F5F5;
+      --text-primary: #1a1a1a;
+      --text-secondary: #666666;
+      --accent: #FF3B30;
+      --border: #E5E5E5;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+      --font-size-base: 28px;
+      --font-size-h1: 64px;
+      --font-size-h2: 48px;
+      --font-size-body: 28px;
+      --font-size-caption: 20px;
+      --space-xs: 12px;
+      --space-sm: 24px;
+      --space-md: 40px;
+      --space-lg: 64px;
+      --space-xl: 96px;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      margin: 0; padding: 0;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      background: #1a1a1a;
+      color: var(--text-primary);
+    }
+
+    .reveal { width: 100%; height: 100%; }
+    .reveal .slides { width: 100%; height: 100%; text-align: left; }
+
+    .reveal .slides > section {
+      width: var(--slide-width);
+      height: var(--slide-height);
+      padding: var(--space-lg) var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      background: var(--bg-primary);
+      box-sizing: border-box;
+    }
+
+    /* === DENSITY dial: 1-3 = 1.5× 字号 / 4-6 = 默认 / 7-10 = 0.7× 字号 === */
+    body[data-density="low"] { --font-size-base: 42px; --font-size-h1: 96px; --font-size-h2: 72px; --font-size-body: 42px; }
+    body[data-density="default"] { --font-size-base: 28px; --font-size-h1: 64px; --font-size-h2: 48px; --font-size-body: 28px; }
+    body[data-density="high"] { --font-size-base: 20px; --font-size-h1: 48px; --font-size-h2: 36px; --font-size-body: 20px; }
+
+    /* === Layout: card === */
+    .layout-card .card {
+      width: 80%; max-width: 900px;
+      padding: var(--space-lg) var(--space-xl);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+    .layout-card .number {
+      display: inline-block;
+      width: 80px; height: 80px; line-height: 80px;
+      border-radius: 50%;
+      background: var(--accent); color: white;
+      font-size: 40px; font-weight: bold;
+      margin-bottom: var(--space-md);
+    }
+
+    /* === Layout: poster === */
+    .layout-poster { background: var(--accent); color: white; }
+    .layout-poster .big-text { font-size: 96px; font-weight: 900; line-height: 1.2; letter-spacing: -2px; max-width: 90%; }
+    .layout-poster .sub-text { font-size: 36px; opacity: 0.9; margin-top: var(--space-md); max-width: 80%; }
+
+    /* === Layout: timeline === */
+    .layout-timeline { align-items: flex-start; text-align: left; padding: var(--space-xl); }
+    .layout-timeline .timeline-item { display: flex; gap: var(--space-md); width: 100%; max-width: 1000px; margin-bottom: var(--space-md); }
+    .layout-timeline .timeline-dot { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); margin-top: 18px; box-shadow: 0 0 0 6px rgba(255, 59, 48, 0.2); }
+    .layout-timeline .timeline-content { flex: 1; }
+    .layout-timeline .timeline-content h2 { font-size: var(--font-size-h2); margin-bottom: var(--space-xs); }
+
+    /* === Layout: numbers === */
+    .layout-numbers { justify-content: center; }
+    .layout-numbers .big-number { font-size: 200px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: var(--space-lg); letter-spacing: -4px; text-shadow: 0 4px 20px rgba(255, 59, 48, 0.2); }
+    .layout-numbers .unit { font-size: 80px; font-weight: 700; color: var(--text-secondary); margin-left: 16px; }
+
+    /* === Layout: compare === */
+    .layout-compare { gap: var(--space-md); flex-direction: column; }
+    .layout-compare .compare-row { display: flex; gap: var(--space-md); width: 100%; max-width: 1000px; }
+    .layout-compare .compare-card { flex: 1; padding: var(--space-md) var(--space-lg); border-radius: var(--radius-md); text-align: left; }
+    .layout-compare .compare-card.before { background: #FFE5E5; color: #C92A2A; }
+    .layout-compare .compare-card.after { background: #E5F7E5; color: #2A9D2A; }
+    .layout-compare .compare-card .label { font-size: var(--font-size-caption); font-weight: 700; margin-bottom: var(--space-xs); opacity: 0.7; }
+    .layout-compare .compare-card .content { font-size: 32px; font-weight: 500; }
+    .layout-compare .compare-arrow { display: none; }
+
+    /* === Layout: icon === */
+    .layout-icon { gap: var(--space-md); }
+    .layout-icon .big-emoji { font-size: 200px; margin-bottom: var(--space-md); line-height: 1; filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.15)); }
+
+    /* === Layout: storyline === */
+    .layout-storyline { align-items: flex-start; text-align: left; padding: var(--space-xl); }
+    .layout-storyline .story-flow { width: 100%; max-width: 1000px; }
+    .layout-storyline .story-step { display: inline-block; padding: 8px 20px; background: var(--accent); color: white; font-size: var(--font-size-caption); font-weight: 700; border-radius: var(--radius-sm); margin-bottom: var(--space-md); }
+    .layout-storyline .title { font-size: var(--font-size-h1); margin-bottom: var(--space-md); }
+    .layout-storyline .body { text-align: left; max-width: 900px; }
+
+    /* === Layout: qa === */
+    .layout-qa { align-items: stretch; text-align: left; gap: var(--space-md); }
+    .layout-qa .qa-question, .layout-qa .qa-answer { display: flex; gap: var(--space-md); align-items: flex-start; padding: var(--space-md) var(--space-lg); border-radius: var(--radius-md); width: 80%; max-width: 1000px; }
+    .layout-qa .qa-question { background: var(--bg-secondary); }
+    .layout-qa .qa-answer { background: rgba(255, 59, 48, 0.08); }
+    .layout-qa .qa-tag { flex-shrink: 0; display: inline-block; width: 56px; height: 56px; line-height: 56px; text-align: center; border-radius: 50%; background: var(--accent); color: white; font-weight: 700; font-size: 28px; }
+    .layout-qa .qa-answer .qa-tag { background: var(--text-secondary); }
+    .layout-qa .qa-question .title { font-size: var(--font-size-h2); flex: 1; text-align: left; margin: 0; }
+    .layout-qa .qa-answer .body { flex: 1; margin: 0; text-align: left; }
+
+    /* === Layout: waterfall === */
+    .layout-waterfall { align-items: stretch; text-align: left; gap: var(--space-md); }
+    .layout-waterfall .title { font-size: var(--font-size-h1); margin-bottom: var(--space-sm); }
+    .layout-waterfall .body { text-align: left; max-width: 1100px; }
+
+    /* === Universal === */
+    .title { font-size: var(--font-size-h1); font-weight: 800; line-height: 1.2; margin-bottom: var(--space-md); letter-spacing: -1px; }
+    .subtitle { font-size: var(--font-size-base); color: var(--text-secondary); font-weight: 500; }
+    .body { font-size: var(--font-size-body); color: var(--text-primary); line-height: 1.6; margin-top: var(--space-sm); white-space: pre-line; }
+    .emoji { font-size: 100px; margin-bottom: var(--space-md); display: inline-block; }
+
+    /* === Page cover === */
+    .page-cover { background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); padding: var(--space-xl); }
+    .page-cover .title { font-size: 80px; font-weight: 900; background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; max-width: 90%; }
+    .page-cover .subtitle { font-size: 36px; color: var(--text-secondary); margin-top: var(--space-md); }
+
+    /* === Page CTA === */
+    .page-cta { background: var(--accent); color: white; }
+    .page-cta .title { color: white; font-size: 80px; }
+    .page-cta .body { color: white; opacity: 0.9; font-size: 36px; }
+
+    /* === reveal.js controls === */
+    .reveal .controls { bottom: 20px; right: 20px; }
+    .reveal .progress { height: 6px; background: var(--accent); }
+    .reveal .slide-number { bottom: 20px; left: 20px; font-size: 16px; color: var(--text-secondary); background: rgba(255, 255, 255, 0.9); padding: 4px 12px; border-radius: var(--radius-sm); }
+
+    /* === Fragment animations === */
+    .reveal .slides section .fragment-fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal .slides section.visible .fragment-fade-up { opacity: 1; transform: translateY(0); }
+    .reveal .slides section .fragment-slide-left { opacity: 0; transform: translateX(-80px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal .slides section.visible .fragment-slide-left { opacity: 1; transform: translateX(0); }
+    .reveal .slides section .fragment-slide-right { opacity: 0; transform: translateX(80px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal .slides section.visible .fragment-slide-right { opacity: 1; transform: translateX(0); }
+    .reveal .slides section .fragment-zoom-in { opacity: 0; transform: scale(0.5); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal .slides section.visible .fragment-zoom-in { opacity: 1; transform: scale(1); }
+    .reveal .slides section .fragment-bounce { opacity: 0; transform: scale(0.3) translateY(-50px); transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+    .reveal .slides section.visible .fragment-bounce { opacity: 1; transform: scale(1) translateY(0); }
+  
+body { scroll-snap-type: y mandatory; }
+.page { display: none; }
+.page[data-page="2"] { display: flex; }
+</style>
+<style>
+:root {
+  --bg-primary: #F6F9FC;
+  --bg-secondary: #E1ECF4;
+  --text-primary: #0A2540;
+  --text-secondary: #4A6B8A;
+  --accent: #00A4EF;
+  --border: #C5D5E5;
+  --shadow: 0 4px 12px rgba(10,37,64,0.12);
+}
+[data-narrative="attention"] { --accent: #FF3B30; }
+[data-narrative="interest"] { --accent: #FF9500; }
+[data-narrative="action"] { --accent: #1a1a1a; }
+[data-narrative="emotion"] { --accent: #5856D6; }
+[data-narrative="satisfaction"] { --accent: #FFB800; }
+
+body { scroll-snap-type: y mandatory; }
+.page { display: none; }
+.page[data-page="2"] { display: flex; }
+</style>
+</head>
+<body data-density="default" data-mode="landscape">
+  <div class="reveal">
+    <div class="slides">
+      <section class="page-cover" data-page="1" data-mode="landscape">
+        <div class="emoji">📱</div>
+        <h1 class="title">每天喝咖啡的 5 个真相</h1>
+        <p class="subtitle">共 5 个要点 · 知识科普 · mode=landscape</p>
+      </section>
+      
+    <section class="page layout-poster" data-page="2" data-narrative="attention" data-mode="landscape">
+      <div class="big-text">真相 1：咖啡不会让你脱水</div>
+      <div class="sub-text">新研究颠覆 50 年认知</div>
+      <p class="body" style="color: white; opacity: 0.85;">2021 年《营养学杂志》meta 分析显示：每天 4 杯以内咖啡不会显著影响体液平衡。</p>
+    </section>
+
+    <section class="page layout-numbers" data-page="3" data-narrative="interest" data-mode="landscape">
+      <div class="big-number">9-11<span class="unit">点</span></div>
+      <h2 class="title">真相 2：早上 9-11 点喝效果最好</h2>
+      <p class="subtitle">皮质醇节律告诉你答案</p>
+      <p class="body">皮质醇 9-11 点处于下降通道，此时咖啡因补充效率最高，比 8 点提升 23%。</p>
+    </section>
+
+    <section class="page layout-compare" data-page="4" data-narrative="action" data-mode="landscape">
+      <div class="compare-card before">
+        <div class="label">前</div>
+        <div class="content">≤ 4 杯 · 水分平衡</div>
+      </div>
+      <div class="compare-arrow">↓</div>
+      <div class="compare-card after">
+        <div class="label">后</div>
+        <div class="content">&gt; 4 杯 · 脱水 30%</div>
+      </div>
+      <h2 class="title" style="margin-top: var(--space-md); font-size: var(--font-size-h2);">真相 3：超过 4 杯就会反向脱水</h2>
+      <p class="subtitle" style="margin-top: var(--space-md);">为什么周末头疼？</p>
+    </section>
+
+    <section class="page layout-storyline" data-page="5" data-narrative="emotion" data-mode="landscape">
+      <div class="story-flow">
+        <div class="story-step">第 4 步</div>
+        <h2 class="title">真相 4：周末比工作日更想喝</h2>
+        <p class="subtitle">依赖性不是错觉</p>
+        <p class="body">73% 周末咖啡因摄入量不降反升，咖啡成为情绪补偿。</p>
+      </div>
+    </section>
+
+    <section class="page layout-qa" data-page="6" data-narrative="satisfaction" data-mode="landscape">
+      <div class="qa-question">
+        <span class="qa-tag">Q</span>
+        <h2 class="title">真相 5：减半不减效的 3 个方法</h2>
+      </div>
+      <div class="qa-answer">
+        <span class="qa-tag">A</span>
+        <p class="body">① 选低因咖啡 ② 加肉桂 ③ 配牛奶延长释放。下周告诉我效果！</p>
+      </div>
+    </section>
+      <section class="page-cta" data-page="7" data-mode="landscape">
+        <div class="emoji">✨</div>
+        <h2 class="title">你学会了吗？</h2>
+        <p class="body">关注我，看更多精彩内容 ✨</p>
+      </section>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280, height: 720,
+      controls: true, controlsTutorial: true, controlsLayout: 'bottom-right',
+      progress: true, slideNumber: 'c/t',
+      transition: 'slide', transitionSpeed: 'default',
+      autoSlide: 0, mouseWheel: false, touch: true,
+      keyboard: true, overview: true, center: true,
+      loop: false, fragments: true, fragmentInURL: false, hash: true,
+    });
+  </script>
+</body>
+</html>

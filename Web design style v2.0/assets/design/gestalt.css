@@ -1,0 +1,334 @@
+/* ============================================
+   WebPPT Maker v3.13 · Gestalt 视觉原则 (用户注意力深度)
+   ============================================
+   参考: Gestalt psychology (Wertheimer 1923, Köhler 1929)
+         NN/g (Nielsen Norman) visual design guidelines
+         Tufte "The Visual Display of Quantitative Information"
+
+   5 大原则:
+   1. Proximity (接近性)    - 距离近的元素被视为一组
+   2. Similarity (相似性)   - 形/色相似的元素被视为一组
+   3. Figure-Ground (图形-背景) - 焦点 vs 底色
+   4. Continuity (连续性)   - 引导线 / 视觉流
+   5. Closure (闭合性)      - 不完整也可被识别
+
+   + 额外: Common Fate (共同命运) - 同方向运动 = 同组
+   ============================================ */
+
+/* ============================================
+   §1. Proximity (接近性)
+   距离近 → 视觉分组 (即便元素不相连)
+   反义: 距离远 → 视觉分离
+   ============================================ */
+
+/* === Spacing scale: 显式控制组内/组间距离 === */
+:root {
+  --prox-tight:    var(--space-2);    /* 8px  - 组内紧凑 */
+  --prox-related:  var(--space-4);    /* 16px - 同组元素 */
+  --prox-grouped:  var(--space-5);    /* 24px - 关联组 */
+  --prox-separated: var(--space-7);   /* 48px - 视觉分离 */
+  --prox-unrelated: var(--space-9);   /* 96px - 不同组 */
+}
+
+/* === Proximity utility (基于 padding/margin) === */
+.prox-tight    { gap: var(--prox-tight); }
+.prox-related  { gap: var(--prox-related); }
+.prox-grouped  { gap: var(--prox-grouped); }
+.prox-separated { gap: var(--prox-separated); }
+.prox-unrelated { gap: var(--prox-unrelated); }
+
+/* === Proximity-aware margin (组内 4px, 组间 24px) === */
+[data-proximity="tight"] > * + * { margin-top: var(--space-1); }    /* 4px */
+[data-proximity="related"] > * + * { margin-top: var(--space-3); }  /* 12px */
+[data-proximity="grouped"] > * + * { margin-top: var(--space-5); }  /* 24px */
+[data-proximity="separated"] > * + * { margin-top: var(--space-7); } /* 48px */
+
+/* ============================================
+   §2. Similarity (相似性)
+   同形/同色/同尺寸 → 视觉分组
+   反义: 形状不同 → 视觉分离 (即便接近)
+   ============================================ */
+
+/* === Shape groups (基于 border-radius) === */
+.shape-circle { border-radius: 50%; }       /* 圆形 */
+.shape-pill   { border-radius: 999px; }     /* 药丸 */
+.shape-sharp  { border-radius: 0; }         /* 直角 */
+.shape-soft   { border-radius: var(--radius-md); }   /* 16px */
+.shape-round  { border-radius: var(--radius-lg); }   /* 24px */
+
+/* === Color similarity group (同类色 = 同组) === */
+.similar-success { color: var(--success); border-color: var(--success); }
+.similar-warning { color: var(--warning); border-color: var(--warning); }
+.similar-error   { color: var(--error); border-color: var(--error); }
+.similar-info    { color: var(--info); border-color: var(--info); }
+
+/* === Size similarity (同尺寸 = 同组) === */
+.size-xs { font-size: var(--font-xs); }
+.size-sm { font-size: var(--font-sm); }
+.size-md { font-size: var(--font-md); }
+.size-lg { font-size: var(--font-lg); }
+
+/* === Weight similarity (同粗细 = 同组) === */
+.wt-light  { font-weight: 300; }
+.wt-normal { font-weight: 400; }
+.wt-medium { font-weight: 500; }
+.wt-bold   { font-weight: 700; }
+.wt-black  { font-weight: 900; }
+
+/* === 反义: 显式分组 vs 分离 (用 border 分隔) === */
+.divider-soft { border-left: 1px solid var(--border); padding-left: var(--space-4); }
+.divider-strong { border-left: 2px solid var(--accent); padding-left: var(--space-4); }
+
+/* ============================================
+   §3. Figure-Ground (图形-背景)
+   焦点元素 vs 底色, 强化主从关系
+   5 种实现方式: contrast / blur / saturation / shadow / scale
+   ============================================ */
+
+/* === Contrast figure (高对比图形) === */
+.figure-contrast {
+  /* 通过 box-shadow 内阴影增强对比 */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+    0 0 0 4px rgba(0, 0, 0, 0.05) inset;
+}
+
+/* === Blur ground (背景模糊) === */
+.ground-blur {
+  filter: blur(20px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* === Desaturate ground (背景去色) === */
+.ground-desaturate {
+  filter: grayscale(1) opacity(0.4);
+  pointer-events: none;
+}
+
+/* === Shadow figure (投影突出) === */
+.figure-shadow {
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* === Scale figure (放大突出) === */
+.figure-scale {
+  transform: scale(1.05);
+  z-index: var(--z-elevated);
+}
+
+/* === Auto Figure-Ground 容器 (子元素 :first-child 突出) === */
+[data-fg="auto"] > *:first-child {
+  filter: none;
+  opacity: 1;
+}
+[data-fg="auto"] > *:not(:first-child) {
+  filter: grayscale(0.8);
+  opacity: 0.4;
+}
+
+/* === 双向: 主从关系 (一个 figure + 一个 ground 配对) === */
+[data-fg-pair="figure"] { z-index: var(--z-elevated); position: relative; }
+[data-fg-pair="ground"] { opacity: 0.5; }
+
+/* ============================================
+   §4. Continuity (连续性)
+   引导线 / 视觉流 / 用户视线方向
+   用户倾向于沿连续路径看 (即便被遮挡)
+   ============================================ */
+
+/* === Path (引导线) === */
+.path-line {
+  position: relative;
+}
+.path-line::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -16px;
+  width: 12px;
+  height: 2px;
+  background: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* === Arrow flow (箭头引导) === */
+.flow-arrow {
+  position: relative;
+  padding-right: var(--space-6);
+}
+.flow-arrow::after {
+  content: "→";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+
+/* === Timeline (时间线) === */
+.timeline-track {
+  position: relative;
+  padding-left: var(--space-6);
+  border-left: 2px solid var(--border);
+}
+.timeline-track::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* === Reading flow indicator (引导眼动) === */
+[data-flow="z"] { display: grid; grid-template-areas: "tl tc tr" "bl bc br"; }
+[data-flow="z"] [data-flow-pos="tl"] { grid-area: tl; }
+[data-flow="z"] [data-flow-pos="tc"] { grid-area: tc; }
+[data-flow="z"] [data-flow-pos="tr"] { grid-area: tr; }
+[data-flow="z"] [data-flow-pos="bl"] { grid-area: bl; }
+[data-flow="z"] [data-flow-pos="bc"] { grid-area: bc; }
+[data-flow="z"] [data-flow-pos="br"] { grid-area: br; }
+
+/* ============================================
+   §5. Closure (闭合性)
+   不完整形状也可被识别为整体
+   用途: 用 CSS 边框/形状制造"留白"美感
+   ============================================ */
+
+/* === Inset border (内嵌边) === */
+.closure-inset {
+  padding: var(--space-4);
+  border: 2px dashed var(--border);
+  /* 虚线暗示"未完成", 用户脑补闭合 */
+}
+
+/* === Half-circle (半圆: 大脑补完另一半) === */
+.closure-half-circle {
+  width: 100px;
+  height: 50px;
+  border: 3px solid var(--text-primary);
+  border-bottom: none;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+}
+
+/* === Corner brackets (4 角括号, 暗示"框"的存在) === */
+.closure-corner {
+  position: relative;
+  padding: var(--space-4);
+}
+.closure-corner::before,
+.closure-corner::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--accent);
+}
+.closure-corner::before {
+  top: 0; left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+.closure-corner::after {
+  bottom: 0; right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+/* === 留白闭合 (大块空白暗示"边界") === */
+.closure-whitespace {
+  padding: var(--space-8);
+  background: var(--bg-primary);
+  /* 无边框, 靠 padding 形成"区域" */
+}
+
+/* ============================================
+   §6. Common Fate (共同命运, 额外原则)
+   同方向运动 → 同组
+   反义: 不同方向运动 → 不同组
+   ============================================ */
+
+[data-fate="up"]    { animation-direction: normal; }
+[data-fate="down"]  { animation-direction: reverse; }
+[data-fate="left"]  { animation-direction: alternate; }
+[data-fate="right"] { animation-direction: alternate-reverse; }
+
+/* === Stagger motion (按顺序入场 = "顺序组") === */
+[data-fate-stagger="1"] { animation-delay: 0ms; }
+[data-fate-stagger="2"] { animation-delay: 80ms; }
+[data-fate-stagger="3"] { animation-delay: 160ms; }
+[data-fate-stagger="4"] { animation-delay: 240ms; }
+[data-fate-stagger="5"] { animation-delay: 320ms; }
+
+/* ============================================
+   §7. 视觉重量守恒 (Conservation)
+   视觉重量平衡: 大+深 = 小+浅 (同样"重")
+   ============================================ */
+
+:root {
+  --weight-balance: 1.0;  /* 视觉重量平衡系数 */
+}
+
+/* === 平衡组合: 大元素用浅色 === */
+.weight-balance-large {
+  font-size: var(--font-2xl);
+  color: var(--text-secondary);  /* 大但浅 */
+  font-weight: 400;
+}
+
+/* === 平衡组合: 小元素用深色 === */
+.weight-balance-small {
+  font-size: var(--font-sm);
+  color: var(--text-primary);  /* 小但深 */
+  font-weight: 700;
+}
+
+/* ============================================
+   §8. 实践守则 (基于 Gestalt 的设计规则)
+   ============================================ */
+
+/* === 规则 1: 元素间距离小于 1/2 元素尺寸 = 同组 === */
+/* (CSS 无法自动判断, 但提供 utility) */
+.gestalt-group-tight > * { margin-bottom: var(--space-2); }
+.gestalt-group-tight > *:last-child { margin-bottom: 0; }
+
+/* === 规则 2: 不要混用 3+ 种对齐方式 (导致视觉混乱) === */
+/* (CSS 无法强制, 文档化提示) */
+
+/* === 规则 3: 用封闭空间分隔, 不用线条 === */
+/* (依赖布局, 提供 padding utility) */
+.section-closed {
+  padding: var(--space-7) var(--space-6);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+}
+
+/* === 规则 4: 3 个连续元素中心 = 视觉重心 === */
+.triangular {
+  display: flex;
+  justify-content: center;
+}
+.triangular > * {
+  margin: 0 var(--space-2);
+}
+/* 三角布局 (3 元素居中 + 凸出) */
+.triangular-emphasis > *:nth-child(2) {
+  transform: scale(1.15);
+  z-index: var(--z-elevated);
+}
+
+/* ============================================
+   §9. Reduced Motion 适配 (Gestalt 动效部分)
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-fate] { animation: none !important; }
+  [data-fate-stagger] { animation-delay: 0ms !important; }
+}

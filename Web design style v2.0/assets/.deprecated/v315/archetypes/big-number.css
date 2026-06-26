@@ -1,0 +1,107 @@
+/* ============================================
+   WebPPT Maker v3.15 · Big-Number Archetype
+   ============================================
+   设计参考: TED data slides, FT data stories
+   核心原则:
+   - ONE number 占 60% 视觉重量
+   - 单位/上下文极小, 不抢戏
+   - 留白即装饰
+   - 数据即英雄
+   ============================================ */
+
+/* === 基础: 居中 + 垂直黄金分割 === */
+[data-archetype="big-number"] {
+  display: grid;
+  place-items: center;
+  padding: var(--space-9, 96px);
+  background: var(--arch-bn-bg, oklch(99% 0.005 0));
+  color: var(--arch-bn-text, oklch(8% 0.005 0));
+  min-height: 100vh;
+  text-align: center;
+  position: relative;
+}
+
+/* === 主数字: 极字号 + 极轻字重 === */
+[data-archetype="big-number"] .bn-figure {
+  font-family: var(--font-display, "Playfair Display", serif);
+  font-size: clamp(120px, 22vw, 360px);
+  font-weight: 100;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums lining-nums;
+  margin: 0;
+  color: var(--arch-bn-accent, oklch(8% 0.005 0));
+  /* 不允许换行 */
+  white-space: nowrap;
+}
+
+/* === 单位: 比数字小 5 倍以上 === */
+[data-archetype="big-number"] .bn-unit {
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 300;
+  margin-left: var(--space-3, 12px);
+  opacity: 0.6;
+  letter-spacing: 0.02em;
+  vertical-align: super;
+}
+
+/* === 上下文/解读: 极简 + 极小 === */
+[data-archetype="big-number"] .bn-context {
+  position: absolute;
+  bottom: var(--space-9, 96px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-sans, "Inter", sans-serif);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  max-width: 50ch;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* === 比较箭头 (vs 上期) === */
+[data-archetype="big-number"] .bn-delta {
+  display: inline-block;
+  margin-left: var(--space-4, 16px);
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+[data-archetype="big-number"] .bn-delta[data-direction="up"] {
+  color: oklch(50% 0.18 145);
+  background: oklch(95% 0.04 145);
+}
+[data-archetype="big-number"] .bn-delta[data-direction="down"] {
+  color: oklch(50% 0.20 25);
+  background: oklch(95% 0.04 25);
+}
+
+/* === 入场: 数字从 0 滚动到目标 (模拟) === */
+[data-archetype="big-number"] .bn-figure {
+  animation: bn-reveal 1500ms var(--ease-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1)) forwards;
+  opacity: 0;
+}
+[data-archetype="big-number"] .bn-context {
+  animation: bn-context-in 800ms var(--ease-standard) 1200ms forwards;
+  opacity: 0;
+}
+
+@keyframes bn-reveal {
+  from { opacity: 0; transform: scale(0.95); letter-spacing: 0.05em; }
+  to   { opacity: 1; transform: scale(1); letter-spacing: -0.04em; }
+}
+@keyframes bn-context-in {
+  to { opacity: 0.7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-archetype="big-number"] .bn-figure,
+  [data-archetype="big-number"] .bn-context {
+    animation: none;
+    opacity: 1;
+  }
+}

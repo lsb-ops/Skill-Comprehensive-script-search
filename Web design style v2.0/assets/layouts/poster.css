@@ -1,0 +1,45 @@
+/* ============================================
+   Layout: 大字报 (poster) — 高对比抓眼球
+   ============================================ */
+
+.layout-poster {
+  background: var(--accent);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.layout-poster .big-text {
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -2px;
+  max-width: 90%;
+}
+
+/* 9:16 竖屏 */
+.layout-poster[data-mode="portrait"] .big-text {
+  font-size: 64px;
+}
+
+/* 16:9 横屏 */
+.layout-poster[data-mode="landscape"] .big-text {
+  font-size: 96px;
+}
+
+.layout-poster .sub-text {
+  opacity: 0.9;
+  margin-top: var(--space-md);
+  max-width: 80%;
+}
+
+.layout-poster[data-mode="portrait"] .sub-text {
+  font-size: 24px;
+}
+
+.layout-poster[data-mode="landscape"] .sub-text {
+  font-size: 36px;
+}/* V33_TEST */
+/* V33_TEST_LAYOUT */

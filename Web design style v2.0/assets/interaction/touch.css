@@ -1,0 +1,96 @@
+/* ============================================
+   WebPPT Maker v3.16 · Touch States (触摸设备)
+   ============================================
+   移动端触摸的特殊考虑:
+   - 触摸目标 ≥ 44×44px (Apple HIG)
+   - 禁用 hover 效果
+   - 滑动 / 长按支持
+   - 防止双击缩放
+   ============================================ */
+
+/* === 触摸目标大小 === */
+button,
+[role="button"],
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* 链接触摸目标 (增大命中区) */
+.touch-link {
+  position: relative;
+  padding: 8px 0;
+}
+
+.touch-link::before {
+  /* 扩大的不可见触摸区 */
+  content: "";
+  position: absolute;
+  inset: -12px;
+  z-index: 1;
+}
+
+/* === 触摸反馈 (active state) === */
+@media (hover: none) {
+  .touch-feedback:active {
+    background: oklch(95% 0.005 0);
+    transition: background 50ms;
+  }
+}
+
+/* === 滑动手势 === */
+[data-swipe="horizontal"] {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+[data-swipe="horizontal"]::-webkit-scrollbar {
+  display: none;
+}
+
+[data-swipe="horizontal"] > * {
+  scroll-snap-align: start;
+}
+
+/* === 防止双击缩放 (输入框除外) === */
+button, [role="button"], a {
+  touch-action: manipulation;
+}
+
+/* === 长按 === */
+[data-long-press] {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* === 安全区 (iPhone notch) === */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left, 0);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+/* === 全高度 (移动端 100vh 问题) === */
+.full-height-mobile {
+  height: 100vh;
+  height: 100dvh;  /* dynamic viewport (移动端浏览器栏会缩) */
+}
+
+/* === 移动端字体大小防 iOS 缩放 === */
+@media (max-width: 640px) {
+  input, textarea, select {
+    font-size: 16px;  /* ≥16px 防止 iOS 自动缩放 */
+  }
+}

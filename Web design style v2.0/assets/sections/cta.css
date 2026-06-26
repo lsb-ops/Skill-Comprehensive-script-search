@@ -1,0 +1,122 @@
+/* ============================================
+   WebPPT Maker v3.16 · Section: CTA (底部行动召唤)
+   ============================================
+   与 archetype/cta 的区别:
+   - 是网页底部 section, 不是单独一页
+   - 通常在 footer 之前
+   - 渐变背景, 视觉收尾
+   ============================================ */
+
+[data-section="cta"] {
+  position: relative;
+  padding: var(--space-9, 96px) var(--space-5, 24px);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* 渐变背景 (默认) */
+[data-section="cta"][data-bg="gradient"] {
+  background: linear-gradient(135deg,
+    oklch(55% 0.22 280) 0%,
+    oklch(50% 0.22 320) 100%);
+  color: oklch(98% 0.005 0);
+}
+
+/* 深色背景 */
+[data-section="cta"][data-bg="dark"] {
+  background: oklch(8% 0.005 0);
+  color: oklch(98% 0.005 0);
+}
+
+/* 浅色背景 */
+[data-section="cta"][data-bg="light"] {
+  background: oklch(96% 0.005 250);
+  color: oklch(15% 0.015 250);
+}
+
+[data-section="cta"] .cta-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: var(--space-5, 24px);
+}
+
+[data-section="cta"] .cta-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  max-width: 16ch;
+  margin: 0 auto var(--space-5, 24px);
+}
+
+[data-section="cta"] .cta-desc {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 50ch;
+  margin: 0 auto var(--space-7, 48px);
+  opacity: 0.85;
+}
+
+[data-section="cta"] .cta-actions {
+  display: inline-flex;
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* CTA 按钮在浅色背景上 */
+[data-section="cta"][data-bg="light"] .cta-button-primary {
+  background: oklch(15% 0.015 250);
+  color: oklch(98% 0.005 0);
+}
+
+[data-section="cta"][data-bg="light"] .cta-button-primary:hover {
+  background: oklch(8% 0.005 0);
+}
+
+[data-section="cta"] .cta-button-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: oklch(98% 0.005 0);
+  color: oklch(15% 0.015 250);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 200ms var(--ease-standard),
+              box-shadow 200ms var(--ease-standard);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+[data-section="cta"] .cta-button-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+[data-section="cta"] .cta-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 150ms;
+}
+
+[data-section="cta"] .cta-button-secondary:hover {
+  opacity: 1;
+}

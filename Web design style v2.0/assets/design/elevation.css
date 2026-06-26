@@ -1,0 +1,122 @@
+/* ============================================
+   WebPPT Maker v3.18 · Elevation System (REAL Open Props 移植)
+   ============================================
+   v3.18.1 修正: 从"臆造 5 级 shadow"改为 Open Props 1.7.23 真实 6 级
+   数据来源: https://unpkg.com/open-props@1.7.23/src/props.shadows.js
+   真实方法: HSL with strength variable, 在暗色模式覆盖 shadow-color
+
+   Open Props 原始设计:
+   --shadow-color: '220 3% 15%'  // HSL 三段
+   --shadow-strength: '1%'       // 基础强度
+   --shadow-strength-10: 'calc(var(--shadow-strength) + 9%)'  // 强阴影用
+
+   我们直接采用 HSL space-separated 格式 (而非 oklch),
+   与 Open Props 完全一致, 便于未来 drop-in 替换。
+   ============================================ */
+
+:root,
+[data-theme="light"] {
+  /* === 基础变量 (HSL space-separated, Open Props 同款) === */
+  --shadow-color: 220 3% 15%;
+  --shadow-strength: 1%;
+
+  /* === Level 1: 微浮 (单层 1-2px) — 卡片默认 === */
+  --shadow-1: 0 1px 2px -1px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 9%));
+
+  /* === Level 2: 浮起 (2 层 3px+7px) === */
+  --shadow-2:
+    0 3px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 7px 14px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 5%));
+
+  /* === Level 3: 提升 (5 层) — Dropdown / Popover === */
+  --shadow-3:
+    0 -1px 3px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),
+    0 1px 2px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),
+    0 2px 5px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 4%)),
+    0 4px 12px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 5%)),
+    0 12px 15px -5px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 7%));
+
+  /* === Level 4: 悬浮 (6 层) — Tooltip === */
+  --shadow-4:
+    0 -2px 5px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),
+    0 1px 1px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 2px 2px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 5px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 4%)),
+    0 9px 9px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 5%)),
+    0 16px 16px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 6%));
+
+  /* === Level 5: 弹出 (6 层 远距) — Modal === */
+  --shadow-5:
+    0 -1px 2px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),
+    0 2px 1px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 5px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 10px 10px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 4%)),
+    0 20px 20px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 5%)),
+    0 40px 40px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 7%));
+
+  /* === Level 6: 顶层 (7 层 100px 远距) — Toast / Top-layer === */
+  --shadow-6:
+    0 -1px 2px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 2%)),
+    0 3px 2px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 7px 5px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 3%)),
+    0 12px 10px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 4%)),
+    0 22px 18px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 5%)),
+    0 41px 33px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 6%)),
+    0 100px 80px -2px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 7%));
+
+  /* === Inset shadows (输入框, 选中态) === */
+  --inner-shadow-0: inset 0 0 0 1px hsl(var(--shadow-color) / calc(var(--shadow-strength) + 9%));
+  --inner-shadow-1: inset 0 1px 2px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 9%));
+  --inner-shadow-2: inset 0 1px 4px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 9%));
+  --inner-shadow-3: inset 0 2px 8px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 9%));
+  --inner-shadow-4: inset 0 2px 14px 0 hsl(var(--shadow-color) / calc(var(--shadow-strength) + 9%));
+}
+
+/* === 暗色模式: 用更深的 shadow-color (Open Props 同款) === */
+[data-theme="dark"] {
+  --shadow-color: 220 40% 2%;
+  --shadow-strength: 25%;
+}
+
+/* === 系统暗色 === */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --shadow-color: 220 40% 2%;
+    --shadow-strength: 25%;
+  }
+}
+
+/* === Utility classes (v3.18.1 扩展到 6 级) === */
+.elev-0 { box-shadow: none; }
+.elev-1 { box-shadow: var(--shadow-1); }
+.elev-2 { box-shadow: var(--shadow-2); }
+.elev-3 { box-shadow: var(--shadow-3); }
+.elev-4 { box-shadow: var(--shadow-4); }
+.elev-5 { box-shadow: var(--shadow-5); }
+.elev-6 { box-shadow: var(--shadow-6); }
+
+/* === 语义化 elevation (与 v3.17 一致, 升级到 6 级) === */
+.elev-card-default {
+  box-shadow: var(--shadow-1);
+  transition: box-shadow var(--dur-short3, 150ms) var(--ease-standard, ease),
+              transform var(--dur-short3, 150ms) var(--ease-standard, ease);
+}
+.elev-card-default:hover {
+  box-shadow: var(--shadow-3);
+  transform: translateY(-2px);
+}
+
+.elev-dropdown { box-shadow: var(--shadow-3); }
+.elev-popover  { box-shadow: var(--shadow-4); }
+.elev-tooltip  { box-shadow: var(--shadow-4); }
+.elev-modal    { box-shadow: var(--shadow-5); }
+.elev-toast    { box-shadow: var(--shadow-6); }  /* 顶层用 6 级 */
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  .elev-card-default,
+  .elev-card-default:hover {
+    transition: none;
+    transform: none;
+  }
+}

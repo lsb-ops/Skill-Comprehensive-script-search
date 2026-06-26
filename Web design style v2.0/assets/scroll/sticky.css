@@ -1,0 +1,88 @@
+/* ============================================
+   WebPPT Maker v3.16 · Sticky Elements (粘性定位)
+   ============================================
+   真实网页的核心布局技术:
+   - sticky nav (顶部持久)
+   - sticky sidebar (文档页)
+   - sticky TOC (右侧目录)
+   - sticky CTA (行动召唤按钮)
+   ============================================ */
+
+/* === 基础 sticky === */
+[data-sticky] {
+  position: sticky;
+  /* top 由上下文决定 */
+}
+
+/* === Sticky nav (顶部) === */
+[data-sticky="top-nav"] {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--sticky-bg, oklch(99% 0.003 0));
+  border-bottom: 1px solid oklch(92% 0.005 0);
+}
+
+/* === Sticky sidebar (文档页) === */
+[data-sticky="sidebar"] {
+  position: sticky;
+  top: 80px;  /* nav 高度 */
+  align-self: start;  /* 关键: grid/flex 中必须 */
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+/* === Sticky TOC (右侧目录) === */
+[data-sticky="toc"] {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+/* === Sticky CTA (浮于底部) === */
+[data-sticky="bottom-cta"] {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  padding: var(--space-4, 16px) var(--space-5, 24px);
+  background: oklch(99% 0.003 0 / 0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid oklch(92% 0.005 0);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(100%);
+  transition: transform 300ms var(--ease-standard);
+}
+
+[data-sticky="bottom-cta"][data-visible="true"] {
+  transform: translateY(0);
+}
+
+/* === Sticky 行为控制 === */
+[data-sticky="top-nav"][data-hide-on-scroll-down="true"] {
+  transition: transform 250ms var(--ease-standard),
+              background 250ms var(--ease-standard);
+}
+
+[data-sticky="top-nav"][data-hide-on-scroll-down="true"][data-scroll-direction="down"] {
+  transform: translateY(-100%);
+}
+
+[data-sticky="top-nav"][data-hide-on-scroll-down="true"][data-scroll-direction="up"] {
+  transform: translateY(0);
+}
+
+/* === 滚动容器内 sticky (移动端常用) === */
+.sticky-container {
+  /* 让内部 sticky 元素相对此容器 */
+  overflow: auto;
+  height: 100vh;
+}
+
+.sticky-container > [data-sticky] {
+  position: sticky;
+  top: 0;
+}

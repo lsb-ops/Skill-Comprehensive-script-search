@@ -1,0 +1,267 @@
+/* ============================================
+   WebPPT Maker v3.12 · 布局系统
+   12 列 grid + 比例 token + Z-index 系统
+   + 呼吸感 metric + 视觉重量 scale
+   ============================================
+   参考: Bootstrap 5 grid, Tailwind container,
+         IBM Carbon 2x grid, Material Design 3 layout
+*/
+
+/* ============================================
+   §1. 比例 Token (Ratio System)
+   美学比例: golden / sqrt2 / 2:1 / 3:2 / 16:9
+   ============================================ */
+
+:root {
+  --ratio-golden: 1.618;        /* 黄金分割 (φ) — 最美的矩形 */
+  --ratio-golden-inv: 0.618;    /* 1/φ */
+  --ratio-sqrt2: 1.414;         /* A4 纸张比例 (ISO 216) */
+  --ratio-2-1: 2;               /* 宽屏封面 */
+  --ratio-3-2: 1.5;             /* 135 相机 */
+  --ratio-4-3: 1.333;           /* 传统屏幕 */
+  --ratio-16-9: 1.778;          /* 现代宽屏 */
+  --ratio-21-9: 2.333;          /* 超宽屏 */
+  --ratio-1-1: 1;               /* 正方形 */
+
+  /* === 比例使用: 元素宽高比 utility === */
+  .ratio-golden { aspect-ratio: var(--ratio-golden) / 1; }
+  .ratio-sqrt2  { aspect-ratio: var(--ratio-sqrt2) / 1; }
+  .ratio-2-1    { aspect-ratio: var(--ratio-2-1) / 1; }
+  .ratio-3-2    { aspect-ratio: var(--ratio-3-2) / 1; }
+  .ratio-4-3    { aspect-ratio: var(--ratio-4-3) / 1; }
+  .ratio-16-9   { aspect-ratio: var(--ratio-16-9) / 1; }
+  .ratio-21-9   { aspect-ratio: var(--ratio-21-9) / 1; }
+  .ratio-1-1    { aspect-ratio: var(--ratio-1-1) / 1; }
+}
+
+/* === 实际应用: 几个常用比例容器 === */
+.poster-aspect   { aspect-ratio: 2 / 3; }   /* 海报 */
+.cover-aspect    { aspect-ratio: 16 / 9; }  /* 封面视频 */
+.square-aspect   { aspect-ratio: 1; }       /* 头像/产品图 */
+.golden-aspect   { aspect-ratio: 1.618; }   /* 名片/卡片 (最舒服) */
+
+/* ============================================
+   §2. Z-Index 系统 (避免散落 -1/0/1/2/10/100)
+   5 级: base → elevated → dropdown → modal → toast
+   ============================================ */
+
+:root {
+  --z-hide:     -1;     /* 隐藏 (focal-point 装饰) */
+  --z-base:     1;      /* 默认 */
+  --z-elevated: 10;     /* 浮起 (卡片 hover, drop-shadow) */
+  --z-sticky:   100;    /* 粘性 (sticky headers) */
+  --z-dropdown: 1000;   /* 下拉菜单 */
+  --z-modal:    5000;   /* 模态框 */
+  --z-toast:    10000;  /* 吐司通知 */
+  --z-tooltip:  100000; /* 工具提示 */
+}
+
+/* === Z-index utility === */
+.z-hide     { z-index: var(--z-hide); }
+.z-base     { z-index: var(--z-base); }
+.z-elevated { z-index: var(--z-elevated); }
+.z-sticky   { z-index: var(--z-sticky); position: sticky; }
+.z-dropdown { z-index: var(--z-dropdown); }
+.z-modal    { z-index: var(--z-modal); }
+.z-toast    { z-index: var(--z-toast); }
+.z-tooltip  { z-index: var(--z-tooltip); }
+
+/* ============================================
+   §3. 12 列响应式 Grid
+   max-width 1200, gap 24, gutter 32
+   支持 1-12 列, .col-1 ... .col-12
+   ============================================ */
+
+:root {
+  --grid-max: 1200px;
+  --grid-gap: 24px;
+  --grid-gutter: 32px;
+  --grid-cols: 12;
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gap);
+  max-width: var(--grid-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--grid-gutter);
+  padding-right: var(--grid-gutter);
+}
+
+/* 列宽 1-12 */
+.col-1  { grid-column: span 1; }
+.col-2  { grid-column: span 2; }
+.col-3  { grid-column: span 3; }
+.col-4  { grid-column: span 4; }
+.col-5  { grid-column: span 5; }
+.col-6  { grid-column: span 6; }
+.col-7  { grid-column: span 7; }
+.col-8  { grid-column: span 8; }
+.col-9  { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
+.col-11 { grid-column: span 11; }
+.col-12 { grid-column: span 12; }
+
+/* 列起始位置 (start-1 到 start-12) */
+.start-1  { grid-column-start: 1; }
+.start-2  { grid-column-start: 2; }
+.start-3  { grid-column-start: 3; }
+.start-4  { grid-column-start: 4; }
+.start-5  { grid-column-start: 5; }
+.start-6  { grid-column-start: 6; }
+.start-7  { grid-column-start: 7; }
+.start-8  { grid-column-start: 8; }
+.start-9  { grid-column-start: 9; }
+.start-10 { grid-column-start: 10; }
+.start-11 { grid-column-start: 11; }
+.start-12 { grid-column-start: 12; }
+
+/* === 响应式 (mobile first) === */
+@media (max-width: 768px) {
+  .col-1, .col-2, .col-3, .col-4 { grid-column: span 6; }
+  .col-5, .col-6, .col-7, .col-8 { grid-column: span 12; }
+  .col-9, .col-10, .col-11, .col-12 { grid-column: span 12; }
+  .grid-12 { gap: 16px; padding-left: 16px; padding-right: 16px; }
+}
+
+/* ============================================
+   §4. 呼吸感 (Breath Metric)
+   负空间量化: tight (1x) / normal (1.5x) / loose (2x)
+   通过 padding 乘子实现
+   ============================================ */
+
+:root {
+  --breath-tight: 1;       /* 紧凑 — 表格/数据 */
+  --breath-normal: 1.5;    /* 默认 — 卡片/正文 */
+  --breath-loose: 2;       /* 宽松 — 标题/章节 */
+}
+
+.breath-tight  { padding: calc(var(--space-4) * var(--breath-tight)); }
+.breath-normal { padding: calc(var(--space-4) * var(--breath-normal)); }
+.breath-loose  { padding: calc(var(--space-4) * var(--breath-loose)); }
+
+/* 边距 (垂直方向) */
+.breath-tight-v  { padding-top: calc(var(--space-4) * var(--breath-tight));  padding-bottom: calc(var(--space-4) * var(--breath-tight)); }
+.breath-normal-v { padding-top: calc(var(--space-4) * var(--breath-normal)); padding-bottom: calc(var(--space-4) * var(--breath-normal)); }
+.breath-loose-v  { padding-top: calc(var(--space-4) * var(--breath-loose));  padding-bottom: calc(var(--space-4) * var(--breath-loose)); }
+
+/* 章节间呼吸 (大段空白) */
+.section-breath { margin-top: calc(var(--space-8) * var(--breath-loose)); margin-bottom: calc(var(--space-8) * var(--breath-loose)); }
+
+/* ============================================
+   §5. 视觉重量 Scale (Visual Weight)
+   5 级: weight-1 (lightest) → weight-5 (heaviest)
+   通过 size + color + weight 组合实现
+   ============================================ */
+
+:root {
+  --weight-1-size: 14px;   /* 辅助/标签 */
+  --weight-1-color: var(--text-secondary);
+  --weight-1-weight: 400;
+
+  --weight-2-size: 16px;   /* 描述 */
+  --weight-2-color: var(--text-secondary);
+  --weight-2-weight: 400;
+
+  --weight-3-size: 18px;   /* 正文 */
+  --weight-3-color: var(--text-primary);
+  --weight-3-weight: 400;
+
+  --weight-4-size: 22px;   /* 副标题 */
+  --weight-4-color: var(--text-primary);
+  --weight-4-weight: 600;
+
+  --weight-5-size: 28px;   /* 焦点/标题 */
+  --weight-5-color: var(--text-primary);
+  --weight-5-weight: 700;
+}
+
+.weight-1 { font-size: var(--weight-1-size); color: var(--weight-1-color); font-weight: var(--weight-1-weight); }
+.weight-2 { font-size: var(--weight-2-size); color: var(--weight-2-color); font-weight: var(--weight-2-weight); }
+.weight-3 { font-size: var(--weight-3-size); color: var(--weight-3-color); font-weight: var(--weight-3-weight); }
+.weight-4 { font-size: var(--weight-4-size); color: var(--weight-4-color); font-weight: var(--weight-4-weight); }
+.weight-5 { font-size: var(--weight-5-size); color: var(--weight-5-color); font-weight: var(--weight-5-weight); }
+
+/* === 视觉重量 = size + opacity + position (光晕 + 浮起) === */
+.weight-1-focus {
+  /* 重量 1 的元素聚焦时升级到 weight-3 */
+  transition: font-size 0.3s ease, color 0.3s ease, font-weight 0.3s ease;
+}
+.weight-1-focus:hover { font-size: var(--weight-3-size); color: var(--weight-3-color); font-weight: var(--weight-3-weight); }
+
+/* ============================================
+   §6. 容器查询 (@container) — 现代浏览器
+   组件级响应式, 不依赖 viewport
+   ============================================ */
+
+@container (min-width: 400px) {
+  .container-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+  }
+}
+
+@container (max-width: 399px) {
+  .container-card {
+    display: block;
+  }
+}
+
+/* === 显式 container 包装 === */
+.container-wrapper {
+  container-type: inline-size;
+  container-name: wrapper;
+}
+
+/* ============================================
+   §7. 阴影系统 (5 级, 与 z-index 对应)
+   z-1 阴影: 4px 8px rgba(0,0,0,0.06)
+   z-2 阴影: 8px 16px rgba(0,0,0,0.10)
+   z-3 阴影: 16px 32px rgba(0,0,0,0.15)
+   z-4 阴影: 24px 48px rgba(0,0,0,0.20)
+   z-5 阴影: 32px 64px rgba(0,0,0,0.25)
+   ============================================ */
+
+:root {
+  --shadow-1: 0 2px 4px rgba(0, 0, 0, 0.05),
+              0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 4px 8px rgba(0, 0, 0, 0.06),
+              0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-3: 0 8px 16px rgba(0, 0, 0, 0.10),
+              0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-4: 0 16px 32px rgba(0, 0, 0, 0.15),
+              0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-5: 0 24px 48px rgba(0, 0, 0, 0.20),
+              0 12px 24px rgba(0, 0, 0, 0.10);
+
+  --shadow-sm: var(--shadow-1);
+  --shadow-md: var(--shadow-2);
+  --shadow-lg: var(--shadow-3);
+  --shadow-xl: var(--shadow-4);
+  --shadow-2xl: var(--shadow-5);
+}
+
+.shadow-1 { box-shadow: var(--shadow-1); }
+.shadow-2 { box-shadow: var(--shadow-2); }
+.shadow-3 { box-shadow: var(--shadow-3); }
+.shadow-4 { box-shadow: var(--shadow-4); }
+.shadow-5 { box-shadow: var(--shadow-5); }
+
+/* === 暗色模式阴影 (更深, 弥补黑色背景的"无对比感") === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --shadow-1: 0 2px 4px rgba(0, 0, 0, 0.4);
+    --shadow-2: 0 4px 8px rgba(0, 0, 0, 0.5);
+    --shadow-3: 0 8px 16px rgba(0, 0, 0, 0.6);
+    --shadow-4: 0 16px 32px rgba(0, 0, 0, 0.7);
+    --shadow-5: 0 24px 48px rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* === 彩色阴影 (accent 投影) === */
+.shadow-accent { box-shadow: 0 8px 24px oklch(60% 0.22 25 / 0.3); }
+.shadow-info   { box-shadow: 0 8px 24px oklch(60% 0.18 235 / 0.3); }
+.shadow-success { box-shadow: 0 8px 24px oklch(60% 0.18 145 / 0.3); }

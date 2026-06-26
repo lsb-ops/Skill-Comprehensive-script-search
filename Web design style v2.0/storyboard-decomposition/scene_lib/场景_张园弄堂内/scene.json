@@ -1,0 +1,91 @@
+{
+  "id": "场景_张园弄堂内",
+  "name": "张园弄堂内景",
+  "version": "1.0.0",
+  "type": "scene",
+  "created_at": "2026-06-17",
+  "location": {
+    "city": "上海",
+    "district": "静安区",
+    "specific": "张园弄堂内（窄巷）",
+    "era": "20世纪20-30年代"
+  },
+  "time": {
+    "default": "日",
+    "valid_times": [
+      "日"
+    ],
+    "weather": "晴朗",
+    "season": "秋季"
+  },
+  "visual_baseline": {
+    "architecture": [
+      "窄弄堂（宽约 1.5 米）",
+      "两侧石库门建筑高墙",
+      "头顶晾衣杆",
+      "石板路"
+    ],
+    "props": [
+      "晾晒的衣服（背景）",
+      "老式信箱",
+      "藤蔓从墙面垂下"
+    ],
+    "lighting": {
+      "primary": "5000K 顶光（从弄堂上方漏下）",
+      "intensity": "60%（被高墙遮挡）",
+      "color_temperature": "5000K",
+      "atmosphere": "斑驳光影，明暗对比强"
+    },
+    "color_palette": {
+      "primary": [
+        "#5a4a3a",
+        "#3a3a3a",
+        "#1a1a1a"
+      ],
+      "accent": [
+        "#d4c5a0",
+        "#8b7355"
+      ]
+    },
+    "aspect_ratio": "9:16",
+    "lens_recommendation": "35mm 中景 + T2.8 浅景深"
+  },
+  "mood": {
+    "atmosphere": "压迫+暧昧",
+    "tension": "中（触发阶段）",
+    "emotional_arc": "从撞到→道歉→教化"
+  },
+  "sound": {
+    "ambient": "弄堂回声",
+    "foley": [
+      "皮鞋脚步声（回声）",
+      "饮料瓶滚动",
+      "衣服飘动"
+    ]
+  },
+  "assets": {
+    "reference_images": [
+      "02_场景主控/场景_张园弄堂内.png"
+    ],
+    "stable_diffusion_prompt": "Shanghai Zhangyuan narrow lane interior, 1920s shikumen walls on both sides, laundry poles overhead, stone pavement, dappled light from above, 5000K top light, 35mm medium shot, T2.8 shallow DOF, cinematic, narrow corridor"
+  },
+  "ep_appearances": {
+    "EP01": {
+      "first_mirror": "镜002",
+      "total_mirrors": 2,
+      "key_scenes": [
+        "弄堂内相撞",
+        "摘墨镜露脸"
+      ]
+    },
+    "EP02": {
+      "first_mirror": "镜001",
+      "key_scenes": [
+        "延续 EP01 视觉基准"
+      ],
+      "continuity_notes": "延续 5000K 自然日光基准"
+    }
+  },
+  "prompt_template": "资产场景张园弄堂内（关键特征：窄弄堂+两侧高墙+顶光斑驳+35mm+T2.8 浅景深）",
+  "notes": "EP01 触发阶段。CUE① 摘墨镜发生在此场景。窄弄堂制造压迫感+私密感。"
+}

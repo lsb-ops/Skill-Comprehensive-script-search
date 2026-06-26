@@ -1,0 +1,113 @@
+/* ============================================
+   WebPPT Maker v3.16 · Container Queries
+   ============================================
+   组件级响应式 (vs 媒体查询的页面级)
+   让组件根据**自身容器大小**而非视口调整
+   现代浏览器 (2023+) 已广泛支持
+
+   用法:
+     <div class="card-container">
+       <div class="card">...</div>
+     </div>
+
+     .card-container { container-type: inline-size; }
+     @container (min-width: 400px) { .card { flex-direction: row; } }
+   ============================================ */
+
+/* === Container type 工具类 === */
+.container-inline {
+  container-type: inline-size;
+  container-name: inline;
+}
+
+.container-size {
+  container-type: size;
+  container-name: size;
+}
+
+.container-block {
+  container-type: block-size;
+  container-name: block;
+}
+
+/* === 命名 container (显式) === */
+[style*="container-name"] {
+  /* 占位, 由 inline style 设置 */
+}
+
+/* === 响应式卡片 (基于容器) === */
+.responsive-card-container {
+  container-type: inline-size;
+  container-name: card;
+}
+
+.responsive-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 16px);
+}
+
+/* 容器 ≥ 400px: 水平排列 */
+@container card (min-width: 400px) {
+  .responsive-card {
+    flex-direction: row;
+    align-items: center;
+  }
+  .responsive-card-image {
+    flex: 0 0 40%;
+  }
+  .responsive-card-content {
+    flex: 1;
+  }
+}
+
+/* 容器 ≥ 600px: 大布局 */
+@container card (min-width: 600px) {
+  .responsive-card-image {
+    flex: 0 0 50%;
+  }
+  .responsive-card-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* === 响应式网格 (基于容器) === */
+.responsive-grid-container {
+  container-type: inline-size;
+  container-name: grid;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4, 16px);
+}
+
+@container grid (min-width: 400px) {
+  .responsive-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@container grid (min-width: 700px) {
+  .responsive-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@container grid (min-width: 1000px) {
+  .responsive-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* === Fallback (不支持 container query 的浏览器) === */
+@supports not (container-type: inline-size) {
+  .responsive-grid {
+    /* 退化为媒体查询 */
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 641px) {
+    .responsive-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 1025px) {
+    .responsive-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 1441px) {
+    .responsive-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+}

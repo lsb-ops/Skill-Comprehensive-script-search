@@ -1,0 +1,117 @@
+/* ============================================
+   WebPPT Maker v3.16 · Page Type: Dashboard
+   ============================================
+   真实参考: Linear.app/inbox, Vercel.com/dashboard, Stripe dashboard
+   特征:
+   - 信息密度最高
+   - 侧边栏固定 (collapsible)
+   - 顶部 breadcrumb + 操作
+   - 数据卡片网格
+   - 实时更新 (动效)
+   ============================================ */
+
+[data-page-type="dashboard"] {
+  --dashboard-sidebar-width: 240px;
+  --dashboard-topbar-height: 56px;
+  --dashboard-bg: oklch(98% 0.003 0);
+  --dashboard-border: oklch(92% 0.005 0);
+}
+
+[data-page-type="dashboard"] .page-layout {
+  display: grid;
+  grid-template-columns: var(--dashboard-sidebar-width) 1fr;
+  grid-template-rows: var(--dashboard-topbar-height) 1fr;
+  grid-template-areas:
+    "sidebar topbar"
+    "sidebar main";
+  height: 100vh;
+}
+
+[data-page-type="dashboard"] .page-nav {
+  /* Dashboard 顶部: breadcrumb + 操作 */
+  grid-area: topbar;
+  border-bottom: 1px solid var(--dashboard-border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-5, 24px);
+  gap: var(--space-4, 16px);
+}
+
+[data-page-type="dashboard"] .page-sidebar-left {
+  grid-area: sidebar;
+  border-right: 1px solid var(--dashboard-border);
+  background: var(--dashboard-bg);
+  overflow-y: auto;
+  padding: var(--space-4, 16px) 0;
+}
+
+[data-page-type="dashboard"] .page-main {
+  grid-area: main;
+  overflow-y: auto;
+  padding: var(--space-6, 32px);
+  background: var(--dashboard-bg);
+}
+
+/* 数据卡片网格 */
+[data-page-type="dashboard"] .dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4, 16px);
+  margin-bottom: var(--space-7, 48px);
+}
+
+[data-page-type="dashboard"] .dashboard-card {
+  background: oklch(100% 0 0);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 8px;
+  padding: var(--space-5, 24px);
+}
+
+[data-page-type="dashboard"] .dashboard-card-label {
+  font-size: 13px;
+  color: oklch(50% 0.015 250);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2, 8px);
+}
+
+[data-page-type="dashboard"] .dashboard-card-value {
+  font-size: 2rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 实时数据 pulse 动效 */
+[data-page-type="dashboard"] .dashboard-card[data-live="true"] {
+  position: relative;
+}
+
+[data-page-type="dashboard"] .dashboard-card[data-live="true"]::before {
+  content: "";
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: oklch(60% 0.20 145);
+  animation: dashboard-live-pulse 2s ease-in-out infinite;
+}
+
+@keyframes dashboard-live-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.8); }
+  50%      { opacity: 1; transform: scale(1); }
+}
+
+/* 移动端: 隐藏侧边栏 */
+@media (max-width: 768px) {
+  [data-page-type="dashboard"] .page-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "topbar"
+      "main";
+  }
+  [data-page-type="dashboard"] .page-sidebar-left {
+    display: none;
+  }
+}

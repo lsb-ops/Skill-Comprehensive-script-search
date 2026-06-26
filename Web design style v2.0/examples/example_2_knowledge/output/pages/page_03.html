@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=360, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>每天喝咖啡的 3 个真相</title>
+  <style>
+    /* ============================================
+       CSS 变量 - 主题切换
+       ============================================ */
+    :root {
+      /* 默认：极简黑白 */
+
+      /* 排版 - 移动端优化 */
+      --font-size-base: 24px;
+      --font-size-h1: 36px;
+      --font-size-h2: 28px;
+      --font-size-body: 20px;
+      --font-size-caption: 16px;
+
+      /* 间距 */
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 32px;
+      --space-xl: 48px;
+
+      /* 圆角 */
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+    
+      --bg-primary: #F6F9FC;
+      --bg-secondary: #E1ECF4;
+      --text-primary: #0A2540;
+      --text-secondary: #4A6B8A;
+      --accent: #00A4EF;
+      --border: #C5D5E5;
+      --shadow: 0 4px 12px rgba(10,37,64,0.12);
+    }
+
+    /* ============================================
+       重置 + 基础
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       PPT 页面容器
+       ============================================ */
+    .ppt-container {
+      width: 360px;
+      margin: 0 auto;
+      background: var(--bg-primary);
+      box-shadow: var(--shadow);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .page {
+      width: 360px;
+      min-height: 640px;
+      padding: var(--space-lg) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      scroll-snap-align: start;
+    }
+
+    /* ============================================
+       排版美学 - 卡片式
+       ============================================ */
+    .layout-card .page {
+      background: var(--bg-primary);
+    }
+
+    .layout-card .card {
+      width: 100%;
+      padding: var(--space-lg);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .layout-card .number {
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      font-size: var(--font-size-h2);
+      font-weight: bold;
+      margin-bottom: var(--space-md);
+    }
+
+    /* ============================================
+       排版美学 - 大字报
+       ============================================ */
+    .layout-poster .page {
+      background: var(--accent);
+      color: white;
+    }
+
+    .layout-poster .big-text {
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -1px;
+    }
+
+    .layout-poster .sub-text {
+      font-size: var(--font-size-base);
+      opacity: 0.85;
+      margin-top: var(--space-md);
+    }
+
+    /* ============================================
+       排版美学 - 时间轴
+       ============================================ */
+    .layout-timeline .page {
+      align-items: flex-start;
+      text-align: left;
+      padding: var(--space-lg) var(--space-md);
+    }
+
+    .layout-timeline .timeline-item {
+      display: flex;
+      gap: var(--space-md);
+      width: 100%;
+      margin-bottom: var(--space-md);
+    }
+
+    .layout-timeline .timeline-dot {
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 12px;
+    }
+
+    .layout-timeline .timeline-content h2 {
+      font-size: var(--font-size-h2);
+      margin-bottom: var(--space-xs);
+    }
+
+    /* ============================================
+       通用元素
+       ============================================ */
+    .page-number {
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-md);
+      font-size: var(--font-size-caption);
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .title {
+      font-size: var(--font-size-h1);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: var(--space-sm);
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: var(--font-size-base);
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .body {
+      font-size: var(--font-size-body);
+      color: var(--text-primary);
+      line-height: 1.6;
+      margin-top: var(--space-md);
+    }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: var(--space-md);
+    }
+
+    .emoji {
+      font-size: 64px;
+      margin-bottom: var(--space-md);
+      display: inline-block;
+    }
+
+    /* ============================================
+       封面页
+       ============================================ */
+    .page-cover {
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      padding: var(--space-xl) var(--space-md);
+    }
+
+    .page-cover .title {
+      font-size: 42px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-cover .subtitle {
+      font-size: var(--font-size-h2);
+      color: var(--text-secondary);
+      margin-top: var(--space-md);
+    }
+
+    /* ============================================
+       结尾页
+       ============================================ */
+    .page-cta {
+      background: var(--accent);
+      color: white;
+    }
+
+    .page-cta .title {
+      color: white;
+    }
+
+    .page-cta .body {
+      color: white;
+      opacity: 0.9;
+    }
+
+    /* ============================================
+       导航提示
+       ============================================ */
+    .nav-hint {
+      position: fixed;
+      bottom: var(--space-md);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: var(--font-size-caption);
+      color: var(--text-secondary);
+      background: rgba(255,255,255,0.9);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow);
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    /* ============================================
+       进度指示
+       ============================================ */
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+      z-index: 100;
+    }
+
+    /* ============================================
+       响应式
+       ============================================ */
+    @media (max-width: 360px) {
+      .ppt-container { width: 100%; }
+      .page { width: 100%; }
+    }
+  
+body { scroll-snap-type: y mandatory; }
+.page { display: none; }
+.page[data-page="3"] { display: flex; }
+</style>
+</head>
+<body class="layout-card">
+
+  <!-- 进度条 -->
+  <div class="progress" id="progress"></div>
+
+  <!-- PPT 主体 -->
+  <div class="ppt-container">
+
+    <!-- 第 1 页：封面 -->
+    <section class="page page-cover" data-page="1">
+      <span class="page-number">01 / 5</span>
+      <div class="emoji">📱</div>
+      <h1 class="title">每天喝咖啡的 3 个真相</h1>
+      <p class="subtitle">共 3 个要点 · 知识科普</p>
+    </section>
+
+    <!-- 第 2-N 页：内容页（由脚本循环生成） -->
+    
+    <!-- 第 2 页：内容 -->
+    <section class="page" data-page="2">
+      <span class="page-number">02 / {TOTAL_PAGES}</span>
+      <div class="card">
+        <div class="number">1</div>
+        <h2 class="title" style="font-size: 28px;">真相 1：咖啡不会让你脱水</h2>
+      </div>
+    </section>
+
+    <!-- 第 3 页：内容 -->
+    <section class="page" data-page="3">
+      <span class="page-number">03 / {TOTAL_PAGES}</span>
+      <div class="card">
+        <div class="number">2</div>
+        <h2 class="title" style="font-size: 28px;">真相 2：早上 9-11 点喝效果最好</h2>
+      </div>
+    </section>
+
+    <!-- 第 4 页：内容 -->
+    <section class="page" data-page="4">
+      <span class="page-number">04 / {TOTAL_PAGES}</span>
+      <div class="card">
+        <div class="number">3</div>
+        <h2 class="title" style="font-size: 28px;">真相 3：超过 4 杯就会反向脱水</h2>
+      </div>
+    </section>
+
+    <!-- 最后一页：CTA -->
+    <section class="page page-cta" data-page="5">
+      <span class="page-number">5 / 5</span>
+      <div class="emoji">✨</div>
+      <h2 class="title">你学会了吗？</h2>
+      <p class="body">关注我，看更多精彩内容 ✨</p>
+    </section>
+
+  </div>
+
+  <!-- 导航提示 -->
+  <div class="nav-hint">← 滑动 / 方向键切换 →</div>
+
+  <!-- 交互脚本 -->
+  <script>
+    // 键盘左右切换
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        window.scrollBy({top: -640, behavior: 'smooth'});
+      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        window.scrollBy({top: 640, behavior: 'smooth'});
+      }
+    });
+
+    // 触屏滑动
+    let touchStartY = 0;
+    document.addEventListener('touchstart', e => {
+      touchStartY = e.touches[0].clientY;
+    });
+    document.addEventListener('touchend', e => {
+      const touchEndY = e.changedTouches[0].clientY;
+      const diff = touchStartY - touchEndY;
+      if (Math.abs(diff) > 50) {
+        window.scrollBy({top: diff > 0 ? 640 : -640, behavior: 'smooth'});
+      }
+    });
+
+    // 进度条
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      document.getElementById('progress').style.width = (scrolled * 100) + '%';
+    });
+  </script>
+</body>
+</html>

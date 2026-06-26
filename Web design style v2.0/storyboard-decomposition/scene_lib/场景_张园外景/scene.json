@@ -1,0 +1,107 @@
+{
+  "id": "场景_张园外景",
+  "name": "张园石库门外景",
+  "version": "1.0.0",
+  "type": "scene",
+  "created_at": "2026-06-17",
+  "location": {
+    "city": "上海",
+    "district": "静安区",
+    "specific": "张园石库门建筑群",
+    "era": "20世纪20-30年代石库门里弄"
+  },
+  "time": {
+    "default": "日",
+    "valid_times": [
+      "日",
+      "黄昏"
+    ],
+    "weather": "晴朗无云",
+    "season": "秋季"
+  },
+  "visual_baseline": {
+    "architecture": [
+      "石库门建筑群（青砖+红砖混合）",
+      "石库门门头（门楣+门框+门环）",
+      "老虎窗",
+      "清水砖墙"
+    ],
+    "props": [
+      "复古路灯（铸铁）",
+      "青石板路",
+      "藤蔓（攀附墙面）",
+      "石狮子（一对）"
+    ],
+    "lighting": {
+      "primary": "5000K 自然日光，从画面左上方 45° 方向",
+      "intensity": "90%",
+      "color_temperature": "5000K",
+      "atmosphere": "上午 10 点直射日光，斜光打在石库门墙面"
+    },
+    "color_palette": {
+      "primary": [
+        "#8b6f47",
+        "#5a4a3a",
+        "#3a3a3a"
+      ],
+      "accent": [
+        "#2d4a2a",
+        "#7a8b69"
+      ]
+    },
+    "aspect_ratio": "9:16",
+    "lens_recommendation": "24mm 远景 + 深景深"
+  },
+  "mood": {
+    "atmosphere": "压抑中带奢华",
+    "tension": "中高（建制阶段）",
+    "emotional_arc": "从霸气出场→逐渐反转"
+  },
+  "sound": {
+    "ambient": "远处城市车流声（低频）",
+    "bgm_start": "动感电音 BGM（建制）",
+    "bgm_cue_1": "CUE① 摘墨镜时 BGM 戛然而止（唱片划痕声）",
+    "foley": [
+      "皮鞋踏步声",
+      "城市环境音"
+    ]
+  },
+  "assets": {
+    "reference_images": [
+      "02_场景主控/场景_张园外景.png"
+    ],
+    "stable_diffusion_prompt": "Shanghai Zhangyuan shikumen lane, 1920s-1930s, stone gate houses, bluestone pavement, cast iron street lamp, vines on wall, autumn morning, 5000K natural sunlight, 24mm wide shot, deep depth of field, cinematic",
+    "lora_path": null
+  },
+  "consistency_rules": {
+    "must_keep": [
+      "石库门建筑风格",
+      "5000K 自然日光",
+      "上海张园特定地点"
+    ],
+    "must_change": [
+      "天气（不同集可换）",
+      "季节（可调整藤蔓颜色）"
+    ]
+  },
+  "ep_appearances": {
+    "EP01": {
+      "first_mirror": "镜001",
+      "total_mirrors": 3,
+      "key_scenes": [
+        "张园外景登场",
+        "画外音介绍",
+        "进入弄堂"
+      ]
+    },
+    "EP02": {
+      "first_mirror": "镜001",
+      "key_scenes": [
+        "延续 EP01 视觉基准"
+      ],
+      "continuity_notes": "延续 5000K 自然日光基准"
+    }
+  },
+  "prompt_template": "资产场景张园外景（关键特征：上海张园石库门+青砖+复古路灯+藤蔓+5000K 自然日光+上午直射）",
+  "notes": "EP01 建制阶段的核心场景。霸总美学刻板印象的载体。上午 10 点斜光打墙面，反派登场氛围。"
+}

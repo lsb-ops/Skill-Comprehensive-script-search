@@ -1,0 +1,26 @@
+/* ============================================
+   Fragment: slide-in — 横向滑入 (左/右)
+   对应 taste-skill MOTION=7-8
+   ============================================ */
+
+.reveal .slides section .fragment-slide-left {
+  opacity: 0;
+  transform: translateX(-80px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal .slides section.visible .fragment-slide-left {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal .slides section .fragment-slide-right {
+  opacity: 0;
+  transform: translateX(80px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal .slides section.visible .fragment-slide-right {
+  opacity: 1;
+  transform: translateX(0);
+}

@@ -1,0 +1,338 @@
+/* ============================================
+   WebPPT Maker v3.13 · 色彩和谐 + 色盲友好
+   ============================================
+   参考: Johannes Itten "The Art of Color" (1961) 色彩理论
+         ColorBrewer 2.0 (Cynthia Brewer) 数据可视化调色
+         IBM Carbon accessibility guidelines
+         Color Vision Deficiency (CVD) 研究 (Brettel et al. 1997)
+
+   内容:
+   §1. 4 套色彩和谐规则 (complementary / triadic / analogous / split-complementary)
+   §2. 色阶生成 (5/9 级, 基于 OKLCH lightness 阶梯)
+   §3. CVD-safe 调色板 (protanopia / deuteranopia / tritanopia)
+   §4. Contrast 增强 (WCAG AAA 强制)
+   §5. 温度感知 (warm/cool/neutral)
+   ============================================ */
+
+/* ============================================
+   §1. 4 套色彩和谐规则
+   Itten 色相环: 12 色, 间隔 30°
+   ============================================ */
+
+:root {
+  /* === 主色相锚点 (用于派生和谐色) === */
+  --hue-primary: 25;     /* 默认主色相 (暖橙红) */
+  --hue-complement: calc(var(--hue-primary) + 180);    /* 互补 */
+  --hue-triadic-1: calc(var(--hue-primary) + 120);      /* 三角 1 */
+  --hue-triadic-2: calc(var(--hue-primary) + 240);      /* 三角 2 */
+  --hue-split-1: calc(var(--hue-primary) + 150);        /* 分裂互补 1 */
+  --hue-split-2: calc(var(--hue-primary) + 210);        /* 分裂互补 2 */
+  --hue-analog-1: calc(var(--hue-primary) + 30);        /* 相邻 1 */
+  --hue-analog-2: calc(var(--hue-primary) - 30);        /* 相邻 2 */
+}
+
+/* === 1.1 Complementary (互补色) ===
+   对比最强, 适合强调对比 (如 CTA + 背景)
+*/
+.harmony-complementary-bg {
+  background:
+    linear-gradient(135deg,
+      oklch(70% 0.15 var(--hue-primary)) 0%,
+      oklch(70% 0.15 var(--hue-complement)) 100%);
+}
+.harmony-complementary-accent {
+  color: oklch(60% 0.22 var(--hue-complement));
+}
+
+/* === 1.2 Triadic (三角和谐) ===
+   3 色等距, 平衡活泼, 适合多分类数据
+*/
+.harmony-triadic-1 { color: oklch(60% 0.18 var(--hue-primary)); }
+.harmony-triadic-2 { color: oklch(60% 0.18 var(--hue-triadic-1)); }
+.harmony-triadic-3 { color: oklch(60% 0.18 var(--hue-triadic-2)); }
+
+/* === 1.3 Analogous (相邻和谐) ===
+   同色系, 柔和, 适合品牌色渐变
+*/
+.harmony-analogous-bg {
+  background: linear-gradient(135deg,
+    oklch(70% 0.15 var(--hue-analog-2)) 0%,
+    oklch(75% 0.15 var(--hue-primary)) 50%,
+    oklch(70% 0.15 var(--hue-analog-1)) 100%);
+}
+
+/* === 1.4 Split-Complementary (分裂互补) ===
+   主色 + 互补两侧, 对比稍弱于互补, 更和谐
+*/
+.harmony-split-1 { color: oklch(60% 0.18 var(--hue-split-1)); }
+.harmony-split-2 { color: oklch(60% 0.18 var(--hue-split-2)); }
+
+/* === Harmony selector (动态切换) === */
+[data-harmony="complementary"]   { --accent-hue: var(--hue-complement); }
+[data-harmony="triadic"]         { --accent-hue: var(--hue-triadic-1); }
+[data-harmony="analogous"]       { --accent-hue: var(--hue-analog-1); }
+[data-harmony="split-complementary"] { --accent-hue: var(--hue-split-1); }
+
+/* ============================================
+   §2. 色阶生成 (5/9 级 OKLCH 阶梯)
+   基于 lightness 0.97 → 0.15 等距递减
+   避免 hex 颜色插值的"灰带"问题
+   ============================================ */
+
+:root {
+  /* === 9 级色阶生成器 (lightness 阶梯) === */
+  --scale-1-l: 97%;   /* 最浅 */
+  --scale-2-l: 92%;
+  --scale-3-l: 82%;
+  --scale-4-l: 70%;
+  --scale-5-l: 60%;   /* 锚点 */
+  --scale-6-l: 50%;
+  --scale-7-l: 40%;
+  --scale-8-l: 28%;
+  --scale-9-l: 18%;   /* 最深 */
+
+  /* 默认 chroma (饱和度) */
+  --scale-c: 0.18;
+}
+
+/* === Utility: 任意 hue 派生 5 级色阶 === */
+.scale-1 { background: oklch(var(--scale-1-l) var(--scale-c) var(--hue-primary)); }
+.scale-2 { background: oklch(var(--scale-2-l) var(--scale-c) var(--hue-primary)); }
+.scale-3 { background: oklch(var(--scale-3-l) var(--scale-c) var(--hue-primary)); }
+.scale-4 { background: oklch(var(--scale-4-l) var(--scale-c) var(--hue-primary)); }
+.scale-5 { background: oklch(var(--scale-5-l) var(--scale-c) var(--hue-primary)); }
+.scale-6 { background: oklch(var(--scale-6-l) var(--scale-c) var(--hue-primary)); }
+.scale-7 { background: oklch(var(--scale-7-l) var(--scale-c) var(--hue-primary)); }
+.scale-8 { background: oklch(var(--scale-8-l) var(--scale-c) var(--hue-primary)); }
+.scale-9 { background: oklch(var(--scale-9-l) var(--scale-c) var(--hue-primary)); }
+
+/* === Hue override (允许页面级切换主色) === */
+[data-hue="25"]   { --hue-primary: 25; }    /* 红橙 */
+[data-hue="60"]   { --hue-primary: 60; }    /* 黄 */
+[data-hue="120"]  { --hue-primary: 120; }   /* 绿 */
+[data-hue="180"]  { --hue-primary: 180; }   /* 青 */
+[data-hue="240"]  { --hue-primary: 240; }   /* 蓝 */
+[data-hue="290"]  { --hue-primary: 290; }   /* 紫 */
+[data-hue="340"]  { --hue-primary: 340; }   /* 品红 */
+
+/* === 色阶图表调色板 (5 色 data viz) === */
+:root {
+  --palette-1: oklch(60% 0.20 var(--hue-primary));
+  --palette-2: oklch(60% 0.20 var(--hue-triadic-1));
+  --palette-3: oklch(60% 0.20 var(--hue-triadic-2));
+  --palette-4: oklch(70% 0.18 80);   /* 暖黄 */
+  --palette-5: oklch(55% 0.15 250);  /* 深蓝 */
+}
+
+.palette-1 { color: var(--palette-1); }
+.palette-2 { color: var(--palette-2); }
+.palette-3 { color: var(--palette-3); }
+.palette-4 { color: var(--palette-4); }
+.palette-5 { color: var(--palette-5); }
+
+/* ============================================
+   §3. CVD-safe 调色板 (色盲友好)
+   Brettel et al. 1997 模拟算法
+   支持 3 种色盲类型:
+   - Protanopia (红色盲, ~1% 男性)
+   - Deuteranopia (绿色盲, ~1% 男性)
+   - Tritanopia (蓝色盲, ~0.01%)
+   ============================================ */
+
+/* === CVD-safe palette (避免红绿混淆) === */
+:root {
+  /* === Protanopia-safe (红绿差异仍可辨) === */
+  --cvd-protan-1: oklch(60% 0.15 250);  /* 蓝 */
+  --cvd-protan-2: oklch(65% 0.18 80);   /* 黄 */
+  --cvd-protan-3: oklch(40% 0.10 290);  /* 紫 */
+  --cvd-protan-4: oklch(70% 0.12 180);  /* 青 */
+  --cvd-protan-5: oklch(30% 0.05 250);  /* 深蓝 */
+
+  /* === Deuteranopia-safe (绿系改蓝/紫) === */
+  --cvd-deutan-1: oklch(60% 0.15 250);  /* 蓝 */
+  --cvd-deutan-2: oklch(65% 0.18 80);   /* 黄 */
+  --cvd-deutan-3: oklch(40% 0.10 290);  /* 紫 */
+  --cvd-deutan-4: oklch(70% 0.12 30);   /* 橙 */
+  --cvd-deutan-5: oklch(30% 0.05 250);  /* 深蓝 */
+
+  /* === Tritanopia-safe (蓝黄差异仍可辨) === */
+  --cvd-tritan-1: oklch(60% 0.18 25);   /* 红 */
+  --cvd-tritan-2: oklch(65% 0.15 145);  /* 绿 */
+  --cvd-tritan-3: oklch(50% 0.12 290);  /* 紫 */
+  --cvd-tritan-4: oklch(70% 0.10 0);    /* 灰红 */
+  --cvd-tritan-5: oklch(30% 0.08 250);  /* 深蓝 */
+}
+
+/* === CVD-safe 调色板 utility === */
+.cvd-protan-1 { color: var(--cvd-protan-1); }
+.cvd-protan-2 { color: var(--cvd-protan-2); }
+.cvd-protan-3 { color: var(--cvd-protan-3); }
+.cvd-protan-4 { color: var(--cvd-protan-4); }
+.cvd-protan-5 { color: var(--cvd-protan-5); }
+
+.cvd-deutan-1 { color: var(--cvd-deutan-1); }
+.cvd-deutan-2 { color: var(--cvd-deutan-2); }
+.cvd-deutan-3 { color: var(--cvd-deutan-3); }
+.cvd-deutan-4 { color: var(--cvd-deutan-4); }
+.cvd-deutan-5 { color: var(--cvd-deutan-5); }
+
+.cvd-tritan-1 { color: var(--cvd-tritan-1); }
+.cvd-tritan-2 { color: var(--cvd-tritan-2); }
+.cvd-tritan-3 { color: var(--cvd-tritan-3); }
+.cvd-tritan-4 { color: var(--cvd-tritan-4); }
+.cvd-tritan-5 { color: var(--cvd-tritan-5); }
+
+/* === CVD 模式 (模拟器) === */
+[data-cvd="protanopia"]   { filter: url('#cvd-protanopia-svg'); }
+[data-cvd="deuteranopia"] { filter: url('#cvd-deuteranopia-svg'); }
+[data-cvd="tritanopia"]   { filter: url('#cvd-tritanopia-svg'); }
+
+/* === CVD-safe utility (强制使用 CVD-safe 色) === */
+[data-cvd-safe="true"] {
+  --success: var(--cvd-deutan-2);  /* 改用蓝色替代绿色 */
+  --error: var(--cvd-deutan-1);    /* 改用黄色替代红色 */
+  --warning: var(--cvd-deutan-4);  /* 改用橙色 */
+}
+
+/* ============================================
+   §4. Contrast 增强 (WCAG AAA 7:1)
+   不仅靠 color, 还用 weight + decoration 增强区分
+   ============================================ */
+
+:root {
+  --contrast-aaa-ratio: 7;        /* AAA 7:1 */
+  --contrast-aa-ratio: 4.5;       /* AA 4.5:1 */
+}
+
+/* === Contrast utility (在 color-tokens 基础上增强) === */
+.contrast-aaa {
+  color: var(--text-primary);     /* 黑底白字 17:1 */
+  font-weight: 700;
+}
+.contrast-aa {
+  color: var(--text-primary);
+  font-weight: 400;
+}
+.contrast-aa-large {
+  color: var(--text-secondary);   /* 4.5:1+, 但需 large text */
+  font-size: var(--font-md);
+  font-weight: 500;
+}
+
+/* === 装饰增强 (色弱用户靠 pattern 区分) === */
+.pattern-stripe { background-image: repeating-linear-gradient(
+  45deg, transparent, transparent 4px, currentColor 4px, currentColor 6px);
+}
+.pattern-dot { background-image: radial-gradient(currentColor 1px, transparent 1.5px);
+  background-size: 8px 8px;
+}
+.pattern-grid { background-image:
+  linear-gradient(currentColor 1px, transparent 1px),
+  linear-gradient(90deg, currentColor 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* === 双重编码 (色 + 形状) === */
+[data-double-encode="true"] {
+  /* 通过 ::before 加 icon 形状 */
+  position: relative;
+  padding-left: var(--space-6);
+}
+[data-double-encode="true"][data-icon="circle"]::before {
+  content: "●";
+  position: absolute;
+  left: 0;
+  color: currentColor;
+}
+[data-double-encode="true"][data-icon="square"]::before {
+  content: "■";
+  position: absolute;
+  left: 0;
+  color: currentColor;
+}
+[data-double-encode="true"][data-icon="triangle"]::before {
+  content: "▲";
+  position: absolute;
+  left: 0;
+  color: currentColor;
+}
+
+/* ============================================
+   §5. 温度感知 (Color Temperature)
+   暖色 (warm): 红橙黄 → 前进, 兴奋
+   冷色 (cool): 蓝绿紫 → 后退, 平静
+   中性 (neutral): 灰白 → 背景
+   ============================================ */
+
+:root {
+  /* === Warm palette (前进色, 适合强调) === */
+  --warm-1: oklch(70% 0.18 30);   /* 暖橙 */
+  --warm-2: oklch(65% 0.20 0);    /* 红 */
+  --warm-3: oklch(75% 0.18 60);   /* 暖黄 */
+  --warm-4: oklch(60% 0.22 350);  /* 玫红 */
+
+  /* === Cool palette (后退色, 适合背景/支持) === */
+  --cool-1: oklch(60% 0.18 235);  /* 蓝 */
+  --cool-2: oklch(65% 0.15 180);  /* 青 */
+  --cool-3: oklch(55% 0.18 290);  /* 紫 */
+  --cool-4: oklch(70% 0.15 200);  /* 浅蓝 */
+
+  /* === Neutral palette (背景) === */
+  --neutral-1: oklch(98% 0.005 250);  /* 近白 */
+  --neutral-2: oklch(92% 0.008 250);  /* 浅灰 */
+  --neutral-3: oklch(70% 0.010 250);  /* 中灰 */
+  --neutral-4: oklch(30% 0.015 250);  /* 深灰 */
+}
+
+.warm   { color: var(--warm-1); }
+.cool   { color: var(--cool-1); }
+.neutral { color: var(--neutral-3); }
+
+/* === Temperature scheme (主题级切换) === */
+[data-temp="warm"] {
+  --accent: var(--warm-1);
+  --accent-light: var(--warm-3);
+}
+[data-temp="cool"] {
+  --accent: var(--cool-1);
+  --accent-light: var(--cool-4);
+}
+[data-temp="neutral"] {
+  --accent: var(--neutral-4);
+  --accent-light: var(--neutral-3);
+}
+
+/* ============================================
+   §6. 实践: 60-30-10 自动验证 (与 harmony-check.js 配合)
+   CSS 端提示, 实际验证靠 JS
+   ============================================ */
+
+:root {
+  /* 60% 主导色 */
+  --color-dominant: var(--bg-primary);
+  /* 30% 次要色 */
+  --color-secondary: var(--bg-secondary);
+  /* 10% 强调色 */
+  --color-accent: var(--accent);
+
+  /* 显式 60-30-10 比例注释 */
+  --color-rule: "60-30-10";
+}
+
+/* === 60-30-10 验证用 CSS (调试模式) === */
+[data-harmony-debug="true"] .color-dominant { outline: 2px dashed var(--success); }
+[data-harmony-debug="true"] .color-secondary { outline: 2px dashed var(--info); }
+[data-harmony-debug="true"] .color-accent { outline: 2px dashed var(--error); }
+
+/* ============================================
+   §7. Animation Color Transition (颜色过渡安全)
+   颜色变化不应使用 linear easing (容易看出帧)
+   ============================================ */
+
+:root {
+  --color-transition: background-color var(--dur-base) var(--ease-standard),
+                     color var(--dur-base) var(--ease-standard),
+                     border-color var(--dur-base) var(--ease-standard);
+}
+
+.color-transit { transition: var(--color-transition); }

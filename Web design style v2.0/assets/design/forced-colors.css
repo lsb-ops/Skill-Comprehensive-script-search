@@ -1,0 +1,215 @@
+/* ============================================
+   WebPPT Maker · forced-colors.css (Windows High Contrast)
+   ============================================
+   真实开源出处 (curl 直连验证):
+   - @material/web@2.4.1 dialog/internal/_dialog.scss (forced-colors-styles.scss)
+   - W3C CSS Spec: https://www.w3.org/TR/css-color-adjust-1/#forced-colors-mode
+   - Microsoft Accessibility: forced-colors media + SystemColor keywords
+   - Radix UI primitives (high-contrast 适配)
+
+   触发条件: 用户启用 Windows High Contrast / forced-colors: active
+   (如 Windows 设置 → 辅助功能 → 高对比度, 或浏览器 prefers-contrast: more)
+
+   原则:
+   1. 不要使用具体颜色值, 而用 SystemColor 关键字
+      (Canvas / CanvasText / LinkText / ButtonText / Highlight / HighlightText / GrayText)
+   2. 边框强制 solid (dashed/dotted 在高对比度会消失)
+   3. 不要用 box-shadow 当唯一指示 (高对比度会失效)
+   4. focus-visible 必须有 outline + outline-offset
+   5. 透明背景必须有 forced-color-adjust: none
+   ============================================ */
+
+@media (forced-colors: active) {
+  /* === 全局: 关闭 UA 自动颜色调整 (我们显式用 SystemColor) === */
+  *,
+  *::before,
+  *::after {
+    forced-color-adjust: auto;
+  }
+
+  /* === 文本/背景: 用 SystemColor 强制高对比 === */
+  body {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  [data-component="card"],
+  [data-component="modal"] .modal-content,
+  [data-component="popover"],
+  [data-component="tooltip"] {
+    background: Canvas;
+    color: CanvasText;
+    border: 1px solid CanvasText;
+  }
+
+  /* === 链接 === */
+  a {
+    color: LinkText;
+  }
+  a:visited {
+    color: VisitedText;
+  }
+  a:hover,
+  a:focus {
+    color: LinkText;
+    text-decoration: underline;
+  }
+
+  /* === 按钮 === */
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"] {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
+    forced-color-adjust: none;
+  }
+  button:hover,
+  [role="button"]:hover {
+    background: Highlight;
+    color: HighlightText;
+  }
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* === 输入框 === */
+  input,
+  textarea,
+  select {
+    background: Field;
+    color: FieldText;
+    border: 1px solid CanvasText;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: GrayText;
+  }
+
+  /* === Modal (v3.19.3 Radix-inspired) === */
+  [data-component="modal"] {
+    background: Canvas;  /* 替代半透明 oklch + backdrop-filter */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  [data-component="modal"] .modal-content {
+    border: 2px solid CanvasText;
+    box-shadow: none;  /* box-shadow 在高对比度会失效 */
+  }
+
+  [data-component="modal"] .modal-close {
+    border: 1px solid ButtonText;
+    color: ButtonText;
+    background: ButtonFace;
+  }
+  [data-component="modal"] .modal-close:hover {
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  /* body[data-scroll-locked] 在 high-contrast 下不应锁背景色 */
+  body[data-scroll-locked="true"] {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  /* === 数据状态 (v3.19.2 state-variants) === */
+  [data-state="checked"],
+  [data-state="selected"],
+  [data-state="active"] {
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  [data-state="disabled"] {
+    color: GrayText;
+    border-color: GrayText;
+  }
+
+  /* === 焦点 (WCAG 2.4.7 + Windows HC 强制要求) === */
+  *:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+    forced-color-adjust: none;
+  }
+
+  /* === 边框强制 solid (dashed/dotted 在 HC 模式消失) === */
+  [data-divider],
+  [data-separator] {
+    border-top: 1px solid CanvasText;
+    border-bottom: none;
+  }
+
+  /* === SVG / 图标 (避免 fill=currentColor 失效) === */
+  svg {
+    fill: currentColor;
+    forced-color-adjust: auto;
+  }
+
+  /* === 表单错误状态 === */
+  [aria-invalid="true"],
+  [data-error="true"] {
+    border-color: Mark;  /* 高对比度标记色 */
+    color: MarkText;
+  }
+
+  /* === 进度条 / loading === */
+  progress,
+  [role="progressbar"] {
+    background: Canvas;
+    border: 1px solid CanvasText;
+    color: Highlight;
+  }
+
+  /* === 选中文本 === */
+  ::selection {
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  /* === 滚动条 (Windows HC 模式下强制系统样式) === */
+  ::-webkit-scrollbar {
+    background: Canvas;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: CanvasText;
+    border: 1px solid Canvas;
+  }
+
+  /* === 关闭 prefers-reduced-motion 的高对比度冲突
+       (高对比度用户也需要减少动画) === */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === prefers-contrast: more (无 Windows HC, 但更高级对比) === */
+@media (prefers-contrast: more) {
+  /* 增强焦点对比 */
+  *:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  /* 增强边框对比 */
+  button,
+  input,
+  textarea,
+  select {
+    border-width: 2px;
+  }
+
+  /* 移除低对比度装饰 */
+  [data-decoration="subtle"] {
+    opacity: 1;
+  }
+}
